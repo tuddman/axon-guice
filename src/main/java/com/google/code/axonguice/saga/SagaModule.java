@@ -41,7 +41,8 @@ public class SagaModule extends AbstractModule{
     }
 
     protected void bindSagaManager() {
-
+        //TODO add Saga reflections scan
+        //bind(SagaManager.class).to(SimpleSagaManager.class);
     }
 
     protected void bindSagaRepository() {
