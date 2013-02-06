@@ -36,8 +36,43 @@
             </roles>
             <timezone>+4</timezone>
         </developer>
-
     </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Integration Components -->
+
+        <version.guice>3.0</version.guice>
+        <version.axon>2.0</version.axon>
+
+        <!-- Logging -->
+
+        <version.logback>1.0.9</version.logback>
+        <version.slf4j>1.7.2</version.slf4j>
+
+        <!-- Testing stuff -->
+
+        <version.junit>4.11</version.junit>
+        <version.mockito>1.9.5</version.mockito>
+        <version.junice>1.3</version.junice>
+
+        <!-- Plugins -->
+
+        <version.maven-release-plugin>2.3.2</version.maven-release-plugin>
+        <version.maven-surefire-plugin>2.12.4</version.maven-surefire-plugin>
+        <version.maven-jar-plugin>2.4</version.maven-jar-plugin>
+        <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
+        <version.maven-javadoc-plugin>2.9</version.maven-javadoc-plugin>
+
+        <version.maven-compiler-plugin>2.5.1</version.maven-compiler-plugin>
+        <version.maven-bundle-plugin>2.1.0</version.maven-bundle-plugin>
+        <version.maven-resources-plugin>2.6</version.maven-resources-plugin>
+        <version.maven-license-plugin>1.7.0</version.maven-license-plugin>
+        <version.maven-changelog-plugin>2.2</version.maven-changelog-plugin>
+        <version.maven-gpg-plugin>1.4</version.maven-gpg-plugin>
+    </properties>
+
 
     <scm>
         <connection>scm:svn:https://axon-guice.googlecode.com/svn/trunk/</connection>
@@ -45,35 +80,75 @@
         <url>https://axon-guice.googlecode.com/svn/trunk/</url>
     </scm>
 
-    <properties>
-        <slf4j.version>1.6.1</slf4j.version>
-        <spring.version>3.0.5.RELEASE</spring.version>
-        <axon.version>2.0</axon.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
+
+        <!-- Integration Components -->
+
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>3.0</version>
+            <version>${version.guice}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.axonframework</groupId>
+            <artifactId>axon-core</artifactId>
+            <version>${version.axon}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.axonframework</groupId>
+            <artifactId>axon-test</artifactId>
+            <version>${version.axon}</version>
+        </dependency>
+
+        <!-- Logging -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+
+        <!-- Testing stuff -->
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+            <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.8.5</version>
+            <artifactId>mockito-all</artifactId>
+            <version>${version.mockito}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>3.0.5.RELEASE</version>
+            <groupId>org.99soft.guice</groupId>
+            <artifactId>junice</artifactId>
+            <version>${version.junice}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version.logback}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
