@@ -4,11 +4,46 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <groupId>com.google.code.axon-guice</groupId>
     <artifactId>axon-guice</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <name>Axon-Guice Integration Module</name>
+    <description>Vaadin MVP pattern framework based on Google Guice</description>
+
+    <url>http://code.google.com/p/guice-vaadin-mvp</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Alexey Krylov</name>
+            <email>aleksey.krylov at gmail.com</email>
+            <roles>
+                <role>Project lead</role>
+            </roles>
+            <timezone>+4</timezone>
+        </developer>
+
+    </developers>
+
+    <scm>
+        <connection>scm:svn:https://axon-guice.googlecode.com/svn/trunk/</connection>
+        <developerConnection>scm:svn:https://axon-guice.googlecode.com/svn/trunk/</developerConnection>
+        <url>https://axon-guice.googlecode.com/svn/trunk/</url>
+    </scm>
 
     <properties>
         <slf4j.version>1.6.1</slf4j.version>
@@ -16,28 +51,6 @@
         <axon.version>2.0</axon.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-	<build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-   
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cglib</groupId>
-                <artifactId>cglib-nodep</artifactId>
-                <version>2.2</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -64,15 +77,177 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
-    <repositories>
-      <repository>
-          <id>sonatype-public</id>
-          <name>Sonatype public repository</name>
-          <url>http://oss.sonatype.org/content/groups/public</url>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-      </repository>
-    </repositories>
+
+    <build>
+        <plugins>
+
+            <!-- Bundle sources -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${version.maven-source-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Compilation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.maven-compiler-plugin}</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>${module.encoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- OSGi manifest creation -->
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${version.maven-bundle-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                        <configuration>
+                            <instructions>
+                                <Export-Package>com.google.code.guice.repository</Export-Package>
+                                <_versionpolicy>$(@)</_versionpolicy>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Add OSGi manifest in JAR -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${version.maven-jar-plugin}</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Tests -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.maven-surefire-plugin}</version>
+            </plugin>
+
+            <!-- Generating Javadoc -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${version.maven-javadoc-plugin}</version>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${version.maven-release-plugin}</version>
+                <inherited>true</inherited>
+
+                <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <arguments>-Drelease=true</arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+
+        <!--
+          Do a license check by running       : mvn -P license license:check
+          UPdate the license check by running : mvn -P license license:format
+        -->
+        <profile>
+            <id>license</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.mycila.maven-license-plugin</groupId>
+                        <artifactId>maven-license-plugin</artifactId>
+                        <version>${version.maven-license-plugin}</version>
+                        <configuration>
+                            <quiet>false</quiet>
+                            <header>src/main/license/license-header.txt</header>
+                            <includes>
+                                <include>src/**</include>
+                                <include>pom.xml</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/.svn/**</exclude>
+                                <!-- ignore files produced during a build -->
+                                <exclude>**/target/**</exclude>
+                            </excludes>
+                            <useDefaultExcludes>false</useDefaultExcludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Signing with gpg -->
+        <!--
+        Sign the artifacts by calling
+        mvn -P sign [..]
+        -->
+        <profile>
+            <id>sign</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${version.maven-gpg-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
