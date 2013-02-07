@@ -16,30 +16,15 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.command;
-
-import org.axonframework.commandhandling.CommandBus;
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+package com.google.code.axonguice.commandhandling;
 
 /**
+ * CommandHandlersGroupPatterns - TODO: description
+ *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class CommandGatewayProvider implements Provider<CommandGateway> {
-
-    /*===========================================[ INSTANCE VARIABLES ]===========*/
-
-    @Inject
-    private CommandBus commandBus;
-
-    /*===========================================[ INTERFACE METHODS ]============*/
-
-    @Override
-    public CommandGateway get() {
-        return new DefaultCommandGateway(commandBus);
-    }
+public interface CommandHandlersGroupPatterns {
+    String AllowAll = ".*";
+    String DenyAll = "";
 }

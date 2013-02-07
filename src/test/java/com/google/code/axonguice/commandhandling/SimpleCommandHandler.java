@@ -16,44 +16,34 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.command;
+package com.google.code.axonguice.commandhandling;
 
-import com.google.code.axonguice.AxonGuiceTest;
-import org.axonframework.unitofwork.UnitOfWork;
-import org.junit.Assert;
-import org.junit.Test;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.google.code.axonguice.commandhandling.annotation.CommandHandlerComponent;
+import org.axonframework.commandhandling.annotation.CommandHandler;
 
 /**
- * UniqueUnitOfWorkTest - TODO: description
+ * SimpleCommandHandler - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class UniqueUnitOfWorkTest extends AxonGuiceTest {
+@CommandHandlerComponent
+public class SimpleCommandHandler {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
-    private Provider<UnitOfWork> unitOfWorkProvider;
+    private int counter;
 
     /*===========================================[ CLASS METHODS ]================*/
 
-    @Test
-    public void testUnitOfWorkEachInjectionUnique() {
-        Assert.assertNotEquals(injector.getInstance(UnitOfWork.class), injector.getInstance(UnitOfWork.class));
+    @CommandHandler
+    public void commandReceived(SimpleCommand command) {
+        counter++;
     }
 
-    @Test
-    public void testUnitOfWorkEachProviderGetIsUnique() {
-        Assert.assertNotEquals(unitOfWorkProvider.get(), unitOfWorkProvider.get());
-    }
+    /*===========================================[ GETTER/SETTER ]================*/
 
-    @Test
-    public void testInjectedUnitOfWorkIsStarted() {
-        UnitOfWork unitOfWork = injector.getInstance(UnitOfWork.class);
-        Assert.assertTrue(unitOfWork.isStarted());
+    public int getCounter() {
+        return counter;
     }
 }

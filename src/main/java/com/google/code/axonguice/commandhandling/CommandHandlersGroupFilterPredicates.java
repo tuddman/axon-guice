@@ -16,27 +16,29 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice;
+package com.google.code.axonguice.commandhandling;
 
-import com.google.inject.Injector;
-import org.junit.runner.RunWith;
-import org.nnsoft.guice.junice.annotation.GuiceModules;
-
-import javax.inject.Inject;
+import com.google.common.base.Predicate;
+import com.sun.istack.internal.Nullable;
 
 /**
- * AxonGuiceTest - TODO: description
+ * CommandHandlersGroupFilterPredicates - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-@RunWith(AxonGuiceTestRunner.class)
-@GuiceModules(modules = AxonGuiceTestModule.class)
-public class AxonGuiceTest {
+public interface CommandHandlersGroupFilterPredicates {
+    Predicate<Class> AlowAll = new Predicate<Class>() {
+        @Override
+        public boolean apply(@Nullable Class input) {
+            return true;
+        }
+    };
 
-    /*===========================================[ INSTANCE VARIABLES ]===========*/
-
-    @Inject
-    protected Injector injector;
-
+    Predicate<Class> DenyAll = new Predicate<Class>() {
+        @Override
+        public boolean apply(@Nullable Class input) {
+            return false;
+        }
+    };
 }

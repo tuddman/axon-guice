@@ -16,29 +16,22 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.repository;
+package com.google.code.axonguice.eventhandling.annotation;
 
-import com.google.inject.AbstractModule;
+import java.lang.annotation.*;
 
 /**
- * RepositoryModule - TODO: description
+ * EventHandlerComponent - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class RepositoryModule extends AbstractModule {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface EventHandlerComponent {
 /*===========================================[ STATIC VARIABLES ]=============*/
 /*===========================================[ INSTANCE VARIABLES ]===========*/
 /*===========================================[ CONSTRUCTORS ]=================*/
 /*===========================================[ CLASS METHODS ]================*/
-
-    @Override
-    protected void configure() {
-    //         * - Repository -> EventStore, EventBus, Snapshotter, SnapshotterTrigger
-        bindEventStore();
-    }
-
-    protected void bindEventStore() {
-        //bind(EventStore.class).to(FileSystemEventStore.class);
-    }
 }

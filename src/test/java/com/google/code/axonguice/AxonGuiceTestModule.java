@@ -16,23 +16,22 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.command;
+package com.google.code.axonguice;
 
-import org.axonframework.unitofwork.DefaultUnitOfWorkFactory;
-import org.axonframework.unitofwork.UnitOfWorkFactory;
-
-import javax.inject.Provider;
+import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 
 /**
+ * AxonGuiceTestModule - TODO: description
+ *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class UnitOfWorkFactoryProvider implements Provider<UnitOfWorkFactory> {
+public class AxonGuiceTestModule extends AxonGuiceModule {
 
-	/*===========================================[ INTERFACE METHODS ]============*/
+	/*===========================================[ CLASS METHODS ]================*/
 
     @Override
-    public UnitOfWorkFactory get() {
-        return new DefaultUnitOfWorkFactory();
+    protected CommandHandlingModule createCommandHandlingModule() {
+        return new CommandHandlingModule("com.google.code.axonguice");
     }
 }

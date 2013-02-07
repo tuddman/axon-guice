@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.event;
+package com.google.code.axonguice.eventhandling;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;

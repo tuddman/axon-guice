@@ -16,34 +16,31 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.event;
+package com.google.code.axonguice.commandhandling;
 
-import com.google.code.axonguice.AxonGuiceTest;
-import org.axonframework.eventhandling.EventBus;
-import org.junit.Assert;
-import org.junit.Test;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import java.util.UUID;
 
 /**
- * EventBusTest - TODO: description
+ * SimpleCommand - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class SingletonEventBusTest extends AxonGuiceTest {
+public class SimpleCommand {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
-    private Provider<EventBus> eventBusProvider;
+    private UUID id;
 
-    /*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CONSTRUCTORS ]=================*/
 
-    @Test
-    public void testCommandGatewayIsSingleton() {
-        Assert.assertEquals(injector.getInstance(EventBus.class), injector.getInstance(EventBus.class));
-        Assert.assertEquals(eventBusProvider.get(), eventBusProvider.get());
+    public SimpleCommand() {
+        id = UUID.randomUUID();
+    }
+
+    /*===========================================[ GETTER/SETTER ]================*/
+
+    public UUID getId() {
+        return id;
     }
 }

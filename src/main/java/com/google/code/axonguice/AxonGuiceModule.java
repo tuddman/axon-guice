@@ -18,9 +18,9 @@
 
 package com.google.code.axonguice;
 
-import com.google.code.axonguice.command.CommandHandlingModule;
+import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import com.google.code.axonguice.domain.DomainModule;
-import com.google.code.axonguice.event.EventProcessingModule;
+import com.google.code.axonguice.eventhandling.EventProcessingModule;
 import com.google.code.axonguice.repository.RepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
 import com.google.inject.AbstractModule;

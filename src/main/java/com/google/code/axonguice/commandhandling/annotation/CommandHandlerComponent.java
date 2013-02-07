@@ -16,29 +16,18 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.command;
+package com.google.code.axonguice.commandhandling.annotation;
 
-import org.axonframework.unitofwork.UnitOfWork;
-import org.axonframework.unitofwork.UnitOfWorkFactory;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import java.lang.annotation.*;
 
 /**
+ * CommandHandler - TODO: description
+ *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class UnitOfWorkProvider implements Provider<UnitOfWork> {
-
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
-
-    @Inject
-    private UnitOfWorkFactory factory;
-
-	/*===========================================[ CONSTRUCTORS ]=================*/
-
-    @Override
-    public UnitOfWork get() {
-        return factory.createUnitOfWork();
-    }
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface CommandHandlerComponent {
 }

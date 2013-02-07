@@ -16,27 +16,37 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice;
+package com.google.code.axonguice.commandhandling;
 
-import com.google.inject.Injector;
-import org.junit.runner.RunWith;
-import org.nnsoft.guice.junice.annotation.GuiceModules;
+import com.google.code.axonguice.AxonGuiceTest;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.junit.Assert;
+import org.junit.Test;
 
 import javax.inject.Inject;
 
 /**
- * AxonGuiceTest - TODO: description
+ * CommandHandlerTest - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-@RunWith(AxonGuiceTestRunner.class)
-@GuiceModules(modules = AxonGuiceTestModule.class)
-public class AxonGuiceTest {
+public class CommandHandlerTest extends AxonGuiceTest {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    protected Injector injector;
+    private CommandGateway commandGateway;
 
+    /*===========================================[ CLASS METHODS ]================*/
+
+    @Test
+    public void testCommandHandlerReceivesCommand() {
+        for (int i = 0; i < 100; i++) {
+            commandGateway.send(new SimpleCommand());
+        }
+
+        SimpleCommandHandler simpleCommandHandler = injector.getInstance(SimpleCommandHandler.class);
+        Assert.assertEquals(100, simpleCommandHandler.getCounter());
+    }
 }

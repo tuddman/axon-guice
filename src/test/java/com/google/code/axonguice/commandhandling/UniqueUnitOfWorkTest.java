@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.command;
+package com.google.code.axonguice.commandhandling;
 
 import com.google.code.axonguice.AxonGuiceTest;
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.unitofwork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,25 +27,33 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
- * CommandBusTest - TODO: description
+ * UniqueUnitOfWorkTest - TODO: description
  *
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class SingletonCommandGatewayTest extends AxonGuiceTest {
+public class UniqueUnitOfWorkTest extends AxonGuiceTest {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    private Provider<CommandGateway> commandGatewayProvider;
+    private Provider<UnitOfWork> unitOfWorkProvider;
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
     @Test
-    public void testCommandGatewayIsSingleton(){
-        CommandGateway instance = injector.getInstance(CommandGateway.class);
-        CommandGateway instance1 = injector.getInstance(CommandGateway.class);
-        Assert.assertEquals(instance, instance1);
-        Assert.assertEquals(commandGatewayProvider.get(), commandGatewayProvider.get());
+    public void testUnitOfWorkEachInjectionUnique() {
+        Assert.assertNotEquals(injector.getInstance(UnitOfWork.class), injector.getInstance(UnitOfWork.class));
+    }
+
+    @Test
+    public void testUnitOfWorkEachProviderGetIsUnique() {
+        Assert.assertNotEquals(unitOfWorkProvider.get(), unitOfWorkProvider.get());
+    }
+
+    @Test
+    public void testInjectedUnitOfWorkIsStarted() {
+        UnitOfWork unitOfWork = injector.getInstance(UnitOfWork.class);
+        Assert.assertTrue(unitOfWork.isStarted());
     }
 }

@@ -44,7 +44,9 @@
         <!-- Integration Components -->
 
         <version.guice>3.0</version.guice>
+        <version.google-guava>13.0.1</version.google-guava>
         <version.axon>2.0</version.axon>
+        <version.reflections>0.9.8</version.reflections>
 
         <!-- Logging -->
 
@@ -100,6 +102,24 @@
             <groupId>org.axonframework</groupId>
             <artifactId>axon-test</artifactId>
             <version>${version.axon}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${version.google-guava}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${version.reflections}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Logging -->

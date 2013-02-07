@@ -16,29 +16,30 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.repository;
+package com.google.code.axonguice.commandhandling;
 
-import com.google.inject.AbstractModule;
+import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
- * RepositoryModule - TODO: description
- *
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class RepositoryModule extends AbstractModule {
-/*===========================================[ STATIC VARIABLES ]=============*/
-/*===========================================[ INSTANCE VARIABLES ]===========*/
-/*===========================================[ CONSTRUCTORS ]=================*/
-/*===========================================[ CLASS METHODS ]================*/
+public class CommandGatewayProvider implements Provider<CommandGateway> {
+
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
+
+    @Inject
+    private CommandBus commandBus;
+
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
-    protected void configure() {
-    //         * - Repository -> EventStore, EventBus, Snapshotter, SnapshotterTrigger
-        bindEventStore();
-    }
-
-    protected void bindEventStore() {
-        //bind(EventStore.class).to(FileSystemEventStore.class);
+    public CommandGateway get() {
+        return new DefaultCommandGateway(commandBus);
     }
 }
