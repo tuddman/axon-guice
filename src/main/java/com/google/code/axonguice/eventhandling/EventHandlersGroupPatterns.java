@@ -16,27 +16,15 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice;
-
-import com.google.inject.Injector;
-import org.junit.runner.RunWith;
-import org.nnsoft.guice.junice.annotation.GuiceModules;
-
-import javax.inject.Inject;
+package com.google.code.axonguice.eventhandling;
 
 /**
- * AxonGuiceTest - TODO: description
+ * EventHandlersGroupPatterns - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-@RunWith(AxonGuiceTestRunner.class)
-@GuiceModules(modules = AxonGuiceTestModule.class)
-public abstract class AxonGuiceTest {
-
-    /*===========================================[ INSTANCE VARIABLES ]===========*/
-
-    @Inject
-    protected Injector injector;
-
+public interface EventHandlersGroupPatterns {
+    String AllowAll = ".*";
+    String DenyAll = "";
 }

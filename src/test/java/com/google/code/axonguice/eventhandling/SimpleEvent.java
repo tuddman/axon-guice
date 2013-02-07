@@ -18,28 +18,15 @@
 
 package com.google.code.axonguice.eventhandling;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.SimpleEventBus;
-
 /**
- * Event Processing elements bind module.
+ * SimpleEvent - TODO: description
  *
- * @author Alexey Krylov
- * @since 06.02.13
+ * @author Alexey Krylov (lexx)
+ * @since 07.02.13
  */
-public class EventProcessingModule extends AbstractModule {
-
-    /*===========================================[ INTERFACE METHODS ]============*/
-
-    @Override
-    protected void configure() {
-        //todo autoregistration type listeners
-        bindEventBus();
-    }
-
-    protected void bindEventBus() {
-        bind(EventBus.class).to(SimpleEventBus.class).in(Scopes.SINGLETON);
-    }
+public class SimpleEvent {
+/*===========================================[ STATIC VARIABLES ]=============*/
+/*===========================================[ INSTANCE VARIABLES ]===========*/
+/*===========================================[ CONSTRUCTORS ]=================*/
+/*===========================================[ CLASS METHODS ]================*/
 }

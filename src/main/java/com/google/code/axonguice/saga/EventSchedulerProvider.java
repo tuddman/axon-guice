@@ -18,35 +18,15 @@
 
 package com.google.code.axonguice.saga;
 
-import com.google.inject.AbstractModule;
-
 /**
- * SagaModule - TODO: description
+ * EventSchedulerProvider - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class SagaModule extends AbstractModule{
+public class EventSchedulerProvider {
 /*===========================================[ STATIC VARIABLES ]=============*/
 /*===========================================[ INSTANCE VARIABLES ]===========*/
 /*===========================================[ CONSTRUCTORS ]=================*/
 /*===========================================[ CLASS METHODS ]================*/
-
-    @Override
-    protected void configure() {
-    // todo        * - SagaManager
-    //    * - SagaRepository
-        bindSagaManager();
-        bindSagaRepository();
-    }
-
-    protected void bindSagaManager() {
-        //TODO add Saga reflections scan
-        //bind(SagaManager.class).to(SimpleSagaManager.class);
-    }
-
-    protected void bindSagaRepository() {
-
-    }
-
 }

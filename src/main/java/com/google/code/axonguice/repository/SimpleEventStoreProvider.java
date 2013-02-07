@@ -16,28 +16,31 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice;
+package com.google.code.axonguice.repository;
 
-import com.google.code.axonguice.commandhandling.CommandHandlingModule;
-import com.google.code.axonguice.eventhandling.EventHandlingModule;
+import com.google.inject.Provider;
+import org.axonframework.eventstore.EventStore;
+import org.axonframework.eventstore.fs.FileSystemEventStore;
+import org.axonframework.eventstore.fs.SimpleEventFileResolver;
+
+import java.io.File;
 
 /**
- * AxonGuiceTestModule - TODO: description
+ * EventStoreProvider - TODO: description
  *
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
-public class AxonGuiceTestModule extends AxonGuiceModule {
+public class SimpleEventStoreProvider implements Provider<EventStore> {
 
-	/*===========================================[ CLASS METHODS ]================*/
-
-    @Override
-    protected CommandHandlingModule createCommandHandlingModule() {
-        return new CommandHandlingModule("com.google.code.axonguice");
-    }
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
-    protected EventHandlingModule createEventHandlingModule() {
-        return new EventHandlingModule("com.google.code.axonguice");
+    public EventStore get() {
+        File tempFile = new File(System.getProperty("java.io.tmpdir"), "axonguice-eventstore");
+        if (!tempFile.exists()) {
+            tempFile.mkdirs();
+        }
+        return new FileSystemEventStore(new SimpleEventFileResolver(tempFile));
     }
 }

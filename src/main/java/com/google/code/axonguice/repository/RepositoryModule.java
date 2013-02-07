@@ -19,6 +19,8 @@
 package com.google.code.axonguice.repository;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import org.axonframework.eventstore.EventStore;
 
 /**
  * RepositoryModule - TODO: description
@@ -34,11 +36,33 @@ public class RepositoryModule extends AbstractModule {
 
     @Override
     protected void configure() {
-    //         * - Repository -> EventStore, EventBus, Snapshotter, SnapshotterTrigger
+        /*
+        MongoEventStore eventStore = new MongoEventStore(mongoTemplate);
+        // we need to configure the repository
+        EventCountSnapshotterTrigger snapshotterTrigger = new EventCountSnapshotterTrigger();
+        snapshotterTrigger.setTrigger(10);
+
+        AggregateSnapshotter snapshotter = new AggregateSnapshotter();
+        snapshotter.setEventStore(MongoEventStore);
+
+        List<AggregateFactory<?>> genericAggregateFactories = new ArrayList<AggregateFactory<?>>();
+        genericAggregateFactories.add(new GenericAggregateFactory(Order.class));
+
+        snapshotter.setAggregateFactories(genericAggregateFactories);
+
+        snapshotterTrigger.setSnapshotter(snapshotter);
+
+        EventSourcingRepository<Order> repository = new EventSourcingRepository(Order.class);
+        repository.setEventStore(eventStore);
+        repository.setEventBus(eventBus);
+        repository.setSnapshotterTrigger(snapshotterTrigger);
+*/
+        //  TODO       * - Repository -> EventStore, EventBus, Snapshotter, SnapshotterTrigger
+        // TODO find all aggregates and bind + option to override binding process with manual binder
         bindEventStore();
     }
 
     protected void bindEventStore() {
-        //bind(EventStore.class).to(FileSystemEventStore.class);
+        bind(EventStore.class).toProvider(SimpleEventStoreProvider.class).in(Scopes.SINGLETON);
     }
 }

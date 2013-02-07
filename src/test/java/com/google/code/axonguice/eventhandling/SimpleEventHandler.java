@@ -16,27 +16,34 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice;
+package com.google.code.axonguice.eventhandling;
 
-import com.google.inject.Injector;
-import org.junit.runner.RunWith;
-import org.nnsoft.guice.junice.annotation.GuiceModules;
-
-import javax.inject.Inject;
+import com.google.code.axonguice.eventhandling.annotation.EventHandlerComponent;
+import org.axonframework.eventhandling.annotation.EventHandler;
 
 /**
- * AxonGuiceTest - TODO: description
+ * SimpleEventHandler - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-@RunWith(AxonGuiceTestRunner.class)
-@GuiceModules(modules = AxonGuiceTestModule.class)
-public abstract class AxonGuiceTest {
+@EventHandlerComponent
+public class SimpleEventHandler {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
-    protected Injector injector;
+    private int counter;
 
+    /*===========================================[ CLASS METHODS ]================*/
+
+    @EventHandler
+    public void commandReceived(SimpleEvent event) {
+        counter++;
+    }
+
+    /*===========================================[ GETTER/SETTER ]================*/
+
+    public int getCounter() {
+        return counter;
+    }
 }

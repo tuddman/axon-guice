@@ -20,12 +20,12 @@ package com.google.code.axonguice.commandhandling;
 
 import com.google.code.axonguice.commandhandling.annotation.CommandHandlerComponent;
 import com.google.common.base.Predicate;
-import com.google.inject.AbstractModule;
-import com.google.inject.Provider;
-import com.google.inject.Scopes;
+import com.google.inject.*;
+import com.google.inject.util.Types;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.domain.AggregateRoot;
 import org.axonframework.unitofwork.UnitOfWork;
 import org.axonframework.unitofwork.UnitOfWorkFactory;
 import org.reflections.Reflections;
@@ -79,7 +79,6 @@ public class CommandHandlingModule extends AbstractModule {
         bindUnitOfWorkFactory();
         bindUnitOfWork();
         bindCommandHandlers();
-        //TODO command handlers in aggregate roots
     }
 
     protected void bindCommandBus() {
@@ -99,26 +98,15 @@ public class CommandHandlingModule extends AbstractModule {
     }
 
     protected void bindCommandHandlers() {
-        for (final CommandHandlersGroup group : commandHandlersGroups) {
+        for (CommandHandlersGroup group : commandHandlersGroups) {
 
             Collection<String> packagesToScan = group.getCommandHandlersPackages();
             logger.info(String.format("Scanning %s for Command Handlers", packagesToScan));
 
-
-            Collection<URL> scanUrls = new HashSet<URL>();
-            for (String packageName : packagesToScan) {
-                scanUrls.addAll(ClasspathHelper.forPackage(packageName));
-            }
-
-            Collection<Class<?>> allHandlers = findCommandHandlers(scanUrls);
+            Reflections reflections = createReflections(packagesToScan);
 
             // Extraction of instantiable @CommandHandler implementations
-            Iterable<Class<?>> validHandlerClasses = filter(allHandlers, new Predicate<Class<?>>() {
-                @Override
-                public boolean apply(Class<?> input) {
-                    return !input.isInterface() && !Modifier.isAbstract(input.getModifiers()) && group.matches(input);
-                }
-            });
+            Iterable<Class<?>> validHandlerClasses = filterHandlers(group, reflections.getTypesAnnotatedWith(CommandHandlerComponent.class));
 
             for (Class<?> handlerClass : validHandlerClasses) {
                 logger.info(String.format("Found CommandHandler: [%s]", handlerClass.getName()));
@@ -126,17 +114,35 @@ public class CommandHandlingModule extends AbstractModule {
                 requestInjection(commandHandlerProvider);
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
+
+            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterHandlers(group, reflections.getSubTypesOf(AggregateRoot.class));
+
+            for (Class<? extends AggregateRoot> aggregateRootClass : validAggregateRoots) {
+                logger.info(String.format("Found AggregateRoot: [%s]", aggregateRootClass.getName()));
+                AggregateCommandHandlerProvider commandHandlerProvider = new AggregateCommandHandlerProvider(aggregateRootClass);
+                requestInjection(commandHandlerProvider);
+                bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateCommandHandlerProvider.class, aggregateRootClass)))).in(Scopes.SINGLETON);
+            }
         }
     }
 
-    protected Collection<Class<?>> findCommandHandlers(Collection<URL> scanUrls) {
-        Reflections reflections = createReflections(scanUrls);
-        return reflections.getTypesAnnotatedWith(CommandHandlerComponent.class);
+    protected <T> Collection<Class<? extends T>> filterHandlers(final CommandHandlersGroup group, Collection<Class<? extends T>> allHandlers) {
+        return filter(allHandlers, new Predicate<Class<?>>() {
+            @Override
+            public boolean apply(Class<?> input) {
+                return !input.isInterface() && !Modifier.isAbstract(input.getModifiers()) && group.matches(input);
+            }
+        });
     }
 
-    protected Reflections createReflections(Collection<URL> urls) {
+    protected Reflections createReflections(Iterable<String> packagesToScan) {
+        Collection<URL> scanUrls = new HashSet<URL>();
+        for (String packageName : packagesToScan) {
+            scanUrls.addAll(ClasspathHelper.forPackage(packageName));
+        }
+
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.setUrls(urls);
+        configurationBuilder.setUrls(scanUrls);
         configurationBuilder.setScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
         return new Reflections(configurationBuilder);
     }

@@ -20,20 +20,29 @@ package com.google.code.axonguice;
 
 import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import com.google.code.axonguice.domain.DomainModule;
-import com.google.code.axonguice.eventhandling.EventProcessingModule;
+import com.google.code.axonguice.eventhandling.EventHandlingModule;
+import com.google.code.axonguice.jsr250.Jsr250Module;
 import com.google.code.axonguice.repository.RepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
 import com.google.inject.AbstractModule;
 
 public class AxonGuiceModule extends AbstractModule {
 
+    /*===========================================[ INTERFACE METHODS ]============*/
+
     @Override
     protected void configure() {
+        // support of @PostConstuct and @Resource
+        install(createJsr250Module());
         install(createCommandHandlingModule());
         install(createDomainModule());
         install(createRepositoryModule());
-        install(createEventProcessingModule());
+        install(createEventHandlingModule());
         install(createSagaModule());
+    }
+
+    protected Jsr250Module createJsr250Module() {
+        return new Jsr250Module();
     }
 
     protected CommandHandlingModule createCommandHandlingModule() {
@@ -48,8 +57,8 @@ public class AxonGuiceModule extends AbstractModule {
         return new RepositoryModule();
     }
 
-    protected EventProcessingModule createEventProcessingModule() {
-        return new EventProcessingModule();
+    protected EventHandlingModule createEventHandlingModule() {
+        return new EventHandlingModule();
     }
 
     protected SagaModule createSagaModule() {

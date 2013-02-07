@@ -16,37 +16,23 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.saga;
+package com.google.code.axonguice.jsr250;
 
 import com.google.inject.AbstractModule;
+import com.mycila.inject.jsr250.Jsr250;
 
 /**
- * SagaModule - TODO: description
+ * Jsr250Module - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 07.02.13
  */
-public class SagaModule extends AbstractModule{
-/*===========================================[ STATIC VARIABLES ]=============*/
-/*===========================================[ INSTANCE VARIABLES ]===========*/
-/*===========================================[ CONSTRUCTORS ]=================*/
-/*===========================================[ CLASS METHODS ]================*/
+public class Jsr250Module extends AbstractModule {
+
+    /*===========================================[ CLASS METHODS ]================*/
 
     @Override
     protected void configure() {
-    // todo        * - SagaManager
-    //    * - SagaRepository
-        bindSagaManager();
-        bindSagaRepository();
+        install(Jsr250.newJsr250Module());
     }
-
-    protected void bindSagaManager() {
-        //TODO add Saga reflections scan
-        //bind(SagaManager.class).to(SimpleSagaManager.class);
-    }
-
-    protected void bindSagaRepository() {
-
-    }
-
 }

@@ -16,37 +16,39 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
+package com.google.code.axonguice.eventhandling;
 
 import com.google.code.axonguice.AxonGuiceTest;
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.domain.GenericEventMessage;
+import org.axonframework.eventhandling.EventBus;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.inject.Inject;
 
 /**
- * CommandHandlerTest - TODO: description
+ * EventSendReceiveTest - TODO: description
  *
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
-public class CommandHandlerTest extends AxonGuiceTest {
+
+public class EventSendReceiveTest extends AxonGuiceTest {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    private CommandGateway commandGateway;
+    private EventBus eventBus;
 
     /*===========================================[ CLASS METHODS ]================*/
 
     @Test
-    public void testCommandHandlerReceivesCommand() {
+    public void testEventHandlerReceivesCommand() {
         for (int i = 0; i < 100; i++) {
-            commandGateway.send(new SimpleCommand());
+            eventBus.publish(new GenericEventMessage(new SimpleEvent()));
         }
 
-        SimpleCommandHandler simpleCommandHandler = injector.getInstance(SimpleCommandHandler.class);
-        Assert.assertEquals(100, simpleCommandHandler.getCounter());
+        SimpleEventHandler simpleEventHandler = injector.getInstance(SimpleEventHandler.class);
+        Assert.assertEquals(100, simpleEventHandler.getCounter());
     }
 }
