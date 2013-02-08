@@ -38,10 +38,7 @@ public class AggregateCommandHandlerProvider implements Provider {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
     protected Injector injector;
-
-    @Inject
     protected CommandBus commandBus;
 
     private Class<? extends AggregateRoot> aggregateRootClass;
@@ -50,6 +47,12 @@ public class AggregateCommandHandlerProvider implements Provider {
 
     public AggregateCommandHandlerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         this.aggregateRootClass = aggregateRootClass;
+    }
+
+    @Inject
+    void init(Injector injector, CommandBus commandBus) {
+        this.injector = injector;
+        this.commandBus = commandBus;
     }
 
 	/*===========================================[ INTERFACE METHODS ]============*/

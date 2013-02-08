@@ -19,8 +19,14 @@
 package com.google.code.axonguice.repository;
 
 import org.axonframework.domain.AggregateRoot;
+import org.axonframework.eventsourcing.AggregateFactory;
+import org.axonframework.eventsourcing.AggregateSnapshotter;
 import org.axonframework.eventsourcing.EventCountSnapshotterTrigger;
 import org.axonframework.eventsourcing.SnapshotterTrigger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * EventCountSnapshotterTriggerProviderImpl - TODO: description
@@ -41,6 +47,21 @@ public class SimpleEventCountSnapshotterTriggerProvider extends SnapshotterTrigg
     @Override
     public SnapshotterTrigger get() {
         EventCountSnapshotterTrigger snapshotterTrigger = new EventCountSnapshotterTrigger();
+
+        List<AggregateFactory<?>> genericAggregateFactories = new ArrayList<AggregateFactory<?>>();
+
+        Map<String, AggregateFactory> aggregateFactoryMap = aggregateFactoriesProvider.get();
+        AggregateFactory aggregateFactory1 = aggregateFactoryMap.get(aggregateRootClass.getName());
+
+        // Searching for appropriate AggregateFactory
+        //AggregateFactory aggregateFactory = (AggregateFactory) injector.getInstance(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateFactory.class, aggregateRootClass))));
+        genericAggregateFactories.add(aggregateFactory1);
+
+        AggregateSnapshotter snapshotter = new AggregateSnapshotter();
+        snapshotter.setEventStore(eventStore);
+        snapshotter.setAggregateFactories(genericAggregateFactories);
+
+
         snapshotterTrigger.setSnapshotter(snapshotter);
         return snapshotterTrigger;
     }

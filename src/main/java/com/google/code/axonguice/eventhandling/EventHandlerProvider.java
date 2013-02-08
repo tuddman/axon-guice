@@ -36,10 +36,7 @@ public class EventHandlerProvider implements Provider {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
     protected Injector injector;
-
-    @Inject
     protected EventBus eventBus;
 
     protected Class<?> handlerClass;
@@ -48,6 +45,12 @@ public class EventHandlerProvider implements Provider {
 
     public EventHandlerProvider(Class<?> handlerClass) {
         this.handlerClass = handlerClass;
+    }
+
+    @Inject
+    void init(Injector injector, EventBus eventBus) {
+        this.injector = injector;
+        this.eventBus = eventBus;
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/

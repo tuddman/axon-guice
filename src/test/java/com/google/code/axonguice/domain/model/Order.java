@@ -11,9 +11,13 @@ import com.google.code.axonguice.domain.api.OrderNameChangedEvent;
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
+import org.axonframework.repository.Repository;
+
+import javax.inject.Inject;
 
 /**
  * Order - TODO: description
+ * //TODO injection into aggregates
  *
  * @author Alexey Krylov (lexx)
  * @since 05.02.13
@@ -25,6 +29,8 @@ public class Order extends AbstractAnnotatedAggregateRoot {
     @AggregateIdentifier
     private OrderId orderId;
 
+    @Inject
+    private Repository<Order> orderRepository;
     private String name;
 
     @SuppressWarnings("UnusedDeclaration")

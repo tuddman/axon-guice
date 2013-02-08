@@ -18,14 +18,15 @@
 
 package com.google.code.axonguice.repository;
 
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import org.axonframework.domain.AggregateRoot;
-import org.axonframework.eventsourcing.*;
+import org.axonframework.eventsourcing.AggregateFactory;
+import org.axonframework.eventsourcing.SnapshotterTrigger;
 import org.axonframework.eventstore.SnapshotEventStore;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * SnapshotterProvider - TODO: description
@@ -39,7 +40,8 @@ public abstract class SnapshotterTriggerProvider implements Provider<Snapshotter
 
     protected SnapshotEventStore eventStore;
     protected Class<? extends AggregateRoot> aggregateRootClass;
-    protected Snapshotter snapshotter;
+    //protected Snapshotter snapshotter;
+    protected Provider<Map<String, AggregateFactory>> aggregateFactoriesProvider;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
@@ -48,13 +50,9 @@ public abstract class SnapshotterTriggerProvider implements Provider<Snapshotter
     }
 
     @Inject
-    protected void init(SnapshotEventStore eventStore) {
-        List<AggregateFactory<?>> genericAggregateFactories = new ArrayList<AggregateFactory<?>>();
-        genericAggregateFactories.add(new GenericAggregateFactory(aggregateRootClass));
-        AggregateSnapshotter aggregateSnapshotter = new AggregateSnapshotter();
-        aggregateSnapshotter.setEventStore(eventStore);
-        aggregateSnapshotter.setAggregateFactories(genericAggregateFactories);
-
-        snapshotter = aggregateSnapshotter;
+    void init(Injector injector, SnapshotEventStore eventStore, Provider<Map<String, AggregateFactory>> aggregateFactoriesProvider) {
+        this.eventStore = eventStore;
+        this.aggregateFactoriesProvider = aggregateFactoriesProvider;
+        //snapshotter = aggregateSnapshotter;
     }
 }

@@ -92,17 +92,17 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule {
             Iterable<Class<?>> validHandlerClasses = filterClasses(classesGroup, reflections.getTypesAnnotatedWith(CommandHandlerComponent.class));
 
             for (Class<?> handlerClass : validHandlerClasses) {
-                logger.info(String.format("Found: [%s]", handlerClass.getName()));
+                logger.info(String.format("\tFound: [%s]", handlerClass.getName()));
                 Provider commandHandlerProvider = new CommandHandlerProvider(handlerClass);
                 requestInjection(commandHandlerProvider);
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
 
-            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateClasses(reflections));
+            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateClasses(reflections, AggregateRoot.class));
 
             for (Class<? extends AggregateRoot> aggregateRootClass : validAggregateRoots) {
-                logger.info(String.format("Found AggregateRoot: [%s]", aggregateRootClass.getName()));
-                AggregateCommandHandlerProvider commandHandlerProvider = new AggregateCommandHandlerProvider(aggregateRootClass);
+                logger.info(String.format("\tFound AggregateRoot: [%s]", aggregateRootClass.getName()));
+                Provider commandHandlerProvider = new AggregateCommandHandlerProvider(aggregateRootClass);
                 requestInjection(commandHandlerProvider);
                 bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateCommandHandlerProvider.class, aggregateRootClass)))).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }

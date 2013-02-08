@@ -21,6 +21,7 @@ package com.google.code.axonguice.repository;
 import com.google.inject.Provider;
 import org.axonframework.domain.AggregateRoot;
 import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventsourcing.AggregateFactory;
 import org.axonframework.eventsourcing.SnapshotterTrigger;
 import org.axonframework.eventstore.EventStore;
 import org.axonframework.repository.Repository;
@@ -38,22 +39,29 @@ public abstract class RepositoryProvider implements Provider<Repository> {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
     protected EventBus eventBus;
-
-    @Inject
     protected EventStore eventStore;
-
-    @Inject
-    protected Provider<Map<String, SnapshotterTrigger>> snapshotterTriggers;
+    protected Provider<Map<String, SnapshotterTrigger>> snapshotterTriggersProvider;
+    protected Provider<Map<String, AggregateFactory>> aggregateFactoriesProvider;
 
     protected Class<? extends AggregateRoot> aggregateRootClass;
     protected String aggregateRootClassName;
 
-	/*===========================================[ CONSTRUCTORS ]=================*/
+    /*===========================================[ CONSTRUCTORS ]=================*/
 
     protected RepositoryProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         this.aggregateRootClass = aggregateRootClass;
         aggregateRootClassName = aggregateRootClass.getName();
+    }
+
+    @Inject
+    void init(EventBus eventBus,
+              EventStore eventStore,
+              Provider<Map<String, SnapshotterTrigger>> snapshotterTriggersProvider,
+              Provider<Map<String, AggregateFactory>> aggregateFactoriesProvider) {
+        this.eventBus = eventBus;
+        this.eventStore = eventStore;
+        this.snapshotterTriggersProvider = snapshotterTriggersProvider;
+        this.aggregateFactoriesProvider = aggregateFactoriesProvider;
     }
 }

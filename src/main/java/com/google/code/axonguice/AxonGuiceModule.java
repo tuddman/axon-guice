@@ -33,12 +33,12 @@ public class AxonGuiceModule extends AbstractModule {
 
 	/*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    protected String[] autoScanPackages;
+    protected String[] aggregatesScanPackages;
 
 	/*===========================================[ CONSTRUCTORS ]=================*/
 
-    public AxonGuiceModule(String... autoScanPackages) {
-        this.autoScanPackages = Arrays.copyOf(autoScanPackages, autoScanPackages.length);
+    public AxonGuiceModule(String... aggregatesScanPackages) {
+        this.aggregatesScanPackages = Arrays.copyOf(aggregatesScanPackages, aggregatesScanPackages.length);
     }
 
 	/*===========================================[ INTERFACE METHODS ]============*/
@@ -47,9 +47,9 @@ public class AxonGuiceModule extends AbstractModule {
     protected void configure() {
         // support of @PostConstuct and @Resource
         install(createJsr250Module());
+        install(createDomainModule());
         install(createRepositoryModule());
         install(createCommandHandlingModule());
-        install(createDomainModule());
         install(createEventHandlingModule());
         install(createSagaModule());
     }
@@ -59,19 +59,19 @@ public class AxonGuiceModule extends AbstractModule {
     }
 
     protected RepositoryModule createRepositoryModule() {
-        return new RepositoryModule(autoScanPackages);
+        return new RepositoryModule(aggregatesScanPackages);
     }
 
     protected AbstractClassesGroupingModule createCommandHandlingModule() {
-        return new CommandHandlingModule(autoScanPackages);
+        return new CommandHandlingModule(aggregatesScanPackages);
     }
 
     protected DomainModule createDomainModule() {
-        return new DomainModule();
+        return new DomainModule(aggregatesScanPackages);
     }
 
     protected EventHandlingModule createEventHandlingModule() {
-        return new EventHandlingModule(autoScanPackages);
+        return new EventHandlingModule(aggregatesScanPackages);
     }
 
     protected SagaModule createSagaModule() {
