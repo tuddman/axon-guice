@@ -26,7 +26,6 @@ import org.axonframework.eventsourcing.SnapshotterTrigger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * EventCountSnapshotterTriggerProviderImpl - TODO: description
@@ -48,19 +47,12 @@ public class SimpleEventCountSnapshotterTriggerProvider extends SnapshotterTrigg
     public SnapshotterTrigger get() {
         EventCountSnapshotterTrigger snapshotterTrigger = new EventCountSnapshotterTrigger();
 
-        List<AggregateFactory<?>> genericAggregateFactories = new ArrayList<AggregateFactory<?>>();
-
-        Map<String, AggregateFactory> aggregateFactoryMap = aggregateFactoriesProvider.get();
-        AggregateFactory aggregateFactory1 = aggregateFactoryMap.get(aggregateRootClass.getName());
-
-        // Searching for appropriate AggregateFactory
-        //AggregateFactory aggregateFactory = (AggregateFactory) injector.getInstance(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateFactory.class, aggregateRootClass))));
-        genericAggregateFactories.add(aggregateFactory1);
+        List<AggregateFactory<?>> factories = new ArrayList<AggregateFactory<?>>();
+        factories.add(aggregateFactoryProvider.get());
 
         AggregateSnapshotter snapshotter = new AggregateSnapshotter();
         snapshotter.setEventStore(eventStore);
-        snapshotter.setAggregateFactories(genericAggregateFactories);
-
+        snapshotter.setAggregateFactories(factories);
 
         snapshotterTrigger.setSnapshotter(snapshotter);
         return snapshotterTrigger;

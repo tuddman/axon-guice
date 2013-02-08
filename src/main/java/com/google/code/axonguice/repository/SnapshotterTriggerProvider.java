@@ -19,14 +19,16 @@
 package com.google.code.axonguice.repository;
 
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
+import com.google.inject.util.Types;
 import org.axonframework.domain.AggregateRoot;
 import org.axonframework.eventsourcing.AggregateFactory;
 import org.axonframework.eventsourcing.SnapshotterTrigger;
 import org.axonframework.eventstore.SnapshotEventStore;
 
 import javax.inject.Inject;
-import java.util.Map;
 
 /**
  * SnapshotterProvider - TODO: description
@@ -40,8 +42,7 @@ public abstract class SnapshotterTriggerProvider implements Provider<Snapshotter
 
     protected SnapshotEventStore eventStore;
     protected Class<? extends AggregateRoot> aggregateRootClass;
-    //protected Snapshotter snapshotter;
-    protected Provider<Map<String, AggregateFactory>> aggregateFactoriesProvider;
+    protected Provider<AggregateFactory> aggregateFactoryProvider;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
@@ -50,9 +51,8 @@ public abstract class SnapshotterTriggerProvider implements Provider<Snapshotter
     }
 
     @Inject
-    void init(Injector injector, SnapshotEventStore eventStore, Provider<Map<String, AggregateFactory>> aggregateFactoriesProvider) {
+    void init(Injector injector, SnapshotEventStore eventStore) {
         this.eventStore = eventStore;
-        this.aggregateFactoriesProvider = aggregateFactoriesProvider;
-        //snapshotter = aggregateSnapshotter;
+        aggregateFactoryProvider = (Provider<AggregateFactory>) injector.getProvider(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateFactory.class, aggregateRootClass))));
     }
 }

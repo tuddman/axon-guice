@@ -41,13 +41,15 @@ public class EventSourcingRepositoryProvider extends RepositoryProvider {
 
     @Override
     public Repository get() {
-        EventSourcingRepository repository = new EventSourcingRepository(aggregateFactoriesProvider.get().get(aggregateRootClassName));
+        EventSourcingRepository repository = new EventSourcingRepository(aggregateFactoryProvider.get());
         repository.setEventStore(eventStore);
         repository.setEventBus(eventBus);
 
-        SnapshotterTrigger snapshotterTrigger = snapshotterTriggersProvider.get().get(aggregateRootClassName);
-        if (snapshotterTrigger != null) {
-            repository.setSnapshotterTrigger(snapshotterTrigger);
+        if (snapshotterTriggerProvider != null) {
+            SnapshotterTrigger snapshotterTrigger = snapshotterTriggerProvider.get();
+            if (snapshotterTrigger != null) {
+                repository.setSnapshotterTrigger(snapshotterTrigger);
+            }
         }
         return repository;
     }

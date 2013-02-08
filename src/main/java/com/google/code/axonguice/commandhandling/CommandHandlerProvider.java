@@ -37,18 +37,20 @@ public class CommandHandlerProvider implements Provider {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
     protected Injector injector;
-
-    @Inject
     protected CommandBus commandBus;
-
     protected Class<?> handlerClass;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
     public CommandHandlerProvider(Class<?> handlerClass) {
         this.handlerClass = handlerClass;
+    }
+
+    @Inject
+    void init(Injector injector, CommandBus commandBus) {
+        this.injector = injector;
+        this.commandBus = commandBus;
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/

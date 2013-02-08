@@ -39,9 +39,6 @@ import java.util.Collection;
  */
 public class EventHandlingModule extends AbstractClassesGroupingModule {
 
-    /*===========================================[ INSTANCE VARIABLES ]===========*/
-
-
     /*===========================================[ CONSTRUCTORS ]=================*/
 
     public EventHandlingModule(Collection<ClassesGroup> eventHandlersClassesGroups) {

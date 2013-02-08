@@ -25,7 +25,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.multibindings.MapBinder;
+import com.google.inject.name.Names;
 import com.google.inject.util.Types;
 import org.axonframework.domain.AggregateRoot;
 import org.axonframework.eventsourcing.EventSourcedAggregateRoot;
@@ -74,8 +74,6 @@ public class RepositoryModule extends AbstractClassesGroupingModule {
     }
 
     protected void bindRepositories() {
-        MapBinder<String, SnapshotterTrigger> mapBinder = MapBinder.newMapBinder(binder(), String.class, SnapshotterTrigger.class);
-
         for (ClassesGroup classesGroup : classesGroups) {
             Collection<String> packagesToScan = classesGroup.getPackages();
             logger.info(String.format("Searching %s for Aggregate Roots", packagesToScan));
@@ -86,17 +84,17 @@ public class RepositoryModule extends AbstractClassesGroupingModule {
 
             for (Class<? extends EventSourcedAggregateRoot> aggregateRootClass : validAggregateRoots) {
                 logger.info(String.format("\tFound: [%s]", aggregateRootClass.getName()));
-                bindSnapshotter(mapBinder, aggregateRootClass);
+                bindSnapshotterTrigger(aggregateRootClass);
                 bindRepository(aggregateRootClass);
             }
         }
     }
 
-    protected void bindSnapshotter(MapBinder<String, SnapshotterTrigger> mapBinder, Class<? extends AggregateRoot> aggregateRootClass) {
+    protected void bindSnapshotterTrigger(Class<? extends AggregateRoot> aggregateRootClass) {
         Provider snapshotterTriggerProvider = new SimpleEventCountSnapshotterTriggerProvider(aggregateRootClass);
         requestInjection(snapshotterTriggerProvider);
-        mapBinder.addBinding(aggregateRootClass.getName()).toProvider(snapshotterTriggerProvider).in(Scopes.SINGLETON);
-        logger.info(String.format("\t\tSnapshotter set to: [%s]", snapshotterTriggerProvider.getClass().getName()));
+        bind(Key.get(SnapshotterTrigger.class, Names.named(aggregateRootClass.getName()))).toProvider(snapshotterTriggerProvider).in(Scopes.SINGLETON);
+        logger.info(String.format("\t\tSnapshotterTrigger set to: [%s]", snapshotterTriggerProvider.getClass().getName()));
     }
 
     protected void bindRepository(Class<? extends AggregateRoot> aggregateRootClass) {
