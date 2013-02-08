@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice;
 
+import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import com.google.code.axonguice.domain.DomainModule;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
@@ -26,17 +27,29 @@ import com.google.code.axonguice.repository.RepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
 import com.google.inject.AbstractModule;
 
+import java.util.Arrays;
+
 public class AxonGuiceModule extends AbstractModule {
 
-    /*===========================================[ INTERFACE METHODS ]============*/
+	/*===========================================[ INSTANCE VARIABLES ]===========*/
+
+    protected String[] autoScanPackages;
+
+	/*===========================================[ CONSTRUCTORS ]=================*/
+
+    public AxonGuiceModule(String... autoScanPackages) {
+        this.autoScanPackages = Arrays.copyOf(autoScanPackages, autoScanPackages.length);
+    }
+
+	/*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     protected void configure() {
         // support of @PostConstuct and @Resource
         install(createJsr250Module());
+        install(createRepositoryModule());
         install(createCommandHandlingModule());
         install(createDomainModule());
-        install(createRepositoryModule());
         install(createEventHandlingModule());
         install(createSagaModule());
     }
@@ -45,20 +58,20 @@ public class AxonGuiceModule extends AbstractModule {
         return new Jsr250Module();
     }
 
-    protected CommandHandlingModule createCommandHandlingModule() {
-        return new CommandHandlingModule();
+    protected RepositoryModule createRepositoryModule() {
+        return new RepositoryModule(autoScanPackages);
+    }
+
+    protected AbstractClassesGroupingModule createCommandHandlingModule() {
+        return new CommandHandlingModule(autoScanPackages);
     }
 
     protected DomainModule createDomainModule() {
         return new DomainModule();
     }
 
-    protected RepositoryModule createRepositoryModule() {
-        return new RepositoryModule();
-    }
-
     protected EventHandlingModule createEventHandlingModule() {
-        return new EventHandlingModule();
+        return new EventHandlingModule(autoScanPackages);
     }
 
     protected SagaModule createSagaModule() {

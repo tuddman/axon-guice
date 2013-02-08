@@ -38,12 +38,12 @@ public class CommandHandlerProvider implements Provider {
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    private Injector injector;
+    protected Injector injector;
 
     @Inject
-    private CommandBus commandBus;
+    protected CommandBus commandBus;
 
-    private Class<?> handlerClass;
+    protected Class<?> handlerClass;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 

@@ -16,29 +16,15 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
-
-import com.google.common.base.Predicate;
-import com.sun.istack.internal.Nullable;
+package com.google.code.axonguice.grouping;
 
 /**
- * CommandHandlersGroupFilterPredicates - TODO: description
+ * CommandHandlersGroupPatterns - TODO: description
  *
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
-public interface CommandHandlersGroupFilterPredicates {
-    Predicate<Class> AlowAll = new Predicate<Class>() {
-        @Override
-        public boolean apply(@Nullable Class input) {
-            return true;
-        }
-    };
-
-    Predicate<Class> DenyAll = new Predicate<Class>() {
-        @Override
-        public boolean apply(@Nullable Class input) {
-            return false;
-        }
-    };
+public interface ClassesGroupPatterns {
+    String AllowAll = ".*";
+    String DenyAll = "";
 }

@@ -18,9 +18,18 @@
 
 package com.google.code.axonguice.repository;
 
-import com.google.inject.AbstractModule;
+import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
+import com.google.code.axonguice.grouping.ClassesGroup;
+import com.google.inject.Key;
 import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
+import com.google.inject.util.Types;
+import org.axonframework.domain.AggregateRoot;
 import org.axonframework.eventstore.EventStore;
+import org.axonframework.repository.Repository;
+import org.reflections.Reflections;
+
+import java.util.Collection;
 
 /**
  * RepositoryModule - TODO: description
@@ -28,11 +37,19 @@ import org.axonframework.eventstore.EventStore;
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class RepositoryModule extends AbstractModule {
-/*===========================================[ STATIC VARIABLES ]=============*/
-/*===========================================[ INSTANCE VARIABLES ]===========*/
-/*===========================================[ CONSTRUCTORS ]=================*/
-/*===========================================[ CLASS METHODS ]================*/
+public class RepositoryModule extends AbstractClassesGroupingModule {
+
+    /*===========================================[ CONSTRUCTORS ]=================*/
+
+    public RepositoryModule(Collection<ClassesGroup> aggregatesRepositoriesClassesGroups) {
+        super(aggregatesRepositoriesClassesGroups);
+    }
+
+    public RepositoryModule(String... aggregatesRepositoriesScanPackages) {
+        super(aggregatesRepositoriesScanPackages);
+    }
+
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     protected void configure() {
@@ -57,12 +74,44 @@ public class RepositoryModule extends AbstractModule {
         repository.setEventBus(eventBus);
         repository.setSnapshotterTrigger(snapshotterTrigger);
 */
-        //  TODO       * - Repository -> EventStore, EventBus, Snapshotter, SnapshotterTrigger
+        //  TODO       * - Repository -> SnapshotterTrigger
         // TODO find all aggregates and bind + option to override binding process with manual binder
         bindEventStore();
+        bindRepositories();
+        //EventSourcingRepository
     }
 
     protected void bindEventStore() {
+        // upcasting is here
         bind(EventStore.class).toProvider(SimpleEventStoreProvider.class).in(Scopes.SINGLETON);
+    }
+
+    protected void bindRepositories() {
+        for (ClassesGroup classesGroup : classesGroups) {
+            Collection<String> packagesToScan = classesGroup.getPackages();
+            logger.info(String.format("Scanning %s for Aggregate Roots", packagesToScan));
+
+            Reflections reflections = createReflections(packagesToScan);
+
+            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, reflections.getSubTypesOf(AggregateRoot.class));
+
+            for (Class<? extends AggregateRoot> aggregateRootClass : validAggregateRoots) {
+                logger.info(String.format("Found AggregateRoot: [%s]", aggregateRootClass.getName()));
+                bindSnapshotter(aggregateRootClass);
+                bindRepository(aggregateRootClass);
+            }
+        }
+    }
+
+    protected void bindSnapshotter(Class<? extends AggregateRoot> aggregateRootClass) {
+        RepositoryProvider repositoryProvider = new EventSourcingRepositoryProvider(aggregateRootClass);
+        requestInjection(repositoryProvider);
+        bind(Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, aggregateRootClass)))).in(Scopes.SINGLETON);
+    }
+
+    protected void bindRepository(Class<? extends AggregateRoot> aggregateRootClass) {
+        RepositoryProvider repositoryProvider = new EventSourcingRepositoryProvider(aggregateRootClass);
+        requestInjection(repositoryProvider);
+        bind(Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, aggregateRootClass)))).in(Scopes.SINGLETON);
     }
 }

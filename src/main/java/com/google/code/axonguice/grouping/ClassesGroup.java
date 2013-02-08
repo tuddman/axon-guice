@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
+package com.google.code.axonguice.grouping;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -33,11 +33,11 @@ import java.util.regex.Pattern;
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
-public class CommandHandlersGroup {
+public class ClassesGroup {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    private Collection<String> commandHandlersPackages;
+    private Collection<String> packages;
     private Pattern inclusionPattern;
     private Pattern exclusionPattern;
     private Predicate<Class> inclusionPredicate;
@@ -45,18 +45,18 @@ public class CommandHandlersGroup {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    protected CommandHandlersGroup(String commandHandlersPackages) {
-        this(Arrays.asList(commandHandlersPackages));
+    public ClassesGroup(String packages) {
+        this(Arrays.asList(packages));
     }
 
-    protected CommandHandlersGroup(Collection<String> commandHandlersPackages) {
-        this.commandHandlersPackages = new ArrayList<String>(commandHandlersPackages);
+    public ClassesGroup(Collection<String> packages) {
+        this.packages = new ArrayList<String>(packages);
     }
 
     /*===========================================[ CLASS METHODS ]================*/
 
-    public Collection<String> getCommandHandlersPackages() {
-        return Collections.unmodifiableCollection(commandHandlersPackages);
+    public Collection<String> getPackages() {
+        return Collections.unmodifiableCollection(packages);
     }
 
     protected void setIncusionPattern(String inclusionPattern) {
@@ -64,7 +64,7 @@ public class CommandHandlersGroup {
             this.inclusionPattern = Pattern.compile(inclusionPattern);
             if (inclusionPredicate == null) {
                 // inclusionPattern is a strict parameter - we need to deny other matcher possibilities
-                inclusionPredicate = CommandHandlersGroupFilterPredicates.DenyAll;
+                inclusionPredicate = ClassesGroupFilterPredicates.DenyAll;
             }
         }
     }
@@ -80,7 +80,7 @@ public class CommandHandlersGroup {
             this.inclusionPredicate = inclusionPredicate;
             if (inclusionPattern == null) {
                 // strict parameters set - we need to deny other matcher possibilities
-                inclusionPattern = Pattern.compile(CommandHandlersGroupPatterns.DenyAll);
+                inclusionPattern = Pattern.compile(ClassesGroupPatterns.DenyAll);
             }
         }
     }
@@ -99,17 +99,17 @@ public class CommandHandlersGroup {
         return exclusionPredicate;
     }
 
-    public boolean matches(Class<?> handlerClass) {
-        Preconditions.checkNotNull(handlerClass);
-        String className = handlerClass.getName();
+    public boolean matches(Class<?> aClass) {
+        Preconditions.checkNotNull(aClass);
+        String className = aClass.getName();
 
         boolean matches = false;
-        if (isInclusionPatternMatches(className) || isInclusionFilterPredicateMatches(handlerClass)) {
+        if (isInclusionPatternMatches(className) || isInclusionFilterPredicateMatches(aClass)) {
             matches = true;
         }
 
         if (matches) {
-            if (isExclusionPatternMatches(className) || isXxclusionFilterPredicateMatches(handlerClass)) {
+            if (isExclusionPatternMatches(className) || isExclusionFilterPredicateMatches(aClass)) {
                 matches = false;
             }
         }
@@ -129,7 +129,7 @@ public class CommandHandlersGroup {
         return exclusionPattern != null && exclusionPattern.matcher(className).matches();
     }
 
-    private boolean isXxclusionFilterPredicateMatches(Class<?> handlerClass) {
+    private boolean isExclusionFilterPredicateMatches(Class<?> handlerClass) {
         return exclusionPredicate != null && exclusionPredicate.apply(handlerClass);
     }
 
@@ -138,25 +138,25 @@ public class CommandHandlersGroup {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CommandHandlersGroup)) {
+        if (!(obj instanceof ClassesGroup)) {
             return false;
         }
 
-        CommandHandlersGroup handlersGroup = (CommandHandlersGroup) obj;
+        ClassesGroup handlersClassesGroup = (ClassesGroup) obj;
 
-        if (exclusionPattern != null ? !exclusionPattern.equals(handlersGroup.exclusionPattern) : handlersGroup.exclusionPattern != null) {
+        if (exclusionPattern != null ? !exclusionPattern.equals(handlersClassesGroup.exclusionPattern) : handlersClassesGroup.exclusionPattern != null) {
             return false;
         }
-        if (exclusionPredicate != null ? !exclusionPredicate.equals(handlersGroup.exclusionPredicate) : handlersGroup.exclusionPredicate != null) {
+        if (exclusionPredicate != null ? !exclusionPredicate.equals(handlersClassesGroup.exclusionPredicate) : handlersClassesGroup.exclusionPredicate != null) {
             return false;
         }
-        if (inclusionPattern != null ? !inclusionPattern.equals(handlersGroup.inclusionPattern) : handlersGroup.inclusionPattern != null) {
+        if (inclusionPattern != null ? !inclusionPattern.equals(handlersClassesGroup.inclusionPattern) : handlersClassesGroup.inclusionPattern != null) {
             return false;
         }
-        if (inclusionPredicate != null ? !inclusionPredicate.equals(handlersGroup.inclusionPredicate) : handlersGroup.inclusionPredicate != null) {
+        if (inclusionPredicate != null ? !inclusionPredicate.equals(handlersClassesGroup.inclusionPredicate) : handlersClassesGroup.inclusionPredicate != null) {
             return false;
         }
-        if (commandHandlersPackages != null ? !commandHandlersPackages.equals(handlersGroup.commandHandlersPackages) : handlersGroup.commandHandlersPackages != null) {
+        if (packages != null ? !packages.equals(handlersClassesGroup.packages) : handlersClassesGroup.packages != null) {
             return false;
         }
 
@@ -165,7 +165,7 @@ public class CommandHandlersGroup {
 
     @Override
     public int hashCode() {
-        int result = commandHandlersPackages != null ? commandHandlersPackages.hashCode() : 0;
+        int result = packages != null ? packages.hashCode() : 0;
         result = 31 * result + (inclusionPattern != null ? inclusionPattern.hashCode() : 0);
         result = 31 * result + (exclusionPattern != null ? exclusionPattern.hashCode() : 0);
         result = 31 * result + (inclusionPredicate != null ? inclusionPredicate.hashCode() : 0);
@@ -176,8 +176,8 @@ public class CommandHandlersGroup {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("CommandHandlersGroup");
-        sb.append("{commandHandlersPackages=").append(commandHandlersPackages).append('\'');
+        sb.append("Group");
+        sb.append("{commandHandlersPackages=").append(packages).append('\'');
         sb.append(", inclusionPattern=").append(inclusionPattern);
         sb.append(", exclusionPattern=").append(exclusionPattern);
         sb.append('}');

@@ -16,15 +16,20 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.eventhandling;
+package com.google.code.axonguice.jsr250;
+
+import javax.inject.Singleton;
 
 /**
- * EventHandlersGroupPatterns - TODO: description
+ * Jsr250Resource - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 07.02.13
+ * @since 08.02.13
  */
-public interface EventHandlersGroupPatterns {
-    String AllowAll = ".*";
-    String DenyAll = "";
+@Singleton
+public class Jsr250Resource {
+/*===========================================[ STATIC VARIABLES ]=============*/
+/*===========================================[ INSTANCE VARIABLES ]===========*/
+/*===========================================[ CONSTRUCTORS ]=================*/
+/*===========================================[ CLASS METHODS ]================*/
 }

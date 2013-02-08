@@ -16,29 +16,34 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
+package com.google.code.axonguice.jsr250;
 
-import org.axonframework.unitofwork.UnitOfWork;
-import org.axonframework.unitofwork.UnitOfWorkFactory;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.google.code.axonguice.AxonGuiceTest;
+import com.google.inject.Inject;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
+ * TestJsr250Support - TODO: description
+ *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 08.02.13
  */
-public class UnitOfWorkProvider implements Provider<UnitOfWork> {
+
+public class Jsr250SupportTest extends AxonGuiceTest {
 
 	/*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    protected UnitOfWorkFactory factory;
+    private Jsr250EnabledService jsr250EnabledService;
 
-	/*===========================================[ CONSTRUCTORS ]=================*/
+	/*===========================================[ CLASS METHODS ]================*/
 
-    @Override
-    public UnitOfWork get() {
-        return factory.createUnitOfWork();
+    @Test
+    public void testJsr250EnabledService() {
+        Assert.assertTrue(jsr250EnabledService.isPostConstuctInvoked());
+        Assert.assertTrue(jsr250EnabledService.isResourceSet());
+        Jsr250EnabledService service = injector.getInstance(Jsr250EnabledService.class);
+        Assert.assertEquals(jsr250EnabledService.getResource(), service.getResource());
     }
 }

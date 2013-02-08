@@ -19,10 +19,12 @@
 package com.google.code.axonguice.commandhandling;
 
 
-import com.google.inject.Injector;
-import com.google.inject.Provider;
+import com.google.inject.*;
+import com.google.inject.util.Types;
 import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler;
 import org.axonframework.domain.AggregateRoot;
+import org.axonframework.repository.Repository;
 
 import javax.inject.Inject;
 
@@ -37,32 +39,29 @@ public class AggregateCommandHandlerProvider implements Provider {
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    private Injector injector;
+    protected Injector injector;
 
     @Inject
-    private CommandBus commandBus;
+    protected CommandBus commandBus;
 
     private Class<? extends AggregateRoot> aggregateRootClass;
+
+	/*===========================================[ CONSTRUCTORS ]=================*/
 
     public AggregateCommandHandlerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         this.aggregateRootClass = aggregateRootClass;
     }
 
-    /*===========================================[ CONSTRUCTORS ]=================*/
-
-
-    /*===========================================[ INTERFACE METHODS ]============*/
+	/*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     public Object get() {
-        return aggregateRootClass;
-        /*try {
-            //TODO get repository for this aggregate
-            ///injector.getInstance()
-            AggregateAnnotationCommandHandler.subscribe(aggregateRootClass, commandBus, comm);
+        try {
+            Repository repository = (Repository) injector.getInstance(Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, aggregateRootClass))));
+            AggregateAnnotationCommandHandler.subscribe(aggregateRootClass, repository, commandBus);
             return aggregateRootClass;
         } catch (Exception e) {
-            throw new ProvisionException(String.format("Unable to instantiate CommandHandler class: [%s]", handlerClass), e);
-        }*/
+            throw new ProvisionException(String.format("Unable to instantiate AggregateCommandHandler class for: [%s]", aggregateRootClass), e);
+        }
     }
 }

@@ -37,12 +37,12 @@ public class EventHandlerProvider implements Provider {
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    private Injector injector;
+    protected Injector injector;
 
     @Inject
-    private EventBus eventBus;
+    protected EventBus eventBus;
 
-    private Class<?> handlerClass;
+    protected Class<?> handlerClass;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 

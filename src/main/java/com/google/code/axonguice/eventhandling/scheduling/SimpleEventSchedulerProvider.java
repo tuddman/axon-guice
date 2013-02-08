@@ -39,7 +39,7 @@ public class SimpleEventSchedulerProvider implements Provider<EventScheduler> {
 	/*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    private EventBus eventBus;
+    protected EventBus eventBus;
 
 	/*===========================================[ INTERFACE METHODS ]============*/
 

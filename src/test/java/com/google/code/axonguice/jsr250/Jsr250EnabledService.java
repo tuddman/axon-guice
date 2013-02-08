@@ -16,29 +16,47 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice;
+package com.google.code.axonguice.jsr250;
 
-import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
-import com.google.code.axonguice.commandhandling.CommandHandlingModule;
-import com.google.code.axonguice.eventhandling.EventHandlingModule;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 /**
- * AxonGuiceTestModule - TODO: description
+ * ServiceWithPostConstuct - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 07.02.13
+ * @since 08.02.13
  */
-public class AxonGuiceTestModule extends AxonGuiceModule {
+public class Jsr250EnabledService {
+
+	/*===========================================[ INSTANCE VARIABLES ]===========*/
+
+    private boolean postConstuctInvoked;
+    private Jsr250Resource resource;
 
 	/*===========================================[ CLASS METHODS ]================*/
 
-    @Override
-    protected AbstractClassesGroupingModule createCommandHandlingModule() {
-        return new CommandHandlingModule("com.google.code.axonguice");
+    @PostConstruct
+    protected void postConstuct(){
+        postConstuctInvoked = true;
     }
 
-    @Override
-    protected EventHandlingModule createEventHandlingModule() {
-        return new EventHandlingModule("com.google.code.axonguice");
+	/*===========================================[ GETTER/SETTER ]================*/
+
+    @Resource
+    public void setResource(Jsr250Resource resource){
+        this.resource = resource;
+    }
+
+    public boolean isPostConstuctInvoked() {
+        return postConstuctInvoked;
+    }
+
+    public boolean isResourceSet() {
+        return resource!=null;
+    }
+
+    public Jsr250Resource getResource() {
+        return resource;
     }
 }

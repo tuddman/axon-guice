@@ -20,28 +20,16 @@ package com.google.code.axonguice.eventhandling;
 
 import com.google.code.axonguice.eventhandling.annotation.EventHandlerComponent;
 import com.google.code.axonguice.eventhandling.scheduling.SimpleEventSchedulerProvider;
-import com.google.common.base.Predicate;
-import com.google.inject.AbstractModule;
+import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
+import com.google.code.axonguice.grouping.ClassesGroup;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventhandling.SimpleEventBus;
 import org.axonframework.eventhandling.scheduling.EventScheduler;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-
-import static com.google.common.collect.Collections2.filter;
 
 /**
  * Event Processing elements bind module.
@@ -49,28 +37,19 @@ import static com.google.common.collect.Collections2.filter;
  * @author Alexey Krylov
  * @since 06.02.13
  */
-public class EventHandlingModule extends AbstractModule {
-
-    /*===========================================[ STATIC VARIABLES ]=============*/
-
-    private static final Logger logger = LoggerFactory.getLogger(EventHandlingModule.class);
+public class EventHandlingModule extends AbstractClassesGroupingModule {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    private Collection<EventHandlersGroup> eventHandlersGroups;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public EventHandlingModule(Collection<EventHandlersGroup> eventHandlersGroups) {
-        this.eventHandlersGroups = new ArrayList<EventHandlersGroup>(eventHandlersGroups);
+    public EventHandlingModule(Collection<ClassesGroup> eventHandlersClassesGroups) {
+        super(eventHandlersClassesGroups);
     }
 
-    public EventHandlingModule(String... eventHandlersScanPackage) {
-        eventHandlersGroups = new ArrayList<EventHandlersGroup>();
-
-        for (String scanPackage : eventHandlersScanPackage) {
-            eventHandlersGroups.add(new EventHandlersGroup(scanPackage));
-        }
+    public EventHandlingModule(String... eventHandlersScanPackages) {
+        super(eventHandlersScanPackages);
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/
@@ -87,14 +66,14 @@ public class EventHandlingModule extends AbstractModule {
     }
 
     protected void bindEventHandlers() {
-        for (EventHandlersGroup group : eventHandlersGroups) {
-            Collection<String> packagesToScan = group.getCommandHandlersPackages();
+        for (ClassesGroup classesGroup : classesGroups) {
+            Collection<String> packagesToScan = classesGroup.getPackages();
             logger.info(String.format("Scanning %s for Event Handlers", packagesToScan));
 
             Reflections reflections = createReflections(packagesToScan);
 
             // Extraction of instantiable @EventHandler implementations
-            Iterable<Class<?>> validHandlerClasses = filterHandlers(group, reflections.getTypesAnnotatedWith(EventHandlerComponent.class));
+            Iterable<Class<?>> validHandlerClasses = filterClasses(classesGroup, reflections.getTypesAnnotatedWith(EventHandlerComponent.class));
 
             for (Class<?> handlerClass : validHandlerClasses) {
                 logger.info(String.format("Found CommandHandler: [%s]", handlerClass.getName()));
@@ -103,27 +82,6 @@ public class EventHandlingModule extends AbstractModule {
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
         }
-    }
-
-    protected <T> Collection<Class<? extends T>> filterHandlers(final EventHandlersGroup group, Collection<Class<? extends T>> allHandlers) {
-        return filter(allHandlers, new Predicate<Class<?>>() {
-            @Override
-            public boolean apply(Class<?> input) {
-                return !input.isInterface() && !Modifier.isAbstract(input.getModifiers()) && group.matches(input);
-            }
-        });
-    }
-
-    protected Reflections createReflections(Iterable<String> packagesToScan) {
-        Collection<URL> scanUrls = new HashSet<URL>();
-        for (String packageName : packagesToScan) {
-            scanUrls.addAll(ClasspathHelper.forPackage(packageName));
-        }
-
-        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.setUrls(scanUrls);
-        configurationBuilder.setScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
-        return new Reflections(configurationBuilder);
     }
 
     protected void bindEventScheduler() {

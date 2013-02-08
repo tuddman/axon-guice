@@ -27,10 +27,8 @@ import com.google.inject.AbstractModule;
  * @since 06.02.13
  */
 public class DomainModule extends AbstractModule{
-/*===========================================[ STATIC VARIABLES ]=============*/
-/*===========================================[ INSTANCE VARIABLES ]===========*/
-/*===========================================[ CONSTRUCTORS ]=================*/
-/*===========================================[ CLASS METHODS ]================*/
+
+	/*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     protected void configure() {

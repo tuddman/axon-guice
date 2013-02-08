@@ -16,30 +16,42 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
+package com.google.code.axonguice.repository;
 
-import org.axonframework.commandhandling.CommandBus;
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
+import org.axonframework.domain.AggregateRoot;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventsourcing.SnapshotterTrigger;
+import org.axonframework.eventstore.EventStore;
+import org.axonframework.repository.Repository;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import java.util.Map;
 
 /**
+ * RepositoryProvider - TODO: description
+ *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 08.02.13
  */
-public class CommandGatewayProvider implements Provider<CommandGateway> {
+public abstract class RepositoryProvider implements Provider<Repository> {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
-    protected CommandBus commandBus;
+    protected EventBus eventBus;
 
-    /*===========================================[ INTERFACE METHODS ]============*/
+    @Inject
+    protected EventStore eventStore;
 
-    @Override
-    public CommandGateway get() {
-        return new DefaultCommandGateway(commandBus);
+    @Inject
+    protected Map<Class<? extends AggregateRoot>, SnapshotterTrigger> snapshotterTriggers;
+
+    protected Class<? extends AggregateRoot> aggregateRootClass;
+
+	/*===========================================[ CONSTRUCTORS ]=================*/
+
+    protected RepositoryProvider(Class<? extends AggregateRoot> aggregateRootClass) {
+        this.aggregateRootClass = aggregateRootClass;
     }
 }

@@ -19,8 +19,12 @@
 package com.google.code.axonguice.commandhandling;
 
 import com.google.code.axonguice.commandhandling.annotation.CommandHandlerComponent;
-import com.google.common.base.Predicate;
-import com.google.inject.*;
+import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
+import com.google.code.axonguice.grouping.ClassesGroup;
+import com.google.inject.Key;
+import com.google.inject.Provider;
+import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.SimpleCommandBus;
@@ -29,20 +33,8 @@ import org.axonframework.domain.AggregateRoot;
 import org.axonframework.unitofwork.UnitOfWork;
 import org.axonframework.unitofwork.UnitOfWorkFactory;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-
-import static com.google.common.collect.Collections2.filter;
 
 /**
  * Command Handling elements bind module.
@@ -50,26 +42,16 @@ import static com.google.common.collect.Collections2.filter;
  * @author Alexey Krylov
  * @since 06.02.13
  */
-public class CommandHandlingModule extends AbstractModule {
-
-    /*===========================================[ STATIC VARIABLES ]=============*/
-
-    private static final Logger logger = LoggerFactory.getLogger(CommandHandlingModule.class);
-
-    private Collection<CommandHandlersGroup> commandHandlersGroups;
+public class CommandHandlingModule extends AbstractClassesGroupingModule {
 
     /*===========================================[ INTERFACE METHODS ]============*/
 
-    public CommandHandlingModule(Collection<CommandHandlersGroup> commandHandlersGroups) {
-        this.commandHandlersGroups = new ArrayList<CommandHandlersGroup>(commandHandlersGroups);
+    public CommandHandlingModule(Collection<ClassesGroup> commandHandlersClassesGroup) {
+        super(commandHandlersClassesGroup);
     }
 
-    public CommandHandlingModule(String... commandHandlersScanPackage) {
-        commandHandlersGroups = new ArrayList<CommandHandlersGroup>();
-
-        for (String scanPackage : commandHandlersScanPackage) {
-            commandHandlersGroups.add(new CommandHandlersGroup(scanPackage));
-        }
+    public CommandHandlingModule(String... commandHandlersScanPackages) {
+        super(commandHandlersScanPackages);
     }
 
     @Override
@@ -98,15 +80,15 @@ public class CommandHandlingModule extends AbstractModule {
     }
 
     protected void bindCommandHandlers() {
-        for (CommandHandlersGroup group : commandHandlersGroups) {
+        for (ClassesGroup classesGroup : classesGroups) {
 
-            Collection<String> packagesToScan = group.getCommandHandlersPackages();
+            Collection<String> packagesToScan = classesGroup.getPackages();
             logger.info(String.format("Scanning %s for Command Handlers", packagesToScan));
 
             Reflections reflections = createReflections(packagesToScan);
 
             // Extraction of instantiable @CommandHandler implementations
-            Iterable<Class<?>> validHandlerClasses = filterHandlers(group, reflections.getTypesAnnotatedWith(CommandHandlerComponent.class));
+            Iterable<Class<?>> validHandlerClasses = filterClasses(classesGroup, reflections.getTypesAnnotatedWith(CommandHandlerComponent.class));
 
             for (Class<?> handlerClass : validHandlerClasses) {
                 logger.info(String.format("Found CommandHandler: [%s]", handlerClass.getName()));
@@ -115,7 +97,7 @@ public class CommandHandlingModule extends AbstractModule {
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
 
-            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterHandlers(group, reflections.getSubTypesOf(AggregateRoot.class));
+            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, reflections.getSubTypesOf(AggregateRoot.class));
 
             for (Class<? extends AggregateRoot> aggregateRootClass : validAggregateRoots) {
                 logger.info(String.format("Found AggregateRoot: [%s]", aggregateRootClass.getName()));
@@ -124,26 +106,5 @@ public class CommandHandlingModule extends AbstractModule {
                 bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateCommandHandlerProvider.class, aggregateRootClass)))).in(Scopes.SINGLETON);
             }
         }
-    }
-
-    protected <T> Collection<Class<? extends T>> filterHandlers(final CommandHandlersGroup group, Collection<Class<? extends T>> allHandlers) {
-        return filter(allHandlers, new Predicate<Class<?>>() {
-            @Override
-            public boolean apply(Class<?> input) {
-                return !input.isInterface() && !Modifier.isAbstract(input.getModifiers()) && group.matches(input);
-            }
-        });
-    }
-
-    protected Reflections createReflections(Iterable<String> packagesToScan) {
-        Collection<URL> scanUrls = new HashSet<URL>();
-        for (String packageName : packagesToScan) {
-            scanUrls.addAll(ClasspathHelper.forPackage(packageName));
-        }
-
-        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.setUrls(scanUrls);
-        configurationBuilder.setScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
-        return new Reflections(configurationBuilder);
     }
 }
