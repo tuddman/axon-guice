@@ -16,35 +16,32 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice;
+package com.google.code.axonguice.repository;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.Stage;
-import org.junit.runners.model.InitializationError;
-import org.nnsoft.guice.junice.JUniceRunner;
-
-import java.util.List;
+import org.axonframework.domain.AggregateRoot;
+import org.axonframework.eventsourcing.EventCountSnapshotterTrigger;
+import org.axonframework.eventsourcing.SnapshotterTrigger;
 
 /**
- * AxonGuiceTest - TODO: description
+ * EventCountSnapshotterTriggerProviderImpl - TODO: description
  *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 08.02.13
  */
-public class AxonGuiceTestRunner extends JUniceRunner {
+public class SimpleEventCountSnapshotterTriggerProvider extends SnapshotterTriggerProvider {
 
 	/*===========================================[ CONSTRUCTORS ]=================*/
 
-    public AxonGuiceTestRunner(Class<?> klass) throws InitializationError {
-        super(klass);
+    protected SimpleEventCountSnapshotterTriggerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
+        super(aggregateRootClass);
     }
 
-	/*===========================================[ CLASS METHODS ]================*/
+	/*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
-    protected Injector createInjector(List<Module> modules) {
-        return Guice.createInjector(Stage.PRODUCTION, modules);
+    public SnapshotterTrigger get() {
+        EventCountSnapshotterTrigger snapshotterTrigger = new EventCountSnapshotterTrigger();
+        snapshotterTrigger.setSnapshotter(snapshotter);
+        return snapshotterTrigger;
     }
 }

@@ -19,9 +19,14 @@
 package com.google.code.axonguice;
 
 import com.google.inject.Injector;
+import com.google.inject.Stage;
+import com.mycila.testing.junit.MycilaJunitRunner;
+import com.mycila.testing.plugin.guice.GuiceContext;
 import org.junit.runner.RunWith;
-import org.nnsoft.guice.junice.annotation.GuiceModules;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 /**
@@ -30,13 +35,19 @@ import javax.inject.Inject;
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-@RunWith(AxonGuiceTestRunner.class)
-@GuiceModules(modules = AxonGuiceTestModule.class)
+@RunWith(MycilaJunitRunner.class)
+@GuiceContext(value = {AxonGuiceTestModule.class}, stage = Stage.PRODUCTION)
 public abstract class AxonGuiceTest {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
+    protected Logger logger;
+
     @Inject
     protected Injector injector;
 
+    @PostConstruct
+    protected void init() {
+        logger = LoggerFactory.getLogger(getClass());
+    }
 }

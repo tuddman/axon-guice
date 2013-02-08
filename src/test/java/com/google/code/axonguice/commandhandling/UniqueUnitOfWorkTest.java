@@ -43,17 +43,26 @@ public class UniqueUnitOfWorkTest extends AxonGuiceTest {
 
     @Test
     public void testUnitOfWorkEachInjectionUnique() {
-        Assert.assertNotEquals(injector.getInstance(UnitOfWork.class), injector.getInstance(UnitOfWork.class));
+        UnitOfWork uow1 = injector.getInstance(UnitOfWork.class);
+        UnitOfWork uow2 = injector.getInstance(UnitOfWork.class);
+        Assert.assertNotEquals(uow1, uow2);
+        uow2.commit();
+        uow1.commit();
     }
 
     @Test
     public void testUnitOfWorkEachProviderGetIsUnique() {
-        Assert.assertNotEquals(unitOfWorkProvider.get(), unitOfWorkProvider.get());
+        UnitOfWork uow1 = unitOfWorkProvider.get();
+        UnitOfWork uow2 = unitOfWorkProvider.get();
+        Assert.assertNotEquals(uow1, uow2);
+        uow2.commit();
+        uow1.commit();
     }
 
     @Test
     public void testInjectedUnitOfWorkIsStarted() {
         UnitOfWork unitOfWork = injector.getInstance(UnitOfWork.class);
         Assert.assertTrue(unitOfWork.isStarted());
+        unitOfWork.commit();
     }
 }

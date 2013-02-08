@@ -73,6 +73,8 @@
         <version.maven-license-plugin>1.7.0</version.maven-license-plugin>
         <version.maven-changelog-plugin>2.2</version.maven-changelog-plugin>
         <version.maven-gpg-plugin>1.4</version.maven-gpg-plugin>
+        <version.mycila-guice>2.10.ga</version.mycila-guice>
+        <version.mycila-testing-guice>2.9.ga</version.mycila-testing-guice>
     </properties>
 
 
@@ -121,7 +123,13 @@
         <dependency>
             <groupId>com.mycila</groupId>
             <artifactId>mycila-guice</artifactId>
-            <version>2.10.ga</version>
+            <version>${version.mycila-guice}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mycila.testing.plugins</groupId>
+            <artifactId>mycila-testing-guice</artifactId>
+            <version>${version.mycila-testing-guice}</version>
         </dependency>
 
         <dependency>
@@ -144,38 +152,12 @@
             <version>${version.slf4j}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${version.slf4j}</version>
-        </dependency>
-
         <!-- Testing stuff -->
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${version.junit}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${version.mockito}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.99soft.guice</groupId>
-            <artifactId>junice</artifactId>
-            <version>${version.junice}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
             <scope>test</scope>
         </dependency>
 

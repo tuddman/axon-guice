@@ -21,6 +21,7 @@ package com.google.code.axonguice.commandhandling;
 import com.google.code.axonguice.commandhandling.annotation.CommandHandlerComponent;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesGroup;
+import com.google.code.axonguice.util.ReflectionsHelper;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
@@ -83,7 +84,7 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule {
         for (ClassesGroup classesGroup : classesGroups) {
 
             Collection<String> packagesToScan = classesGroup.getPackages();
-            logger.info(String.format("Scanning %s for Command Handlers", packagesToScan));
+            logger.info(String.format("Searching %s for Command Handlers", packagesToScan));
 
             Reflections reflections = createReflections(packagesToScan);
 
@@ -91,19 +92,19 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule {
             Iterable<Class<?>> validHandlerClasses = filterClasses(classesGroup, reflections.getTypesAnnotatedWith(CommandHandlerComponent.class));
 
             for (Class<?> handlerClass : validHandlerClasses) {
-                logger.info(String.format("Found CommandHandler: [%s]", handlerClass.getName()));
+                logger.info(String.format("Found: [%s]", handlerClass.getName()));
                 Provider commandHandlerProvider = new CommandHandlerProvider(handlerClass);
                 requestInjection(commandHandlerProvider);
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
 
-            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, reflections.getSubTypesOf(AggregateRoot.class));
+            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateClasses(reflections));
 
             for (Class<? extends AggregateRoot> aggregateRootClass : validAggregateRoots) {
                 logger.info(String.format("Found AggregateRoot: [%s]", aggregateRootClass.getName()));
                 AggregateCommandHandlerProvider commandHandlerProvider = new AggregateCommandHandlerProvider(aggregateRootClass);
                 requestInjection(commandHandlerProvider);
-                bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateCommandHandlerProvider.class, aggregateRootClass)))).in(Scopes.SINGLETON);
+                bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateCommandHandlerProvider.class, aggregateRootClass)))).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
         }
     }

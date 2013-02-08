@@ -45,7 +45,7 @@ public class EventSourcingRepositoryProvider extends RepositoryProvider {
         repository.setEventStore(eventStore);
         repository.setEventBus(eventBus);
 
-        SnapshotterTrigger snapshotterTrigger = snapshotterTriggers.get(aggregateRootClass);
+        SnapshotterTrigger snapshotterTrigger = snapshotterTriggers.get().get(aggregateRootClassName);
         if (snapshotterTrigger != null) {
             repository.setSnapshotterTrigger(snapshotterTrigger);
         }

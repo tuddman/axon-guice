@@ -21,6 +21,8 @@ package com.google.code.axonguice.grouping;
 import com.google.common.base.Predicate;
 import com.google.inject.AbstractModule;
 import org.reflections.Reflections;
+import org.reflections.scanners.FieldAnnotationsScanner;
+import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
@@ -87,7 +89,11 @@ public abstract class AbstractClassesGroupingModule extends AbstractModule {
 
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setUrls(scanUrls);
-        configurationBuilder.setScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
+        configurationBuilder.setScanners(
+                new TypeAnnotationsScanner(),
+                new SubTypesScanner(),
+                new MethodAnnotationsScanner(),
+                new FieldAnnotationsScanner());
         return new Reflections(configurationBuilder);
     }
 }

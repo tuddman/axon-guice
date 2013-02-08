@@ -18,10 +18,6 @@
 
 package com.google.code.axonguice;
 
-import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
-import com.google.code.axonguice.commandhandling.CommandHandlingModule;
-import com.google.code.axonguice.eventhandling.EventHandlingModule;
-
 /**
  * AxonGuiceTestModule - TODO: description
  *
@@ -30,15 +26,9 @@ import com.google.code.axonguice.eventhandling.EventHandlingModule;
  */
 public class AxonGuiceTestModule extends AxonGuiceModule {
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
-    @Override
-    protected AbstractClassesGroupingModule createCommandHandlingModule() {
-        return new CommandHandlingModule("com.google.code.axonguice");
-    }
-
-    @Override
-    protected EventHandlingModule createEventHandlingModule() {
-        return new EventHandlingModule("com.google.code.axonguice");
+    public AxonGuiceTestModule() {
+        super("com.google.code.axonguice");
     }
 }

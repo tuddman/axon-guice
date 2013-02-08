@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.repository;
 
+import com.google.inject.Provider;
 import org.axonframework.domain.AggregateRoot;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventsourcing.SnapshotterTrigger;
@@ -25,7 +26,6 @@ import org.axonframework.eventstore.EventStore;
 import org.axonframework.repository.Repository;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 import java.util.Map;
 
 /**
@@ -45,13 +45,15 @@ public abstract class RepositoryProvider implements Provider<Repository> {
     protected EventStore eventStore;
 
     @Inject
-    protected Map<Class<? extends AggregateRoot>, SnapshotterTrigger> snapshotterTriggers;
+    protected Provider<Map<String, SnapshotterTrigger>> snapshotterTriggers;
 
     protected Class<? extends AggregateRoot> aggregateRootClass;
+    protected String aggregateRootClassName;
 
 	/*===========================================[ CONSTRUCTORS ]=================*/
 
     protected RepositoryProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         this.aggregateRootClass = aggregateRootClass;
+        aggregateRootClassName = aggregateRootClass.getName();
     }
 }

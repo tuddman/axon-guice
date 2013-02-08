@@ -68,7 +68,7 @@ public class EventHandlingModule extends AbstractClassesGroupingModule {
     protected void bindEventHandlers() {
         for (ClassesGroup classesGroup : classesGroups) {
             Collection<String> packagesToScan = classesGroup.getPackages();
-            logger.info(String.format("Scanning %s for Event Handlers", packagesToScan));
+            logger.info(String.format("Searching %s for Event Handlers", packagesToScan));
 
             Reflections reflections = createReflections(packagesToScan);
 
@@ -76,7 +76,7 @@ public class EventHandlingModule extends AbstractClassesGroupingModule {
             Iterable<Class<?>> validHandlerClasses = filterClasses(classesGroup, reflections.getTypesAnnotatedWith(EventHandlerComponent.class));
 
             for (Class<?> handlerClass : validHandlerClasses) {
-                logger.info(String.format("Found CommandHandler: [%s]", handlerClass.getName()));
+                logger.info(String.format("Found: [%s]", handlerClass.getName()));
                 Provider commandHandlerProvider = new EventHandlerProvider(handlerClass);
                 requestInjection(commandHandlerProvider);
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);

@@ -19,7 +19,7 @@
 package com.google.code.axonguice.repository;
 
 import com.google.inject.Provider;
-import org.axonframework.eventstore.EventStore;
+import org.axonframework.eventstore.SnapshotEventStore;
 import org.axonframework.eventstore.fs.FileSystemEventStore;
 import org.axonframework.eventstore.fs.SimpleEventFileResolver;
 
@@ -31,13 +31,13 @@ import java.io.File;
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
-public class SimpleEventStoreProvider implements Provider<EventStore> {
+public class SimpleEventStoreProvider implements Provider<SnapshotEventStore> {
 
     /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
-    public EventStore get() {
-        File tempFile = new File(System.getProperty("java.io.tmpdir"), "axonguice-eventstore");
+    public SnapshotEventStore get() {
+        File tempFile = new File(System.getProperty("user.dir"), "axonguice-eventstore");
         if (!tempFile.exists()) {
             tempFile.mkdirs();
         }
