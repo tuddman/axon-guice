@@ -32,12 +32,12 @@ import org.junit.Test;
 
 public class Jsr250SupportTest extends AxonGuiceTest {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
     private Jsr250EnabledService jsr250EnabledService;
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
     @Test
     public void testJsr250EnabledService() {

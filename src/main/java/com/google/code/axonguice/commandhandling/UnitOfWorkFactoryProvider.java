@@ -29,7 +29,7 @@ import javax.inject.Provider;
  */
 public class UnitOfWorkFactoryProvider implements Provider<UnitOfWorkFactory> {
 
-	/*===========================================[ INTERFACE METHODS ]============*/
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     public UnitOfWorkFactory get() {

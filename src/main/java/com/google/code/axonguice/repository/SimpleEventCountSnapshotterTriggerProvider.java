@@ -35,13 +35,13 @@ import java.util.List;
  */
 public class SimpleEventCountSnapshotterTriggerProvider extends SnapshotterTriggerProvider {
 
-	/*===========================================[ CONSTRUCTORS ]=================*/
+    /*===========================================[ CONSTRUCTORS ]=================*/
 
     protected SimpleEventCountSnapshotterTriggerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         super(aggregateRootClass);
     }
 
-	/*===========================================[ INTERFACE METHODS ]============*/
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     public SnapshotterTrigger get() {

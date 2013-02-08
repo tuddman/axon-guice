@@ -34,15 +34,15 @@ import javax.inject.Provider;
  */
 public class SingletonCommandGatewayTest extends AxonGuiceTest {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
     private Provider<CommandGateway> commandGatewayProvider;
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
     @Test
-    public void testCommandGatewayIsSingleton(){
+    public void testCommandGatewayIsSingleton() {
         CommandGateway instance = injector.getInstance(CommandGateway.class);
         CommandGateway instance1 = injector.getInstance(CommandGateway.class);
         Assert.assertEquals(instance, instance1);

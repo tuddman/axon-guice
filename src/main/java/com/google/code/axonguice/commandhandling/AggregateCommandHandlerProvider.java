@@ -43,7 +43,7 @@ public class AggregateCommandHandlerProvider implements Provider {
 
     private Class<? extends AggregateRoot> aggregateRootClass;
 
-	/*===========================================[ CONSTRUCTORS ]=================*/
+    /*===========================================[ CONSTRUCTORS ]=================*/
 
     public AggregateCommandHandlerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         this.aggregateRootClass = aggregateRootClass;
@@ -55,7 +55,7 @@ public class AggregateCommandHandlerProvider implements Provider {
         this.commandBus = commandBus;
     }
 
-	/*===========================================[ INTERFACE METHODS ]============*/
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     public Object get() {

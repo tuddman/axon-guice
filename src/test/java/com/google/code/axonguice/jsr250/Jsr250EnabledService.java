@@ -29,22 +29,22 @@ import javax.annotation.Resource;
  */
 public class Jsr250EnabledService {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     private boolean postConstuctInvoked;
     private Jsr250Resource resource;
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
     @PostConstruct
-    protected void postConstuct(){
+    protected void postConstuct() {
         postConstuctInvoked = true;
     }
 
-	/*===========================================[ GETTER/SETTER ]================*/
+    /*===========================================[ GETTER/SETTER ]================*/
 
     @Resource
-    public void setResource(Jsr250Resource resource){
+    public void setResource(Jsr250Resource resource) {
         this.resource = resource;
     }
 
@@ -53,7 +53,7 @@ public class Jsr250EnabledService {
     }
 
     public boolean isResourceSet() {
-        return resource!=null;
+        return resource != null;
     }
 
     public Jsr250Resource getResource() {

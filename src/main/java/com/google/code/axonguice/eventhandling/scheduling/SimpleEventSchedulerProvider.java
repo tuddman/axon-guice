@@ -36,12 +36,12 @@ import java.util.concurrent.ThreadFactory;
  */
 public class SimpleEventSchedulerProvider implements Provider<EventScheduler> {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
     protected EventBus eventBus;
 
-	/*===========================================[ INTERFACE METHODS ]============*/
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     public EventScheduler get() {

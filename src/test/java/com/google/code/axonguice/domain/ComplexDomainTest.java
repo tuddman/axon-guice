@@ -19,11 +19,14 @@
 package com.google.code.axonguice.domain;
 
 import com.google.code.axonguice.AxonGuiceTest;
+import com.google.code.axonguice.AxonGuiceTestModule;
 import com.google.code.axonguice.domain.command.ChangeOrderNameCommand;
 import com.google.code.axonguice.domain.command.CreateOrderCommand;
 import com.google.code.axonguice.domain.command.DeleteOrderCommand;
 import com.google.code.axonguice.domain.model.Order;
 import com.google.code.axonguice.domain.model.OrderId;
+import com.google.inject.Stage;
+import com.mycila.testing.plugin.guice.GuiceContext;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.AggregateDeletedException;
 import org.axonframework.repository.Repository;
@@ -43,6 +46,7 @@ import java.util.concurrent.Executors;
  * @author Alexey Krylov (lexx)
  * @since 08.02.13
  */
+@GuiceContext(value = {AxonGuiceTestModule.class, TestDomainModule.class}, stage = Stage.PRODUCTION)
 public class ComplexDomainTest extends AxonGuiceTest {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
@@ -149,5 +153,28 @@ public class ComplexDomainTest extends AxonGuiceTest {
         }
 
         Assert.assertTrue(exception instanceof AggregateDeletedException);
+    }
+
+    @Test
+    public void testAggregateRootInjection() {
+        OrderId firstOrderId = new OrderId();
+        commandGateway.send(new CreateOrderCommand(firstOrderId, "FirstOrder"));
+
+        UnitOfWork unitOfWork = unitOfWorkProvider.get();
+        Order firstOrder = orderRepository.load(firstOrderId);
+        Assert.assertEquals(firstOrder.getIdentifier(), firstOrderId);
+        Assert.assertNotNull(firstOrder.getOrderQueryService());
+        unitOfWork.commit();
+
+        OrderId secondOrderId = new OrderId();
+        commandGateway.send(new CreateOrderCommand(secondOrderId, "FirstOrder"));
+
+        unitOfWork = unitOfWorkProvider.get();
+        Order secondOrder = orderRepository.load(secondOrderId);
+        Assert.assertEquals(secondOrder.getIdentifier(), secondOrderId);
+        Assert.assertNotNull(secondOrder.getOrderQueryService());
+        unitOfWork.commit();
+
+        Assert.assertEquals(firstOrder.getOrderQueryService(), secondOrder.getOrderQueryService());
     }
 }

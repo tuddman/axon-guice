@@ -17,21 +17,21 @@ import java.io.Serializable;
  */
 public class OrderId implements Serializable {
 
-	/*===========================================[ STATIC VARIABLES ]=============*/
+    /*===========================================[ STATIC VARIABLES ]=============*/
 
     private static final long serialVersionUID = -4836858910109015405L;
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     private String identifier;
 
-	/*===========================================[ CONSTRUCTORS ]=================*/
+    /*===========================================[ CONSTRUCTORS ]=================*/
 
     public OrderId() {
         identifier = IdentifierFactory.getInstance().generateIdentifier();
     }
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
     @Override
     public boolean equals(Object obj) {

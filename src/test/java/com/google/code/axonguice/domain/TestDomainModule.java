@@ -16,29 +16,24 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
+package com.google.code.axonguice.domain;
 
-import org.axonframework.unitofwork.UnitOfWork;
-import org.axonframework.unitofwork.UnitOfWorkFactory;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.google.code.axonguice.domain.model.OrderQueryService;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 
 /**
+ * DomainModule - TODO: description
+ *
  * @author Alexey Krylov (lexx)
- * @since 06.02.13
+ * @since 08.02.13
  */
-public class UnitOfWorkProvider implements Provider<UnitOfWork> {
+public class TestDomainModule extends AbstractModule {
 
-    /*===========================================[ INSTANCE VARIABLES ]===========*/
-
-    @Inject
-    protected UnitOfWorkFactory factory;
-
-    /*===========================================[ CONSTRUCTORS ]=================*/
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
-    public UnitOfWork get() {
-        return factory.createUnitOfWork();
+    protected void configure() {
+        bind(OrderQueryService.class).in(Scopes.SINGLETON);
     }
 }

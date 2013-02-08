@@ -26,7 +26,7 @@ import com.google.inject.AbstractModule;
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class SagaModule extends AbstractModule{
+public class SagaModule extends AbstractModule {
 /*===========================================[ STATIC VARIABLES ]=============*/
 /*===========================================[ INSTANCE VARIABLES ]===========*/
 /*===========================================[ CONSTRUCTORS ]=================*/
@@ -34,8 +34,8 @@ public class SagaModule extends AbstractModule{
 
     @Override
     protected void configure() {
-    // todo        * - SagaManager
-    //    * - SagaRepository
+        // todo        * - SagaManager
+        //    * - SagaRepository
         bindSagaManager();
         bindSagaRepository();
     }

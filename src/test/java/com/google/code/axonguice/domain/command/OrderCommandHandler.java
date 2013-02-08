@@ -21,12 +21,12 @@ import javax.inject.Inject;
 @CommandHandlerComponent
 public class OrderCommandHandler {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     @Inject
     private Repository<Order> orderRepository;
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
     @CommandHandler
     public Boolean on(CreateOrderCommand command) {

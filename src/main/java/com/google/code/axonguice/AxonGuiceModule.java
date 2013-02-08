@@ -18,10 +18,10 @@
 
 package com.google.code.axonguice;
 
-import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import com.google.code.axonguice.domain.DomainModule;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
+import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.jsr250.Jsr250Module;
 import com.google.code.axonguice.repository.RepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
@@ -31,17 +31,17 @@ import java.util.Arrays;
 
 public class AxonGuiceModule extends AbstractModule {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     protected String[] aggregatesScanPackages;
 
-	/*===========================================[ CONSTRUCTORS ]=================*/
+    /*===========================================[ CONSTRUCTORS ]=================*/
 
     public AxonGuiceModule(String... aggregatesScanPackages) {
         this.aggregatesScanPackages = Arrays.copyOf(aggregatesScanPackages, aggregatesScanPackages.length);
     }
 
-	/*===========================================[ INTERFACE METHODS ]============*/
+    /*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     protected void configure() {

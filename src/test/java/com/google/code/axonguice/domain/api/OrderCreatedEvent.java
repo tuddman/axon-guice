@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 public class OrderCreatedEvent implements Serializable {
 
-	/*===========================================[ STATIC VARIABLES ]=============*/
+    /*===========================================[ STATIC VARIABLES ]=============*/
 
     private static final long serialVersionUID = -8704115771781113833L;
 
@@ -34,7 +34,7 @@ public class OrderCreatedEvent implements Serializable {
         this.orderId = orderId;
     }
 
-	/*===========================================[ GETTER/SETTER ]================*/
+    /*===========================================[ GETTER/SETTER ]================*/
 
     public String getName() {
         return name;

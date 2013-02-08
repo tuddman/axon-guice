@@ -32,13 +32,13 @@ import java.util.Collection;
  */
 public class ReflectionsHelper {
 
-	/*===========================================[ CONSTRUCTORS ]=================*/
+    /*===========================================[ CONSTRUCTORS ]=================*/
 
     private ReflectionsHelper() {
 
     }
 
-	/*===========================================[ CLASS METHODS ]================*/
+    /*===========================================[ CLASS METHODS ]================*/
 
     public static <T extends AggregateRoot> Collection<Class<? extends T>> findAggregateClasses(Reflections reflections, Class<T> rootClass) {
         Collection<Class<? extends T>> result = new ArrayList<Class<? extends T>>();
