@@ -33,12 +33,12 @@ public class AxonGuiceModule extends AbstractModule {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    protected String[] aggregatesScanPackages;
+    protected String[] packages;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public AxonGuiceModule(String... aggregatesScanPackages) {
-        this.aggregatesScanPackages = Arrays.copyOf(aggregatesScanPackages, aggregatesScanPackages.length);
+    public AxonGuiceModule(String... packages) {
+        this.packages = Arrays.copyOf(packages, packages.length);
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/
@@ -46,7 +46,10 @@ public class AxonGuiceModule extends AbstractModule {
     @Override
     protected void configure() {
         // support of @PostConstuct and @Resource
-        install(createJsr250Module());
+        if (isJsr250SupportEnabled()) {
+            install(createJsr250Module());
+        }
+
         install(createDomainModule());
         install(createRepositoryModule());
         install(createCommandHandlingModule());
@@ -54,24 +57,28 @@ public class AxonGuiceModule extends AbstractModule {
         install(createSagaModule());
     }
 
+    protected boolean isJsr250SupportEnabled() {
+        return true;
+    }
+
     protected Jsr250Module createJsr250Module() {
         return new Jsr250Module();
     }
 
     protected RepositoryModule createRepositoryModule() {
-        return new RepositoryModule(aggregatesScanPackages);
+        return new RepositoryModule(packages);
     }
 
     protected AbstractClassesGroupingModule createCommandHandlingModule() {
-        return new CommandHandlingModule(aggregatesScanPackages);
+        return new CommandHandlingModule(packages);
     }
 
     protected DomainModule createDomainModule() {
-        return new DomainModule(aggregatesScanPackages);
+        return new DomainModule(packages);
     }
 
     protected EventHandlingModule createEventHandlingModule() {
-        return new EventHandlingModule(aggregatesScanPackages);
+        return new EventHandlingModule(packages);
     }
 
     protected SagaModule createSagaModule() {
