@@ -27,7 +27,7 @@ import javax.inject.Provider;
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class UnitOfWorkFactoryProvider implements Provider<UnitOfWorkFactory> {
+public class DefaultUnitOfWorkFactoryProvider implements Provider<UnitOfWorkFactory> {
 
     /*===========================================[ INTERFACE METHODS ]============*/
 

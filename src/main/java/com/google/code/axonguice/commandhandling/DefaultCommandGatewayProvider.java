@@ -29,7 +29,7 @@ import javax.inject.Provider;
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class CommandGatewayProvider implements Provider<CommandGateway> {
+public class DefaultCommandGatewayProvider implements Provider<CommandGateway> {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

@@ -76,11 +76,11 @@ public class RepositoryModule extends AbstractClassesGroupingModule {
     protected void bindRepositories() {
         for (ClassesGroup classesGroup : classesGroups) {
             Collection<String> packagesToScan = classesGroup.getPackages();
-            logger.info(String.format("Searching %s for Aggregate Roots", packagesToScan));
+            logger.info(String.format("Searching %s for EventSourced Aggregate Roots to bind Repositories", packagesToScan));
 
             Reflections reflections = createReflections(packagesToScan);
 
-            Iterable<Class<? extends EventSourcedAggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateClasses(reflections, EventSourcedAggregateRoot.class));
+            Iterable<Class<? extends EventSourcedAggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateRoots(reflections, EventSourcedAggregateRoot.class));
 
             for (Class<? extends EventSourcedAggregateRoot> aggregateRootClass : validAggregateRoots) {
                 logger.info(String.format("\tFound: [%s]", aggregateRootClass.getName()));

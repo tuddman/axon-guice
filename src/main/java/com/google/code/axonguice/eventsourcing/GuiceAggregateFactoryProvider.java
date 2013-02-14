@@ -31,7 +31,7 @@ import javax.inject.Inject;
  * @author Alexey Krylov (lexx)
  * @since 08.02.13
  */
-public class GuiceAggregateFactoryProvider implements Provider<GuiceAggregateFactory> {
+public class GuiceAggregateFactoryProvider implements Provider<GuiceGenericAggregateFactory> {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
@@ -48,8 +48,8 @@ public class GuiceAggregateFactoryProvider implements Provider<GuiceAggregateFac
     /*===========================================[ CLASS METHODS ]================*/
 
     @Override
-    public GuiceAggregateFactory get() {
-        GuiceAggregateFactory aggregateFactory = new GuiceAggregateFactory(aggregateRootClass);
+    public GuiceGenericAggregateFactory get() {
+        GuiceGenericAggregateFactory aggregateFactory = new GuiceGenericAggregateFactory(aggregateRootClass);
         injector.injectMembers(aggregateFactory);
         return aggregateFactory;
     }

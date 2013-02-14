@@ -40,8 +40,8 @@ public class ReflectionsHelper {
 
     /*===========================================[ CLASS METHODS ]================*/
 
-    public static <T extends AggregateRoot> Collection<Class<? extends T>> findAggregateClasses(Reflections reflections, Class<T> rootClass) {
-        Collection<Class<? extends T>> result = new ArrayList<Class<? extends T>>();
+    public static <T extends AggregateRoot> Collection<Class<? extends T>> findAggregateRoots(Reflections reflections, Class<T> rootClass) {
+        Collection<Class<? extends T>> result = new ArrayList<>();
         Reflections axonReflections = new Reflections("org.axonframework");
         Iterable<Class<? extends T>> genericAggregateRootSubclasses = axonReflections.getSubTypesOf(rootClass);
         for (Class<? extends T> aggregateRootSubclass : genericAggregateRootSubclasses) {

@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 /**
  * CommandHandlersGroup - TODO: description
- *
+ * todo allow concrete specification of classes set
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
@@ -45,12 +45,12 @@ public class ClassesGroup {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public ClassesGroup(String packages) {
+    public ClassesGroup(String... packages) {
         this(Arrays.asList(packages));
     }
 
     public ClassesGroup(Collection<String> packages) {
-        this.packages = new ArrayList<String>(packages);
+        this.packages = new ArrayList<>(packages);
     }
 
     /*===========================================[ CLASS METHODS ]================*/

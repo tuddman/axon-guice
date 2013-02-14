@@ -31,7 +31,7 @@ import javax.annotation.Resource;
  * @author Alexey Krylov (lexx)
  * @since 08.02.13
  */
-public class GuiceAggregateFactory extends GenericAggregateFactory {
+public class GuiceGenericAggregateFactory extends GenericAggregateFactory {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
@@ -39,8 +39,9 @@ public class GuiceAggregateFactory extends GenericAggregateFactory {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public GuiceAggregateFactory(Class<? extends EventSourcedAggregateRoot> aggregateRootClass) {
+    public GuiceGenericAggregateFactory(Class<? extends EventSourcedAggregateRoot> aggregateRootClass) {
         super(aggregateRootClass);
+
     }
 
     /*===========================================[ CLASS METHODS ]================*/

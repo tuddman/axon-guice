@@ -3,7 +3,7 @@
  * Use is subject to license terms.
  */
 
-package com.google.code.axonguice.domain.command;
+package com.google.code.axonguice.domain.api.command;
 
 import com.google.code.axonguice.domain.model.OrderId;
 import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier;

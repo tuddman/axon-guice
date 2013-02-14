@@ -82,6 +82,6 @@ public class AxonGuiceModule extends AbstractModule {
     }
 
     protected SagaModule createSagaModule() {
-        return new SagaModule();
+        return new SagaModule(packages);
     }
 }

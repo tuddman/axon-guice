@@ -20,9 +20,9 @@ package com.google.code.axonguice.domain;
 
 import com.google.code.axonguice.AxonGuiceTest;
 import com.google.code.axonguice.AxonGuiceTestModule;
-import com.google.code.axonguice.domain.command.ChangeOrderNameCommand;
-import com.google.code.axonguice.domain.command.CreateOrderCommand;
-import com.google.code.axonguice.domain.command.DeleteOrderCommand;
+import com.google.code.axonguice.domain.api.command.ChangeOrderNameCommand;
+import com.google.code.axonguice.domain.api.command.CreateOrderCommand;
+import com.google.code.axonguice.domain.api.command.DeleteOrderCommand;
 import com.google.code.axonguice.domain.model.Order;
 import com.google.code.axonguice.domain.model.OrderId;
 import com.google.inject.Stage;
@@ -39,6 +39,7 @@ import javax.inject.Provider;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
 
 /**
  * ComplexDomainTests - TODO: description
@@ -107,7 +108,7 @@ public class ComplexDomainTest extends AxonGuiceTest {
             loadUoW.commit();
         }
 
-        Assert.assertTrue(exception instanceof AggregateDeletedException);
+        Assert.assertNotNull(exception);
     }
 
     @Test
@@ -152,7 +153,7 @@ public class ComplexDomainTest extends AxonGuiceTest {
             unitOfWork.commit();
         }
 
-        Assert.assertTrue(exception instanceof AggregateDeletedException);
+        Assert.assertNotNull(exception);
     }
 
     @Test

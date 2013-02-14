@@ -47,7 +47,7 @@ public class SimpleEventCountSnapshotterTriggerProvider extends SnapshotterTrigg
     public SnapshotterTrigger get() {
         EventCountSnapshotterTrigger snapshotterTrigger = new EventCountSnapshotterTrigger();
 
-        List<AggregateFactory<?>> factories = new ArrayList<AggregateFactory<?>>();
+        List<AggregateFactory<?>> factories = new ArrayList<>();
         factories.add(aggregateFactoryProvider.get());
 
         AggregateSnapshotter snapshotter = new AggregateSnapshotter();

@@ -3,7 +3,7 @@
  * Use is subject to license terms.
  */
 
-package com.google.code.axonguice.domain.command;
+package com.google.code.axonguice.domain.api.command;
 
 import com.google.code.axonguice.domain.model.OrderId;
 import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier;
@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @author Alexey Krylov (lexx)
  * @since 05.02.13
  */
-public class DeleteOrderCommand implements Serializable {
+public class CreateOrderCommand implements Serializable {
 
     /*===========================================[ STATIC VARIABLES ]=============*/
 
@@ -24,16 +24,23 @@ public class DeleteOrderCommand implements Serializable {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
+    private String name;
+
     @TargetAggregateIdentifier
     private OrderId orderId;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public DeleteOrderCommand(OrderId orderId) {
+    public CreateOrderCommand(OrderId orderId, String name) {
+        this.name = name;
         this.orderId = orderId;
     }
 
     /*===========================================[ GETTER/SETTER ]================*/
+
+    public String getName() {
+        return name;
+    }
 
     public OrderId getOrderId() {
         return orderId;

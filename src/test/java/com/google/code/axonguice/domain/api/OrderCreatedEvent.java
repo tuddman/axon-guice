@@ -44,7 +44,6 @@ public class OrderCreatedEvent implements Serializable {
         return orderId;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

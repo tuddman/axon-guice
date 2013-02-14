@@ -31,7 +31,15 @@ public class OrderId implements Serializable {
         identifier = IdentifierFactory.getInstance().generateIdentifier();
     }
 
+    private OrderId(String identifier) {
+        this.identifier = identifier;
+    }
+
     /*===========================================[ CLASS METHODS ]================*/
+
+    public static OrderId valueOf(String orderId) {
+        return new OrderId(orderId);
+    }
 
     @Override
     public boolean equals(Object obj) {

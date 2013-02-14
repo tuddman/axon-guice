@@ -16,41 +16,43 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.eventhandling;
+package com.google.code.axonguice.commandhandling;
 
-import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.annotation.AnnotationEventListenerAdapter;
+
+import com.google.inject.*;
+import com.google.inject.util.Types;
+import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler;
+import org.axonframework.domain.AggregateRoot;
+import org.axonframework.repository.Repository;
 
 import javax.inject.Inject;
 
 /**
- * EventHandlerProvider - TODO: description
+ * CommandHandlerProvider - TODO: description
  *
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
-public class EventHandlerProvider implements Provider {
+public class AggregateAnnotationCommandHandlerProvider implements Provider {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     protected Injector injector;
-    protected EventBus eventBus;
+    protected CommandBus commandBus;
 
-    protected Class<?> handlerClass;
+    private Class<? extends AggregateRoot> aggregateRootClass;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public EventHandlerProvider(Class<?> handlerClass) {
-        this.handlerClass = handlerClass;
+    public AggregateAnnotationCommandHandlerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
+        this.aggregateRootClass = aggregateRootClass;
     }
 
     @Inject
-    void init(Injector injector, EventBus eventBus) {
+    void init(Injector injector, CommandBus commandBus) {
         this.injector = injector;
-        this.eventBus = eventBus;
+        this.commandBus = commandBus;
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/
@@ -58,12 +60,11 @@ public class EventHandlerProvider implements Provider {
     @Override
     public Object get() {
         try {
-            Object handlerInstance = handlerClass.newInstance();
-            injector.injectMembers(handlerInstance);
-            AnnotationEventListenerAdapter.subscribe(handlerInstance, eventBus);
-            return handlerInstance;
+            Repository repository = (Repository) injector.getInstance(Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, aggregateRootClass))));
+            AggregateAnnotationCommandHandler.subscribe(aggregateRootClass, repository, commandBus);
+            return aggregateRootClass;
         } catch (Exception e) {
-            throw new ProvisionException(String.format("Unable to instantiate EventHandler class: [%s]", handlerClass), e);
+            throw new ProvisionException(String.format("Unable to instantiate AggregateCommandHandler class for: [%s]", aggregateRootClass), e);
         }
     }
 }

@@ -39,12 +39,14 @@ import javax.inject.Inject;
 @GuiceContext(value = {AxonGuiceTestModule.class}, stage = Stage.PRODUCTION)
 public abstract class AxonGuiceTest {
 
-    /*===========================================[ INSTANCE VARIABLES ]===========*/
+	/*===========================================[ INSTANCE VARIABLES ]===========*/
 
     protected Logger logger;
 
     @Inject
     protected Injector injector;
+
+	/*===========================================[ CONSTRUCTORS ]=================*/
 
     @PostConstruct
     protected void init() {

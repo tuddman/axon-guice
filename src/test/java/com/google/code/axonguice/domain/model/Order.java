@@ -41,7 +41,7 @@ public class Order extends AbstractAnnotatedAggregateRoot {
     }
 
     public void delete() {
-        apply(new OrderDeletedEvent());
+        apply(new OrderDeletedEvent(orderId));
     }
 
     @Override

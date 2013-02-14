@@ -8,13 +8,13 @@
     </appender>
 
     <appender name="RUNTIME" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>target/logs/runtime.log</file>
+        <file>logs/runtime.log</file>
         <encoder>
             <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>runtime.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs.old/runtime.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>5</maxHistory>
         </rollingPolicy>

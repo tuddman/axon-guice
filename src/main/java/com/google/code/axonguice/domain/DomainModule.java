@@ -65,7 +65,7 @@ public class DomainModule extends AbstractClassesGroupingModule {
 
             Reflections reflections = createReflections(packagesToScan);
 
-            Iterable<Class<? extends EventSourcedAggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateClasses(reflections, EventSourcedAggregateRoot.class));
+            Iterable<Class<? extends EventSourcedAggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateRoots(reflections, EventSourcedAggregateRoot.class));
 
             for (Class<? extends EventSourcedAggregateRoot> aggregateRootClass : validAggregateRoots) {
                 logger.info(String.format("\tFound: [%s]", aggregateRootClass.getName()));
@@ -73,7 +73,7 @@ public class DomainModule extends AbstractClassesGroupingModule {
             }
         }
     }
-
+    //todo use set resource injector
     protected void bindAggregateFactory(Class<? extends EventSourcedAggregateRoot> aggregateRootClass) {
         Provider aggregateFactoryProvider = new GuiceAggregateFactoryProvider(aggregateRootClass);
         requestInjection(aggregateFactoryProvider);

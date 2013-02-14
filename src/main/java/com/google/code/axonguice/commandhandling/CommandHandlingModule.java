@@ -69,11 +69,11 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule {
     }
 
     protected void bindCommandGateway() {
-        bind(CommandGateway.class).toProvider(CommandGatewayProvider.class).in(Scopes.SINGLETON);
+        bind(CommandGateway.class).toProvider(DefaultCommandGatewayProvider.class).in(Scopes.SINGLETON);
     }
 
     protected void bindUnitOfWorkFactory() {
-        bind(UnitOfWorkFactory.class).toProvider(UnitOfWorkFactoryProvider.class).in(Scopes.SINGLETON);
+        bind(UnitOfWorkFactory.class).toProvider(DefaultUnitOfWorkFactoryProvider.class).in(Scopes.SINGLETON);
     }
 
     protected void bindUnitOfWork() {
@@ -98,13 +98,14 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule {
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
 
-            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateClasses(reflections, AggregateRoot.class));
+            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateRoots(reflections, AggregateRoot.class));
 
+            // Aggregate Roots self-subscription as CommandHandlers
             for (Class<? extends AggregateRoot> aggregateRootClass : validAggregateRoots) {
                 logger.info(String.format("\tFound AggregateRoot: [%s]", aggregateRootClass.getName()));
-                Provider commandHandlerProvider = new AggregateCommandHandlerProvider(aggregateRootClass);
+                Provider commandHandlerProvider = new AggregateAnnotationCommandHandlerProvider(aggregateRootClass);
                 requestInjection(commandHandlerProvider);
-                bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateCommandHandlerProvider.class, aggregateRootClass)))).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
+                bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateAnnotationCommandHandlerProvider.class, aggregateRootClass)))).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
         }
     }

@@ -74,7 +74,7 @@ public class EventHandlingModule extends AbstractClassesGroupingModule {
 
             for (Class<?> handlerClass : validHandlerClasses) {
                 logger.info(String.format("\tFound: [%s]", handlerClass.getName()));
-                Provider commandHandlerProvider = new EventHandlerProvider(handlerClass);
+                Provider commandHandlerProvider = new AnnotationEventHandlerProvider(handlerClass);
                 requestInjection(commandHandlerProvider);
                 bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
             }
