@@ -18,10 +18,10 @@
 
 package com.google.code.axonguice;
 
+import com.google.code.axonguice.commandhandling.AggregateRootCommandHandlingModule;
 import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import com.google.code.axonguice.domain.DomainModule;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
-import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.jsr250.Jsr250Module;
 import com.google.code.axonguice.repository.RepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
@@ -55,6 +55,7 @@ public class AxonGuiceModule extends AbstractModule {
         install(createDomainModule());
         install(createRepositoryModule());
         install(createCommandHandlingModule());
+        install(createAggregateRootCommandHandlingModule());
         install(createEventHandlingModule());
         install(createSagaModule());
     }
@@ -63,6 +64,11 @@ public class AxonGuiceModule extends AbstractModule {
         return true;
     }
 
+    /**
+     * Override to provide your custom JSR-250 support module.
+     *
+     * @return JSR-250 support module
+     */
     protected Jsr250Module createJsr250Module() {
         return new Jsr250Module();
     }
@@ -71,8 +77,12 @@ public class AxonGuiceModule extends AbstractModule {
         return new RepositoryModule(packages);
     }
 
-    protected AbstractClassesGroupingModule createCommandHandlingModule() {
+    protected CommandHandlingModule createCommandHandlingModule() {
         return new CommandHandlingModule(packages);
+    }
+
+    protected AggregateRootCommandHandlingModule createAggregateRootCommandHandlingModule() {
+        return new AggregateRootCommandHandlingModule(packages);
     }
 
     protected DomainModule createDomainModule() {

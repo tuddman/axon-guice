@@ -19,7 +19,7 @@
 package com.google.code.axonguice.repository;
 
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
-import com.google.code.axonguice.grouping.ClassesGroup;
+import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.code.axonguice.util.ReflectionsHelper;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -43,16 +43,21 @@ import java.util.Collection;
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class RepositoryModule extends AbstractClassesGroupingModule {
+public class RepositoryModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
+
+    @SafeVarargs
+    public RepositoryModule(Class<? extends EventSourcedAggregateRoot>... classes) {
+        super(classes);
+    }
 
     public RepositoryModule(String... aggregatesRepositoriesScanPackages) {
         super(aggregatesRepositoriesScanPackages);
     }
 
-    public RepositoryModule(Collection<ClassesGroup> aggregatesRepositoriesClassesGroups) {
-        super(aggregatesRepositoriesClassesGroups);
+    public RepositoryModule(Collection<ClassesSearchGroup> aggregatesRepositoriesSearchGroups) {
+        super(aggregatesRepositoriesSearchGroups);
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/
@@ -74,19 +79,24 @@ public class RepositoryModule extends AbstractClassesGroupingModule {
     }
 
     protected void bindRepositories() {
-        for (ClassesGroup classesGroup : classesGroups) {
-            Collection<String> packagesToScan = classesGroup.getPackages();
-            logger.info(String.format("Searching %s for EventSourced Aggregate Roots to bind Repositories", packagesToScan));
+        if (classesGroup.isEmpty()) {
+            for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
+                Collection<String> packagesToScan = classesSearchGroup.getPackages();
+                logger.info(String.format("Searching %s for EventSourced Aggregate Roots to bind Repositories", packagesToScan));
 
-            Reflections reflections = createReflections(packagesToScan);
-
-            Iterable<Class<? extends EventSourcedAggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateRoots(reflections, EventSourcedAggregateRoot.class));
-
-            for (Class<? extends EventSourcedAggregateRoot> aggregateRootClass : validAggregateRoots) {
-                logger.info(String.format("\tFound: [%s]", aggregateRootClass.getName()));
-                bindSnapshotterTrigger(aggregateRootClass);
-                bindRepository(aggregateRootClass);
+                Reflections reflections = createReflections(packagesToScan);
+                bindRepositories(filterSearchResult(ReflectionsHelper.findAggregateRoots(reflections, EventSourcedAggregateRoot.class), classesSearchGroup));
             }
+        } else {
+            bindRepositories(classesGroup);
+        }
+    }
+
+    protected void bindRepositories(Iterable<Class<? extends EventSourcedAggregateRoot>> aggregateRoots) {
+        for (Class<? extends EventSourcedAggregateRoot> aggregateRootClass : aggregateRoots) {
+            logger.info(String.format("\tFound: [%s]", aggregateRootClass.getName()));
+            bindSnapshotterTrigger(aggregateRootClass);
+            bindRepository(aggregateRootClass);
         }
     }
 

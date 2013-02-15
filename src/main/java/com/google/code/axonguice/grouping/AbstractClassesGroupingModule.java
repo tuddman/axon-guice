@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -44,7 +45,7 @@ import static com.google.common.collect.Collections2.filter;
  * @author Alexey Krylov (lexx)
  * @since 08.02.13
  */
-public abstract class AbstractClassesGroupingModule extends AbstractModule {
+public abstract class AbstractClassesGroupingModule<T> extends AbstractModule {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
@@ -52,44 +53,55 @@ public abstract class AbstractClassesGroupingModule extends AbstractModule {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    protected Collection<ClassesGroup> classesGroups;
+    protected Collection<ClassesSearchGroup> classesSearchGroups;
+    protected Collection<Class<? extends T>> classesGroup;
 
     /*===========================================[ INTERFACE METHODS ]============*/
 
-    protected AbstractClassesGroupingModule(Collection<ClassesGroup> classesGroups) {
+    protected AbstractClassesGroupingModule() {
         logger = LoggerFactory.getLogger(getClass());
-        this.classesGroups = new ArrayList<>();
+        classesSearchGroups = new ArrayList<>();
+        classesGroup = new ArrayList<>();
+    }
 
-        if (classesGroups != null) {
-            this.classesGroups.addAll(classesGroups);
+    @SafeVarargs
+    protected AbstractClassesGroupingModule(Class<? extends T>... classes) {
+        this();
+        if (classes != null && classes.length > 0) {
+            classesGroup = Arrays.asList(classes);
+        }
+    }
+
+    protected AbstractClassesGroupingModule(Collection<ClassesSearchGroup> classesSearchGroups) {
+        this();
+        if (classesSearchGroups != null && !classesSearchGroups.isEmpty()) {
+            this.classesSearchGroups.addAll(classesSearchGroups);
         }
     }
 
     protected AbstractClassesGroupingModule(String... scanPackages) {
-        logger = LoggerFactory.getLogger(getClass());
-        classesGroups = new ArrayList<>();
-
-        if (scanPackages != null) {
+        this();
+        if (scanPackages != null && scanPackages.length > 0) {
             for (String scanPackage : scanPackages) {
-                classesGroups.add(new ClassesGroup(scanPackage));
+                classesSearchGroups.add(new ClassesSearchGroup(scanPackage));
             }
         }
     }
 
     /*===========================================[ CLASS METHODS ]================*/
 
-    protected <T> Collection<Class<? extends T>> filterClasses(final ClassesGroup classesGroup, Collection<Class<? extends T>> classesCollection) {
-        return filter(classesCollection, new Predicate<Class<?>>() {
+    protected <T> Collection<Class<? extends T>> filterSearchResult(Collection<Class<? extends T>> searchResult, final ClassesSearchGroup searchGroup) {
+        return filter(searchResult, new Predicate<Class<?>>() {
             @Override
             public boolean apply(Class<?> input) {
-                return !input.isInterface() && !Modifier.isAbstract(input.getModifiers()) && classesGroup.matches(input);
+                return !input.isInterface() && !Modifier.isAbstract(input.getModifiers()) && searchGroup.matches(input);
             }
         });
     }
 
-    protected Reflections createReflections(Iterable<String> packagesToScan) {
+    protected Reflections createReflections(Iterable<String> searchablePackages) {
         Collection<URL> scanUrls = new HashSet<>();
-        for (String packageName : packagesToScan) {
+        for (String packageName : searchablePackages) {
             scanUrls.addAll(ClasspathHelper.forPackage(packageName));
         }
 

@@ -21,7 +21,7 @@ package com.google.code.axonguice.eventhandling;
 import com.google.code.axonguice.eventhandling.annotation.EventHandlerComponent;
 import com.google.code.axonguice.eventhandling.scheduling.SimpleEventSchedulerProvider;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
-import com.google.code.axonguice.grouping.ClassesGroup;
+import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import org.axonframework.eventhandling.EventBus;
@@ -37,12 +37,16 @@ import java.util.Collection;
  * @author Alexey Krylov
  * @since 06.02.13
  */
-public class EventHandlingModule extends AbstractClassesGroupingModule {
+public class EventHandlingModule extends AbstractClassesGroupingModule<Object> {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public EventHandlingModule(Collection<ClassesGroup> eventHandlersClassesGroups) {
-        super(eventHandlersClassesGroups);
+    public EventHandlingModule(Class<?>... eventHandlersClasses) {
+        super(eventHandlersClasses);
+    }
+
+    public EventHandlingModule(Collection<ClassesSearchGroup> eventHandlersClassesSearchGroups) {
+        super(eventHandlersClassesSearchGroups);
     }
 
     public EventHandlingModule(String... eventHandlersScanPackages) {
@@ -63,22 +67,33 @@ public class EventHandlingModule extends AbstractClassesGroupingModule {
     }
 
     protected void bindEventHandlers() {
-        for (ClassesGroup classesGroup : classesGroups) {
-            Collection<String> packagesToScan = classesGroup.getPackages();
-            logger.info(String.format("Searching %s for Event Handlers", packagesToScan));
+        if (classesGroup.isEmpty()) {
+            for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
+                Collection<String> packagesToScan = classesSearchGroup.getPackages();
+                logger.info(String.format("Searching %s for Event Handlers", packagesToScan));
 
-            Reflections reflections = createReflections(packagesToScan);
+                Reflections reflections = createReflections(packagesToScan);
 
-            // Extraction of instantiable @EventHandler implementations
-            Iterable<Class<?>> validHandlerClasses = filterClasses(classesGroup, reflections.getTypesAnnotatedWith(EventHandlerComponent.class));
-
-            for (Class<?> handlerClass : validHandlerClasses) {
-                logger.info(String.format("\tFound: [%s]", handlerClass.getName()));
-                Provider commandHandlerProvider = new AnnotationEventHandlerProvider(handlerClass);
-                requestInjection(commandHandlerProvider);
-                bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
+                // Extraction of instantiable @EventHandler implementations
+                Iterable<Class<?>> validHandlerClasses = filterSearchResult(reflections.getTypesAnnotatedWith(EventHandlerComponent.class), classesSearchGroup);
+                bindEventHandlers(validHandlerClasses);
             }
+        } else {
+            bindEventHandlers(classesGroup);
         }
+    }
+
+    protected void bindEventHandlers(Iterable<Class<?>> handlerClasses) {
+        for (Class<?> handlerClass : handlerClasses) {
+            logger.info(String.format("\tFound: [%s]", handlerClass.getName()));
+            bindEventHandler(handlerClass);
+        }
+    }
+
+    protected void bindEventHandler(Class<?> handlerClass) {
+        Provider commandHandlerProvider = new AnnotationEventHandlerProvider(handlerClass);
+        requestInjection(commandHandlerProvider);
+        bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
     }
 
     protected void bindEventScheduler() {

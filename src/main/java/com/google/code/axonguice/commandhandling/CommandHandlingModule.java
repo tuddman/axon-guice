@@ -20,17 +20,12 @@ package com.google.code.axonguice.commandhandling;
 
 import com.google.code.axonguice.commandhandling.annotation.CommandHandlerComponent;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
-import com.google.code.axonguice.grouping.ClassesGroup;
-import com.google.code.axonguice.util.ReflectionsHelper;
-import com.google.inject.Key;
+import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
-import com.google.inject.TypeLiteral;
-import com.google.inject.util.Types;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.domain.AggregateRoot;
 import org.axonframework.unitofwork.UnitOfWork;
 import org.axonframework.unitofwork.UnitOfWorkFactory;
 import org.reflections.Reflections;
@@ -43,17 +38,38 @@ import java.util.Collection;
  * @author Alexey Krylov
  * @since 06.02.13
  */
-public class CommandHandlingModule extends AbstractClassesGroupingModule {
+public class CommandHandlingModule extends AbstractClassesGroupingModule<Object> {
 
-    /*===========================================[ INTERFACE METHODS ]============*/
+	/*===========================================[ CONSTRUCTORS ]=================*/
 
-    public CommandHandlingModule(Collection<ClassesGroup> commandHandlersClassesGroup) {
-        super(commandHandlersClassesGroup);
+    public CommandHandlingModule(Class<?>... commandHandlersClasses) {
+        super(commandHandlersClasses);
+    }
+
+    public CommandHandlingModule(Collection<ClassesSearchGroup> commandHandlersClassesSearchGroup) {
+        super(commandHandlersClassesSearchGroup);
     }
 
     public CommandHandlingModule(String... commandHandlersScanPackages) {
         super(commandHandlersScanPackages);
     }
+
+	/*===========================================[ CLASS METHODS ]================*/
+
+    protected void bindCommandHandlers(Iterable<Class<?>> handlerClasses) {
+        for (Class<?> handlerClass : handlerClasses) {
+            logger.info(String.format("\tFound: [%s]", handlerClass.getName()));
+            bindCommandHandler(handlerClass);
+        }
+    }
+
+    protected void bindCommandHandler(Class<?> handlerClass) {
+        Provider commandHandlerProvider = new CommandHandlerProvider(handlerClass);
+        requestInjection(commandHandlerProvider);
+        bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
+    }
+
+	/*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
     protected void configure() {
@@ -81,32 +97,18 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule {
     }
 
     protected void bindCommandHandlers() {
-        for (ClassesGroup classesGroup : classesGroups) {
+        if (classesGroup.isEmpty()) {
+            for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
+                Collection<String> packagesToScan = classesSearchGroup.getPackages();
+                logger.info(String.format("Searching %s for Command Handlers", packagesToScan));
 
-            Collection<String> packagesToScan = classesGroup.getPackages();
-            logger.info(String.format("Searching %s for Command Handlers", packagesToScan));
+                Reflections reflections = createReflections(packagesToScan);
 
-            Reflections reflections = createReflections(packagesToScan);
-
-            // Extraction of instantiable @CommandHandler implementations
-            Iterable<Class<?>> validHandlerClasses = filterClasses(classesGroup, reflections.getTypesAnnotatedWith(CommandHandlerComponent.class));
-
-            for (Class<?> handlerClass : validHandlerClasses) {
-                logger.info(String.format("\tFound: [%s]", handlerClass.getName()));
-                Provider commandHandlerProvider = new CommandHandlerProvider(handlerClass);
-                requestInjection(commandHandlerProvider);
-                bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
+                // Extraction of instantiable @CommandHandler implementations
+                bindCommandHandlers(filterSearchResult(reflections.getTypesAnnotatedWith(CommandHandlerComponent.class), classesSearchGroup));
             }
-
-            Iterable<Class<? extends AggregateRoot>> validAggregateRoots = filterClasses(classesGroup, ReflectionsHelper.findAggregateRoots(reflections, AggregateRoot.class));
-
-            // Aggregate Roots self-subscription as CommandHandlers
-            for (Class<? extends AggregateRoot> aggregateRootClass : validAggregateRoots) {
-                logger.info(String.format("\tFound AggregateRoot: [%s]", aggregateRootClass.getName()));
-                Provider commandHandlerProvider = new AggregateAnnotationCommandHandlerProvider(aggregateRootClass);
-                requestInjection(commandHandlerProvider);
-                bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateAnnotationCommandHandlerProvider.class, aggregateRootClass)))).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
-            }
+        } else {
+            bindCommandHandlers(classesGroup);
         }
     }
 }

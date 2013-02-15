@@ -18,10 +18,23 @@
 
 package com.google.code.axonguice;
 
+import com.google.code.axonguice.commandhandling.AggregateRootCommandHandlingModule;
+import com.google.code.axonguice.commandhandling.CommandHandlingModule;
+import com.google.code.axonguice.commandhandling.SimpleCommandHandler;
+import com.google.code.axonguice.domain.DomainModule;
+import com.google.code.axonguice.domain.api.command.OrderCommandHandler;
+import com.google.code.axonguice.domain.model.Order;
+import com.google.code.axonguice.eventhandling.EventHandlingModule;
+import com.google.code.axonguice.eventhandling.SimpleEventHandler;
+import com.google.code.axonguice.repository.RepositoryModule;
+import com.google.code.axonguice.saga.SagaModule;
+import com.google.code.axonguice.saga.TestOrderSaga;
+
 /**
  * AxonGuiceTestModule - TODO: description
  * //TODO axon configuration descriptor
  * //TODO each module should have ability to take list of managed classes
+ *
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
@@ -29,7 +42,33 @@ public class AxonGuiceTestModule extends AxonGuiceModule {
 
     /*===========================================[ CLASS METHODS ]================*/
 
-    public AxonGuiceTestModule() {
-        super("com.google.code.axonguice");
+    @Override
+    protected RepositoryModule createRepositoryModule() {
+        return new RepositoryModule(Order.class);
+    }
+
+    @Override
+    protected AggregateRootCommandHandlingModule createAggregateRootCommandHandlingModule() {
+        return new AggregateRootCommandHandlingModule(Order.class);
+    }
+
+    @Override
+    protected CommandHandlingModule createCommandHandlingModule() {
+        return new CommandHandlingModule(SimpleCommandHandler.class, OrderCommandHandler.class);
+    }
+
+    @Override
+    protected DomainModule createDomainModule() {
+        return new DomainModule(Order.class);
+    }
+
+    @Override
+    protected EventHandlingModule createEventHandlingModule() {
+        return new EventHandlingModule(SimpleEventHandler.class);
+    }
+
+    @Override
+    protected SagaModule createSagaModule() {
+        return new SagaModule(TestOrderSaga.class);
     }
 }

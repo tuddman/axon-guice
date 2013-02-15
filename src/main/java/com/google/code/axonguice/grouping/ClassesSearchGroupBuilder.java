@@ -20,7 +20,7 @@ import java.util.Collection;
  * @author Alexey Krylov (AleX)
  * @since 15.02.13
  */
-public class ClassesGroupBuilder {
+public class ClassesSearchGroupBuilder {
 
 	/*===========================================[ INSTANCE VARIABLES ]===========*/
 
@@ -32,65 +32,65 @@ public class ClassesGroupBuilder {
 
 	/*===========================================[ CONSTRUCTORS ]=================*/
 
-    protected ClassesGroupBuilder(Collection<String> packages) {
+    protected ClassesSearchGroupBuilder(Collection<String> packages) {
         this.packages = new ArrayList<>(packages);
     }
 
 	/*===========================================[ CLASS METHODS ]================*/
 
-    public static ClassesGroupBuilder forPackage(@NotNull @Size(min = 1) String packageName) {
+    public static ClassesSearchGroupBuilder forPackage(@NotNull @Size(min = 1) String packageName) {
         Preconditions.checkArgument(packageName != null && !packageName.isEmpty(), "Package name is null");
         return forPackages(Arrays.asList(packageName));
     }
 
-    public static ClassesGroupBuilder forPackages(@NotNull @Size(min = 1) Collection<String> packages) {
+    public static ClassesSearchGroupBuilder forPackages(@NotNull @Size(min = 1) Collection<String> packages) {
         Preconditions.checkArgument(packages != null && !packages.isEmpty(), "Packages is null or empty");
-        return new ClassesGroupBuilder(packages);
+        return new ClassesSearchGroupBuilder(packages);
     }
 
-    public static ClassesGroupBuilder forPackages(@NotNull @Size(min = 1) String... packages) {
+    public static ClassesSearchGroupBuilder forPackages(@NotNull @Size(min = 1) String... packages) {
         Preconditions.checkArgument(packages != null && packages.length > 0, "Packages is null or empty");
-        return new ClassesGroupBuilder(Arrays.asList(packages));
+        return new ClassesSearchGroupBuilder(Arrays.asList(packages));
     }
 
-    public ClassesGroupBuilder withPackage(@NotNull @Size(min = 1) String packageName) {
+    public ClassesSearchGroupBuilder withPackage(@NotNull @Size(min = 1) String packageName) {
         Preconditions.checkArgument(packageName != null && !packageName.isEmpty(), "Package name is null or empty");
         packages.add(packageName);
         return this;
     }
 
-    public ClassesGroupBuilder withPackages(@NotNull @Size(min = 1) Collection<String> packages) {
+    public ClassesSearchGroupBuilder withPackages(@NotNull @Size(min = 1) Collection<String> packages) {
         Preconditions.checkArgument(packages != null && !packages.isEmpty(), "Packages is null or empty");
         this.packages.addAll(packages);
         return this;
     }
 
-    public ClassesGroupBuilder withInclusionPattern(@NotNull @Size(min = 1) String inclusionPattern) {
+    public ClassesSearchGroupBuilder withInclusionPattern(@NotNull @Size(min = 1) String inclusionPattern) {
         Preconditions.checkArgument(packages != null && !packages.isEmpty(), "Inclusion pattern is null or empty");
         this.inclusionPattern = inclusionPattern;
         return this;
     }
 
-    public ClassesGroupBuilder withExclusionPattern(@NotNull @Size(min = 1) String exclusionPattern) {
+    public ClassesSearchGroupBuilder withExclusionPattern(@NotNull @Size(min = 1) String exclusionPattern) {
         Preconditions.checkArgument(packages != null && !packages.isEmpty(), "Exclusion pattern is null or empty");
         this.exclusionPattern = exclusionPattern;
         return this;
     }
 
-    public ClassesGroupBuilder withInclusionFilterPredicate(@NotNull Predicate<Class> inclusionPredicate) {
+    public ClassesSearchGroupBuilder withInclusionFilterPredicate(@NotNull Predicate<Class> inclusionPredicate) {
         Preconditions.checkArgument(inclusionPredicate != null, "Inclusion predicate is null");
         this.inclusionPredicate = inclusionPredicate;
         return this;
     }
 
-    public ClassesGroupBuilder withExclusionFilterPredicate(@NotNull Predicate<Class> exclusionPredicate) {
+    public ClassesSearchGroupBuilder withExclusionFilterPredicate(@NotNull Predicate<Class> exclusionPredicate) {
         Preconditions.checkArgument(inclusionPredicate != null, "Exclusion predicate is null");
         this.exclusionPredicate = exclusionPredicate;
         return this;
     }
 
-    public ClassesGroup build() {
-        ClassesGroup repositoriesGroup = new ClassesGroup(packages);
+    public ClassesSearchGroup build() {
+        ClassesSearchGroup repositoriesGroup = new ClassesSearchGroup(packages);
         repositoriesGroup.setIncusionPattern(inclusionPattern);
         repositoriesGroup.setExclusionPattern(exclusionPattern);
         repositoriesGroup.setInclusionFilterPredicate(inclusionPredicate);

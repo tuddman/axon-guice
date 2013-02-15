@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
-public class ClassesGroup {
+public class ClassesSearchGroup {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
@@ -45,11 +45,11 @@ public class ClassesGroup {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public ClassesGroup(String... packages) {
+    public ClassesSearchGroup(String... packages) {
         this(Arrays.asList(packages));
     }
 
-    public ClassesGroup(Collection<String> packages) {
+    public ClassesSearchGroup(Collection<String> packages) {
         this.packages = new ArrayList<>(packages);
     }
 
@@ -64,7 +64,7 @@ public class ClassesGroup {
             this.inclusionPattern = Pattern.compile(inclusionPattern);
             if (inclusionPredicate == null) {
                 // inclusionPattern is a strict parameter - we need to deny other matcher possibilities
-                inclusionPredicate = ClassesGroupFilterPredicates.DenyAll;
+                inclusionPredicate = ClassesSearchGroupFilterPredicates.DenyAll;
             }
         }
     }
@@ -80,7 +80,7 @@ public class ClassesGroup {
             this.inclusionPredicate = inclusionPredicate;
             if (inclusionPattern == null) {
                 // strict parameters set - we need to deny other matcher possibilities
-                inclusionPattern = Pattern.compile(ClassesGroupPatterns.DenyAll);
+                inclusionPattern = Pattern.compile(ClassesSearchGroupPatterns.DenyAll);
             }
         }
     }
@@ -138,25 +138,25 @@ public class ClassesGroup {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof ClassesGroup)) {
+        if (!(obj instanceof ClassesSearchGroup)) {
             return false;
         }
 
-        ClassesGroup handlersClassesGroup = (ClassesGroup) obj;
+        ClassesSearchGroup handlersClassesSearchGroup = (ClassesSearchGroup) obj;
 
-        if (exclusionPattern != null ? !exclusionPattern.equals(handlersClassesGroup.exclusionPattern) : handlersClassesGroup.exclusionPattern != null) {
+        if (exclusionPattern != null ? !exclusionPattern.equals(handlersClassesSearchGroup.exclusionPattern) : handlersClassesSearchGroup.exclusionPattern != null) {
             return false;
         }
-        if (exclusionPredicate != null ? !exclusionPredicate.equals(handlersClassesGroup.exclusionPredicate) : handlersClassesGroup.exclusionPredicate != null) {
+        if (exclusionPredicate != null ? !exclusionPredicate.equals(handlersClassesSearchGroup.exclusionPredicate) : handlersClassesSearchGroup.exclusionPredicate != null) {
             return false;
         }
-        if (inclusionPattern != null ? !inclusionPattern.equals(handlersClassesGroup.inclusionPattern) : handlersClassesGroup.inclusionPattern != null) {
+        if (inclusionPattern != null ? !inclusionPattern.equals(handlersClassesSearchGroup.inclusionPattern) : handlersClassesSearchGroup.inclusionPattern != null) {
             return false;
         }
-        if (inclusionPredicate != null ? !inclusionPredicate.equals(handlersClassesGroup.inclusionPredicate) : handlersClassesGroup.inclusionPredicate != null) {
+        if (inclusionPredicate != null ? !inclusionPredicate.equals(handlersClassesSearchGroup.inclusionPredicate) : handlersClassesSearchGroup.inclusionPredicate != null) {
             return false;
         }
-        if (packages != null ? !packages.equals(handlersClassesGroup.packages) : handlersClassesGroup.packages != null) {
+        if (packages != null ? !packages.equals(handlersClassesSearchGroup.packages) : handlersClassesSearchGroup.packages != null) {
             return false;
         }
 

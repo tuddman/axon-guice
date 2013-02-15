@@ -19,7 +19,7 @@
 package com.google.code.axonguice.saga;
 
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
-import com.google.code.axonguice.grouping.ClassesGroup;
+import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.inject.Scopes;
 import org.axonframework.saga.ResourceInjector;
 import org.axonframework.saga.SagaFactory;
@@ -37,16 +37,21 @@ import java.util.Collection;
  * @author Alexey Krylov (lexx)
  * @since 06.02.13
  */
-public class SagaModule extends AbstractClassesGroupingModule {
+public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedSaga> {
 
 	/*===========================================[ CONSTRUCTORS ]=================*/
+
+    @SafeVarargs
+    public SagaModule(Class<? extends AbstractAnnotatedSaga>... classes) {
+        super(classes);
+    }
 
     public SagaModule(String... sagasScanPackages) {
         super(sagasScanPackages);
     }
 
-    public SagaModule(Collection<ClassesGroup> sagasClassesGroups) {
-        super(sagasClassesGroups);
+    public SagaModule(Collection<ClassesSearchGroup> sagasClassesSearchGroups) {
+        super(sagasClassesSearchGroups);
     }
 
 	/*===========================================[ INTERFACE METHODS ]============*/
@@ -73,20 +78,26 @@ public class SagaModule extends AbstractClassesGroupingModule {
 
     protected void bindSagaManager() {
         Collection<Class<? extends AbstractAnnotatedSaga>> sagaTypes = new ArrayList<>();
-        // find all saga subclasses
-        for (ClassesGroup classesGroup : classesGroups) {
-            Collection<String> packagesToScan = classesGroup.getPackages();
-            logger.info(String.format("Searching %s for Sagas", packagesToScan));
 
-            Reflections reflections = createReflections(packagesToScan);
+        if (classesGroup.isEmpty()) {
+            // find all saga subclasses
+            for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
+                Collection<String> packagesToScan = classesSearchGroup.getPackages();
+                logger.info(String.format("Searching %s for Sagas", packagesToScan));
 
-            // Extraction of all AbstractAnnotatedSaga subclasses
-            Collection<Class<? extends AbstractAnnotatedSaga>> validSagaClasses = filterClasses(classesGroup, reflections.getSubTypesOf(AbstractAnnotatedSaga.class));
-            for (Class<?> sagaClass : validSagaClasses) {
-                logger.info(String.format("\tFound: [%s]", sagaClass.getName()));
+                Reflections reflections = createReflections(packagesToScan);
+
+                // Extraction of all AbstractAnnotatedSaga subclasses
+                Collection<Class<? extends AbstractAnnotatedSaga>> validSagaClasses =
+                        filterSearchResult(reflections.getSubTypesOf(AbstractAnnotatedSaga.class), classesSearchGroup);
+                for (Class<?> sagaClass : validSagaClasses) {
+                    logger.info(String.format("\tFound: [%s]", sagaClass.getName()));
+                }
+
+                sagaTypes.addAll(validSagaClasses);
             }
-
-            sagaTypes.addAll(validSagaClasses);
+        } else {
+            sagaTypes.addAll(classesGroup);
         }
 
         if (!sagaTypes.isEmpty()) {
