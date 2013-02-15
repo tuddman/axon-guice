@@ -33,7 +33,6 @@ import com.google.code.axonguice.saga.TestOrderSaga;
 /**
  * AxonGuiceTestModule - TODO: description
  * //TODO axon configuration descriptor
- * //TODO each module should have ability to take list of managed classes
  *
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
