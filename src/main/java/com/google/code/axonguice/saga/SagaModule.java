@@ -89,8 +89,12 @@ public class SagaModule extends AbstractClassesGroupingModule {
             sagaTypes.addAll(validSagaClasses);
         }
 
-        AnnotatedSagaManagerProvider annotatedSagaManagerProvider = new AnnotatedSagaManagerProvider(sagaTypes);
-        requestInjection(annotatedSagaManagerProvider);
-        bind(SagaManager.class).toProvider(annotatedSagaManagerProvider).in(Scopes.SINGLETON);
+        if (!sagaTypes.isEmpty()) {
+            AnnotatedSagaManagerProvider annotatedSagaManagerProvider = new AnnotatedSagaManagerProvider(sagaTypes);
+            requestInjection(annotatedSagaManagerProvider);
+            bind(SagaManager.class).toProvider(annotatedSagaManagerProvider).in(Scopes.SINGLETON);
+        } else {
+            logger.info("No Sagas found");
+        }
     }
 }

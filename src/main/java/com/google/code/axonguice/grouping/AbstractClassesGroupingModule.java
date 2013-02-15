@@ -58,15 +58,21 @@ public abstract class AbstractClassesGroupingModule extends AbstractModule {
 
     protected AbstractClassesGroupingModule(Collection<ClassesGroup> classesGroups) {
         logger = LoggerFactory.getLogger(getClass());
-        this.classesGroups = new ArrayList<>(classesGroups);
+        this.classesGroups = new ArrayList<>();
+
+        if (classesGroups != null) {
+            this.classesGroups.addAll(classesGroups);
+        }
     }
 
     protected AbstractClassesGroupingModule(String... scanPackages) {
         logger = LoggerFactory.getLogger(getClass());
         classesGroups = new ArrayList<>();
 
-        for (String scanPackage : scanPackages) {
-            classesGroups.add(new ClassesGroup(scanPackage));
+        if (scanPackages != null) {
+            for (String scanPackage : scanPackages) {
+                classesGroups.add(new ClassesGroup(scanPackage));
+            }
         }
     }
 

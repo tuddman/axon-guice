@@ -38,7 +38,9 @@ public class AxonGuiceModule extends AbstractModule {
     /*===========================================[ CONSTRUCTORS ]=================*/
 
     public AxonGuiceModule(String... packages) {
-        this.packages = Arrays.copyOf(packages, packages.length);
+        if (packages != null && packages.length > 0) {
+            this.packages = Arrays.copyOf(packages, packages.length);
+        }
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/
