@@ -19,7 +19,9 @@
 package com.google.code.axonguice.jsr250;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.inject.Singleton;
 
 /**
  * ServiceWithPostConstuct - TODO: description
@@ -27,12 +29,14 @@ import javax.annotation.Resource;
  * @author Alexey Krylov (lexx)
  * @since 08.02.13
  */
+@Singleton
 public class Jsr250EnabledService {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
     private boolean postConstuctInvoked;
     private Jsr250Resource resource;
+    private boolean preDestroyInvoked;
 
     /*===========================================[ CLASS METHODS ]================*/
 
@@ -54,6 +58,15 @@ public class Jsr250EnabledService {
 
     public boolean isResourceSet() {
         return resource != null;
+    }
+
+    @PreDestroy
+    protected void preDestroy() {
+        preDestroyInvoked = true;
+    }
+
+    public boolean isPreDestroyInvoked() {
+        return preDestroyInvoked;
     }
 
     public Jsr250Resource getResource() {

@@ -20,6 +20,8 @@ package com.google.code.axonguice.jsr250;
 
 import com.google.code.axonguice.AxonGuiceTest;
 import com.google.inject.Inject;
+import com.google.inject.Scopes;
+import com.mycila.inject.jsr250.Jsr250Destroyer;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,9 +43,12 @@ public class Jsr250SupportTest extends AxonGuiceTest {
 
     @Test
     public void testJsr250EnabledService() {
+        Assert.assertTrue(Scopes.isSingleton(injector.getBinding(jsr250EnabledService.getClass())));
         Assert.assertTrue(jsr250EnabledService.isPostConstuctInvoked());
         Assert.assertTrue(jsr250EnabledService.isResourceSet());
         Jsr250EnabledService service = injector.getInstance(Jsr250EnabledService.class);
         Assert.assertEquals(jsr250EnabledService.getResource(), service.getResource());
+        injector.getInstance(Jsr250Destroyer.class).preDestroy();
+        Assert.assertTrue(jsr250EnabledService.isPreDestroyInvoked());
     }
 }

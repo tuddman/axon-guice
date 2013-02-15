@@ -20,7 +20,8 @@ package com.google.code.axonguice;
 
 /**
  * AxonGuiceTestModule - TODO: description
- *
+ * //TODO axon configuration descriptor
+ * //TODO each module should have ability to take list of managed classes
  * @author Alexey Krylov (lexx)
  * @since 07.02.13
  */
