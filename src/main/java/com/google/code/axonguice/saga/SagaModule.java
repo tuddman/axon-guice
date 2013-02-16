@@ -34,7 +34,7 @@ import java.util.Collection;
 /**
  * SagaModule - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 06.02.13
  */
 public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedSaga> {

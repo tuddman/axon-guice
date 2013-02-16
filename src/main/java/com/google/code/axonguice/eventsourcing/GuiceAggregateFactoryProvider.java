@@ -28,7 +28,7 @@ import javax.inject.Inject;
  * GuiceAggregateFactory - TODO: description
  * //TODO injection into Aggregates support
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 08.02.13
  */
 public class GuiceAggregateFactoryProvider implements Provider<GuiceGenericAggregateFactory> {

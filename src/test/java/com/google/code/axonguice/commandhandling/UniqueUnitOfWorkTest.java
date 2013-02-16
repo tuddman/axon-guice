@@ -18,7 +18,7 @@
 
 package com.google.code.axonguice.commandhandling;
 
-import com.google.code.axonguice.AxonGuiceTest;
+import com.google.code.axonguice.AxonGuiceTestBase;
 import org.axonframework.unitofwork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,10 +29,10 @@ import javax.inject.Provider;
 /**
  * UniqueUnitOfWorkTest - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 06.02.13
  */
-public class UniqueUnitOfWorkTest extends AxonGuiceTest {
+public class UniqueUnitOfWorkTest extends AxonGuiceTestBase {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

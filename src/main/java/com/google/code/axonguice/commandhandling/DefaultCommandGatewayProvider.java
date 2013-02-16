@@ -26,7 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 06.02.13
  */
 public class DefaultCommandGatewayProvider implements Provider<CommandGateway> {

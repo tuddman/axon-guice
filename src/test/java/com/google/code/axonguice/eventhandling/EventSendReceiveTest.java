@@ -18,7 +18,7 @@
 
 package com.google.code.axonguice.eventhandling;
 
-import com.google.code.axonguice.AxonGuiceTest;
+import com.google.code.axonguice.AxonGuiceTestBase;
 import org.axonframework.domain.GenericEventMessage;
 import org.axonframework.eventhandling.EventBus;
 import org.junit.Assert;
@@ -29,11 +29,11 @@ import javax.inject.Inject;
 /**
  * EventSendReceiveTest - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 07.02.13
  */
 
-public class EventSendReceiveTest extends AxonGuiceTest {
+public class EventSendReceiveTest extends AxonGuiceTestBase {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

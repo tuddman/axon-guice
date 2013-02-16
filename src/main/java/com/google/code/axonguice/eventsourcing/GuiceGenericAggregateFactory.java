@@ -28,7 +28,7 @@ import javax.annotation.Resource;
  * GuiceAggregateFactory - TODO: description
  * //TODO injection into Aggregates support
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 08.02.13
  */
 public class GuiceGenericAggregateFactory extends GenericAggregateFactory {

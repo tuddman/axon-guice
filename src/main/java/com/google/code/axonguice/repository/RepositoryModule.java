@@ -40,7 +40,7 @@ import java.util.Collection;
 /**
  * RepositoryModule - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 06.02.13
  */
 public class RepositoryModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {

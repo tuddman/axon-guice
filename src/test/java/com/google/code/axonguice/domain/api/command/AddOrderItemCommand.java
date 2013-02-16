@@ -16,29 +16,39 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
+package com.google.code.axonguice.domain.api.command;
 
-import org.axonframework.unitofwork.UnitOfWork;
-import org.axonframework.unitofwork.UnitOfWorkFactory;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.google.code.axonguice.domain.model.ItemId;
+import com.google.code.axonguice.domain.model.OrderId;
 
 /**
+ * ChangeOrderNameCommand - TODO: description
+ *
  * @author Alexey Krylov
  * @since 06.02.13
  */
-public class UnitOfWorkProvider implements Provider<UnitOfWork> {
+public class AddOrderItemCommand extends AbstractOrderCommand{
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
-    protected UnitOfWorkFactory factory;
+    private ItemId itemId;
+    private long orderPrice;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    @Override
-    public UnitOfWork get() {
-        return factory.createUnitOfWork();
+    public AddOrderItemCommand(OrderId orderId, ItemId itemId, long orderPrice) {
+        super(orderId);
+        this.itemId = itemId;
+        this.orderPrice = orderPrice;
+    }
+
+    /*===========================================[ GETTER/SETTER ]================*/
+
+    public ItemId getItemId() {
+        return itemId;
+    }
+
+    public long getOrderPrice() {
+        return orderPrice;
     }
 }

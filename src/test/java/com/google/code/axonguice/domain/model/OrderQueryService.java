@@ -21,7 +21,7 @@ package com.google.code.axonguice.domain.model;
 /**
  * OrderQueryService - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 08.02.13
  */
 public class OrderQueryService {

@@ -24,7 +24,7 @@ import com.mycila.inject.jsr250.Jsr250;
 /**
  * Jsr250Module - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 07.02.13
  */
 public class Jsr250Module extends AbstractModule {

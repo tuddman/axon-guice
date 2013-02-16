@@ -18,7 +18,7 @@
 
 package com.google.code.axonguice.commandhandling;
 
-import com.google.code.axonguice.AxonGuiceTest;
+import com.google.code.axonguice.AxonGuiceTestBase;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,10 +28,10 @@ import javax.inject.Inject;
 /**
  * CommandHandlerTest - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 07.02.13
  */
-public class CommandSendReceiveTest extends AxonGuiceTest {
+public class CommandSendReceiveTest extends AxonGuiceTestBase {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

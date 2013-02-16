@@ -24,7 +24,7 @@ import org.axonframework.eventhandling.annotation.EventHandler;
 /**
  * SimpleEventHandler - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 07.02.13
  */
 @EventHandlerComponent

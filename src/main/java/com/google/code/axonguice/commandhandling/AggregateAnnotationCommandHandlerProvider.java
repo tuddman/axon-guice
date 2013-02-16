@@ -18,7 +18,6 @@
 
 package com.google.code.axonguice.commandhandling;
 
-
 import com.google.inject.*;
 import com.google.inject.util.Types;
 import org.axonframework.commandhandling.CommandBus;
@@ -31,7 +30,7 @@ import javax.inject.Inject;
 /**
  * CommandHandlerProvider - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 07.02.13
  */
 public class AggregateAnnotationCommandHandlerProvider implements Provider {

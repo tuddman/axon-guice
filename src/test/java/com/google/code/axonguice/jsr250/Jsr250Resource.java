@@ -23,13 +23,9 @@ import javax.inject.Singleton;
 /**
  * Jsr250Resource - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 08.02.13
  */
 @Singleton
 public class Jsr250Resource {
-/*===========================================[ STATIC VARIABLES ]=============*/
-/*===========================================[ INSTANCE VARIABLES ]===========*/
-/*===========================================[ CONSTRUCTORS ]=================*/
-/*===========================================[ CLASS METHODS ]================*/
 }

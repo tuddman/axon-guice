@@ -18,7 +18,7 @@
 
 package com.google.code.axonguice.jsr250;
 
-import com.google.code.axonguice.AxonGuiceTest;
+import com.google.code.axonguice.AxonGuiceTestBase;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.mycila.inject.jsr250.Jsr250Destroyer;
@@ -28,11 +28,11 @@ import org.junit.Test;
 /**
  * TestJsr250Support - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 08.02.13
  */
 
-public class Jsr250SupportTest extends AxonGuiceTest {
+public class Jsr250SupportTest extends AxonGuiceTestBase {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

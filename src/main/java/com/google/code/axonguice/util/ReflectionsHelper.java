@@ -27,7 +27,7 @@ import java.util.Collection;
 /**
  * ReflectionsHelper - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 08.02.13
  */
 public class ReflectionsHelper {

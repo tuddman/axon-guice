@@ -18,7 +18,7 @@
 
 package com.google.code.axonguice.domain;
 
-import com.google.code.axonguice.AxonGuiceTest;
+import com.google.code.axonguice.AxonGuiceTestBase;
 import com.google.code.axonguice.AxonGuiceTestModule;
 import com.google.code.axonguice.domain.api.command.ChangeOrderNameCommand;
 import com.google.code.axonguice.domain.api.command.CreateOrderCommand;
@@ -44,11 +44,11 @@ import java.util.concurrent.Executors;
 /**
  * ComplexDomainTests - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 08.02.13
  */
 @GuiceContext(value = {AxonGuiceTestModule.class, TestDomainModule.class}, stage = Stage.PRODUCTION)
-public class ComplexDomainTest extends AxonGuiceTest {
+public class GeneralOrderTest extends AxonGuiceTestBase {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

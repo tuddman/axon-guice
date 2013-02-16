@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 /**
  * CommandHandlersGroup - TODO: description
  * todo allow concrete specification of classes set
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 07.02.13
  */
 public class ClassesSearchGroup {

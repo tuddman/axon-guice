@@ -28,7 +28,7 @@ import java.io.Serializable;
  * @author Alexey Krylov
  * @since 05.02.13
  */
-public class OrderId implements Serializable {
+public class ItemId implements Serializable {
 
     /*===========================================[ STATIC VARIABLES ]=============*/
 
@@ -40,18 +40,18 @@ public class OrderId implements Serializable {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public OrderId() {
+    public ItemId() {
         identifier = IdentifierFactory.getInstance().generateIdentifier();
     }
 
-    private OrderId(String identifier) {
+    private ItemId(String identifier) {
         this.identifier = identifier;
     }
 
     /*===========================================[ CLASS METHODS ]================*/
 
-    public static OrderId valueOf(String orderId) {
-        return new OrderId(orderId);
+    public static ItemId valueOf(String orderId) {
+        return new ItemId(orderId);
     }
 
     @Override
@@ -59,11 +59,11 @@ public class OrderId implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof OrderId)) {
+        if (!(obj instanceof ItemId)) {
             return false;
         }
 
-        OrderId orderId = (OrderId) obj;
+        ItemId orderId = (ItemId) obj;
 
         if (!identifier.equals(orderId.identifier)) {
             return false;

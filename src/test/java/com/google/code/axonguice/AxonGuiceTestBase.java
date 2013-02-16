@@ -32,12 +32,12 @@ import javax.inject.Inject;
 /**
  * AxonGuiceTest - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 06.02.13
  */
 @RunWith(MycilaJunitRunner.class)
 @GuiceContext(value = {AxonGuiceTestModule.class}, stage = Stage.PRODUCTION)
-public abstract class AxonGuiceTest {
+public abstract class AxonGuiceTestBase {
 
 	/*===========================================[ INSTANCE VARIABLES ]===========*/
 

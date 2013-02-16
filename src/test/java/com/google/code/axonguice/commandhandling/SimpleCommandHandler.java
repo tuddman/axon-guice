@@ -24,7 +24,7 @@ import org.axonframework.commandhandling.annotation.CommandHandler;
 /**
  * SimpleCommandHandler - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 07.02.13
  */
 @CommandHandlerComponent

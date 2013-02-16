@@ -18,7 +18,7 @@
 
 package com.google.code.axonguice.commandhandling;
 
-import com.google.code.axonguice.AxonGuiceTest;
+import com.google.code.axonguice.AxonGuiceTestBase;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,10 +29,10 @@ import javax.inject.Provider;
 /**
  * CommandBusTest - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 06.02.13
  */
-public class SingletonCommandGatewayTest extends AxonGuiceTest {
+public class SingletonCommandGatewayTest extends AxonGuiceTestBase {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

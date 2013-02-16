@@ -36,7 +36,7 @@ import java.util.Collection;
 /**
  * EventBusModule - TODO: description
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 06.02.13
  */
 public class DomainModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {
