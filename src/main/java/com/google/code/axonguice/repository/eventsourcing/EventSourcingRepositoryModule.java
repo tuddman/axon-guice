@@ -31,14 +31,16 @@ import org.axonframework.eventsourcing.EventSourcedAggregateRoot;
 import org.axonframework.eventsourcing.SnapshotterTrigger;
 import org.axonframework.eventstore.EventStore;
 import org.axonframework.eventstore.SnapshotEventStore;
+import org.axonframework.eventstore.fs.FileSystemEventStore;
 import org.axonframework.repository.Repository;
 
 import java.util.Collection;
 
 /**
- * EventSourcingRepositoryModule - TODO: description
+ * Implementation of {@link RepositoryModule} related to Event Sourcing. Default EventStore/SnapshotEventStore is
+ * {@link FileSystemEventStore}.
  *
- * @author Alexey Krylov (lexx)
+ * @author Alexey Krylov
  * @since 17.02.13
  */
 public class EventSourcingRepositoryModule extends RepositoryModule {
@@ -69,11 +71,11 @@ public class EventSourcingRepositoryModule extends RepositoryModule {
 
     protected void bindEventStore() {
         // upcasting is here
-        bind(EventStore.class).toProvider(SimpleEventStoreProvider.class).in(Scopes.SINGLETON);
+        bind(EventStore.class).toProvider(FileSystemEventStoreProvider.class).in(Scopes.SINGLETON);
     }
 
     protected void bindSnaphotEventStore() {
-        bind(SnapshotEventStore.class).toProvider(SimpleEventStoreProvider.class).in(Scopes.SINGLETON);
+        bind(SnapshotEventStore.class).toProvider(FileSystemEventStoreProvider.class).in(Scopes.SINGLETON);
     }
 
 	/*===========================================[ INTERFACE METHODS ]============*/
@@ -88,7 +90,7 @@ public class EventSourcingRepositoryModule extends RepositoryModule {
     }
 
     protected void bindSnapshotterTrigger(Class<? extends AggregateRoot> aggregateRootClass) {
-        Provider snapshotterTriggerProvider = new SimpleEventCountSnapshotterTriggerProvider(aggregateRootClass);
+        Provider snapshotterTriggerProvider = new EventCountSnapshotterTriggerProvider(aggregateRootClass);
         requestInjection(snapshotterTriggerProvider);
         bind(Key.get(SnapshotterTrigger.class, Names.named(aggregateRootClass.getName()))).toProvider(snapshotterTriggerProvider).in(Scopes.SINGLETON);
         logger.info(String.format("\t\tSnapshotterTrigger set to: [%s]", snapshotterTriggerProvider.getClass().getName()));

@@ -33,8 +33,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 /**
- * OrderSaga - TODO: description
- *
  * @author Alexey Krylov
  * @since 14.02.13
  */

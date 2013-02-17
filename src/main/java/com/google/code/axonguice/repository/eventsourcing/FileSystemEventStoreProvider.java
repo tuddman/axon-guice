@@ -26,12 +26,12 @@ import org.axonframework.eventstore.fs.SimpleEventFileResolver;
 import java.io.File;
 
 /**
- * EventStoreProvider - TODO: description
- *
+ * Provides {@link FileSystemEventStore} as an {@link SnapshotEventStore} implementation.
+ * @see EventSourcingRepositoryModule#bindEventStore()
  * @author Alexey Krylov
  * @since 07.02.13
  */
-public class SimpleEventStoreProvider implements Provider<SnapshotEventStore> {
+public class FileSystemEventStoreProvider implements Provider<SnapshotEventStore> {
 
     /*===========================================[ INTERFACE METHODS ]============*/
 

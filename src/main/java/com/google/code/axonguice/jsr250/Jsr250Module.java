@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.jsr250;
 
+import com.google.code.axonguice.AxonGuiceModule;
 import com.google.inject.AbstractModule;
 import com.mycila.inject.jsr250.Jsr250;
 
@@ -25,6 +26,7 @@ import com.mycila.inject.jsr250.Jsr250;
  * JSR-250 support module. Default implementation is {@link Jsr250}.
  *
  * @author Alexey Krylov
+ * @see AxonGuiceModule#createJsr250Module()
  * @since 07.02.13
  */
 public class Jsr250Module extends AbstractModule {

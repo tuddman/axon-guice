@@ -22,8 +22,6 @@ import com.google.code.axonguice.domain.model.OrderId;
 import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier;
 
 /**
- * AbstractOrderCommand - TODO: description
- *
  * @author Alexey Krylov
  * @since 17.02.13
  */

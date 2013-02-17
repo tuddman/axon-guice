@@ -23,8 +23,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 
 /**
- * DomainModule - TODO: description
- *
  * @author Alexey Krylov
  * @since 08.02.13
  */

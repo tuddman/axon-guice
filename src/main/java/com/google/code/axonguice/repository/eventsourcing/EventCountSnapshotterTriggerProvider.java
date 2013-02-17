@@ -28,16 +28,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * EventCountSnapshotterTriggerProviderImpl - TODO: description
+ * Provides {@link EventCountSnapshotterTrigger} as {@link SnapshotterTrigger} implementation.
  *
  * @author Alexey Krylov
+ * @see EventSourcingRepositoryModule#bindSnapshotterTrigger(Class)
  * @since 08.02.13
  */
-public class SimpleEventCountSnapshotterTriggerProvider extends SnapshotterTriggerProvider {
+public class EventCountSnapshotterTriggerProvider extends SnapshotterTriggerProvider {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    protected SimpleEventCountSnapshotterTriggerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
+    protected EventCountSnapshotterTriggerProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         super(aggregateRootClass);
     }
 

@@ -30,8 +30,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 /**
- * AxonGuiceTest - TODO: description
- *
  * @author Alexey Krylov
  * @since 06.02.13
  */

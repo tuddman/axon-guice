@@ -42,8 +42,6 @@ import java.util.concurrent.Executors;
 
 
 /**
- * ComplexDomainTests - TODO: description
- *
  * @author Alexey Krylov
  * @since 08.02.13
  */

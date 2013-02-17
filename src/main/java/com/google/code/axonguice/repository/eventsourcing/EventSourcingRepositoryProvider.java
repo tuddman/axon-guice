@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 /**
- * EventSourcingRepositoryProvider - TODO: description
- *
+ * Provides {@link EventSourcingRepository} instance for specified Aggregate Root class.
+ * @see EventSourcingRepositoryModule#bindRepository(Class)
  * @author Alexey Krylov
  * @since 08.02.13
  */
@@ -65,6 +65,7 @@ public class EventSourcingRepositoryProvider extends RepositoryProvider {
               Injector injector) {
         this.eventBus = eventBus;
         this.eventStore = eventStore;
+
         // SnapshotterTrigger is not mandatory
         try {
             snapshotterTriggerProvider = injector.getProvider(Key.get(SnapshotterTrigger.class, Names.named(aggregateRootClassName)));
@@ -73,6 +74,7 @@ public class EventSourcingRepositoryProvider extends RepositoryProvider {
             logger.info(message);
             logger.debug(e.getMessage(), e);
         }
+
         aggregateFactoryProvider = (Provider<AggregateFactory>) injector.getProvider(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateFactory.class, aggregateRootClass))));
     }
 

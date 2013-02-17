@@ -28,6 +28,7 @@ import javax.inject.Inject;
  * Guice-based {@link ResourceInjector} implementation.
  *
  * @author Alexey Krylov
+ * @see SagaModule#bindResourceInjector()
  * @since 14.02.13
  */
 public class GuiceResourceInjector implements ResourceInjector {

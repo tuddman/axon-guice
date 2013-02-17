@@ -23,9 +23,10 @@ import org.axonframework.saga.SagaRepository;
 import org.axonframework.saga.repository.inmemory.InMemorySagaRepository;
 
 /**
- * SagaRepositoryProvider - TODO: description
+ * Provides {@link InMemorySagaRepository} as {@link SagaRepository} implementation.
  *
  * @author Alexey Krylov
+ * @see SagaModule#bindSagaRepository()
  * @since 14.02.13
  */
 public class InMemorySagaRepositoryProvider implements Provider<SagaRepository> {

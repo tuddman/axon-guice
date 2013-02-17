@@ -40,7 +40,7 @@ import java.util.HashSet;
 import static com.google.common.collect.Collections2.filter;
 
 /**
- * AbstractGroupingModule - TODO: description
+ * Convenient base class for all Modules which can be configured with a set of classes.
  *
  * @author Alexey Krylov
  * @since 08.02.13

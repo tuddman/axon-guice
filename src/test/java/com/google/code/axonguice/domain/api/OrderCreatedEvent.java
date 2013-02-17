@@ -22,8 +22,6 @@ package com.google.code.axonguice.domain.api;
 import com.google.code.axonguice.domain.model.OrderId;
 
 /**
- * OrderCreatedEvent - TODO: description
- *
  * @author Alexey Krylov
  * @since 05.02.13
  */

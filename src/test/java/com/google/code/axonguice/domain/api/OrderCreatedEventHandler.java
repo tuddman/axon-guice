@@ -19,16 +19,23 @@
 package com.google.code.axonguice.domain.api;
 
 import org.axonframework.eventhandling.annotation.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * OrderCreatedEventHandler - TODO: description
- *
  * @author Alexey Krylov
  * @since 05.02.13
  */
 public class OrderCreatedEventHandler {
+
+	/*===========================================[ STATIC VARIABLES ]=============*/
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderCreatedEventHandler.class);
+
+	/*===========================================[ CLASS METHODS ]================*/
+
     @EventHandler
     public void handle(OrderCreatedEvent event) {
-        System.out.println("event = " + event);
+        logger.info(event.toString());
     }
 }

@@ -31,9 +31,10 @@ import org.axonframework.eventstore.SnapshotEventStore;
 import javax.inject.Inject;
 
 /**
- * SnapshotterProvider - TODO: description
+ * Convenient base class for all {@link SnapshotterTrigger} providers.
  *
  * @author Alexey Krylov
+ * @see EventSourcingRepositoryModule#bindSnapshotterTrigger(Class)
  * @since 08.02.13
  */
 public abstract class SnapshotterTriggerProvider implements Provider<SnapshotterTrigger> {

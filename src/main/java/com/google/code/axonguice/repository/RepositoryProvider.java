@@ -23,9 +23,10 @@ import org.axonframework.domain.AggregateRoot;
 import org.axonframework.repository.Repository;
 
 /**
- * RepositoryProvider - TODO: description
+ * Provides {@link Repository} implementation for specified Aggregate Root class.
  *
  * @author Alexey Krylov
+ * @see RepositoryModule#bindRepository(Class)
  * @since 08.02.13
  */
 public abstract class RepositoryProvider implements Provider<Repository> {

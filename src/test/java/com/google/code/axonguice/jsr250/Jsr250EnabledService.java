@@ -24,8 +24,6 @@ import javax.annotation.Resource;
 import javax.inject.Singleton;
 
 /**
- * ServiceWithPostConstuct - TODO: description
- *
  * @author Alexey Krylov
  * @since 08.02.13
  */

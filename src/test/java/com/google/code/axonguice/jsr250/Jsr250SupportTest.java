@@ -26,12 +26,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * TestJsr250Support - TODO: description
- *
  * @author Alexey Krylov
  * @since 08.02.13
  */
-
 public class Jsr250SupportTest extends AxonGuiceTestBase {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/

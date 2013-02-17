@@ -32,9 +32,6 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Order - TODO: description
- * todo protected?
- *
  * @author Alexey Krylov
  * @since 05.02.13
  */
@@ -60,7 +57,7 @@ public class Order extends AbstractAnnotatedAggregateRoot {
 	/*===========================================[ CONSTRUCTORS ]=================*/
 
     @SuppressWarnings("UnusedDeclaration")
-    protected Order() {
+    private Order() {
     }
 
     public Order(OrderId orderId, String name) {

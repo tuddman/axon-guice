@@ -21,8 +21,6 @@ package com.google.code.axonguice.domain.api;
 import java.io.Serializable;
 
 /**
- * OrderCreatedEvent - TODO: description
- *
  * @author Alexey Krylov
  * @since 05.02.13
  */

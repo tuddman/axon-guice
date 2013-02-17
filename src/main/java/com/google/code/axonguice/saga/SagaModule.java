@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.saga;
 
+import com.google.code.axonguice.AxonGuiceModule;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.inject.Scopes;
@@ -32,9 +33,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * SagaModule - TODO: description
+ * Registers all Sagas and all related components.
  *
  * @author Alexey Krylov
+ * @see AxonGuiceModule#createSagaModule()
  * @since 06.02.13
  */
 public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedSaga> {
@@ -78,7 +80,7 @@ public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedS
 
     protected void bindSagaManager() {
         logger.info("Binding Sagas");
-        Collection<Class<? extends AbstractAnnotatedSaga>> sagaTypes = new ArrayList<>();
+        Collection<Class<? extends AbstractAnnotatedSaga>> sagaClasses = new ArrayList<>();
 
         if (classesGroup.isEmpty()) {
             // find all saga subclasses
@@ -91,18 +93,18 @@ public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedS
                 // Extraction of all AbstractAnnotatedSaga subclasses
                 Collection<Class<? extends AbstractAnnotatedSaga>> validSagaClasses =
                         filterSearchResult(reflections.getSubTypesOf(AbstractAnnotatedSaga.class), classesSearchGroup);
-                sagaTypes.addAll(validSagaClasses);
+                sagaClasses.addAll(validSagaClasses);
             }
         } else {
-            sagaTypes.addAll(classesGroup);
+            sagaClasses.addAll(classesGroup);
         }
 
-        if (!sagaTypes.isEmpty()) {
-            for (Class<?> sagaClass : sagaTypes) {
+        if (!sagaClasses.isEmpty()) {
+            for (Class<?> sagaClass : sagaClasses) {
                 logger.info(String.format("\tFound: [%s]", sagaClass.getName()));
             }
 
-            AnnotatedSagaManagerProvider annotatedSagaManagerProvider = new AnnotatedSagaManagerProvider(sagaTypes);
+            AnnotatedSagaManagerProvider annotatedSagaManagerProvider = new AnnotatedSagaManagerProvider(sagaClasses);
             requestInjection(annotatedSagaManagerProvider);
             bind(SagaManager.class).toProvider(annotatedSagaManagerProvider).in(Scopes.SINGLETON);
         } else {

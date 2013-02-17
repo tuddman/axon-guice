@@ -22,8 +22,6 @@ import com.google.code.axonguice.domain.model.ItemId;
 import com.google.code.axonguice.domain.model.OrderId;
 
 /**
- * ChangeOrderNameCommand - TODO: description
- *
  * @author Alexey Krylov
  * @since 06.02.13
  */

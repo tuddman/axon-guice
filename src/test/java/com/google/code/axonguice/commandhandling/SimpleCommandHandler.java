@@ -22,8 +22,6 @@ import com.google.code.axonguice.commandhandling.annotation.CommandHandlerCompon
 import org.axonframework.commandhandling.annotation.CommandHandler;
 
 /**
- * SimpleCommandHandler - TODO: description
- *
  * @author Alexey Krylov
  * @since 07.02.13
  */

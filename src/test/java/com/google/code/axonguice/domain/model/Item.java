@@ -21,8 +21,6 @@ package com.google.code.axonguice.domain.model;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedEntity;
 
 /**
- * OrderItem - TODO: description
- *
  * @author Alexey Krylov
  * @since 17.02.13
  */

@@ -22,8 +22,6 @@ import com.google.code.axonguice.domain.model.ItemId;
 import com.google.code.axonguice.domain.model.OrderId;
 
 /**
- * RemoveOrderItemCommand - TODO: description
- *
  * @author Alexey Krylov
  * @since 17.02.13
  */

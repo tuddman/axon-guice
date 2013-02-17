@@ -22,8 +22,6 @@ import com.google.code.axonguice.eventhandling.annotation.EventHandlerComponent;
 import org.axonframework.eventhandling.annotation.EventHandler;
 
 /**
- * SimpleEventHandler - TODO: description
- *
  * @author Alexey Krylov
  * @since 07.02.13
  */

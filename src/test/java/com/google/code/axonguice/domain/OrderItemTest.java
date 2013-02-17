@@ -36,10 +36,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import java.util.Collection;
 
-
 /**
- * ComplexDomainTests - TODO: description
- *
  * @author Alexey Krylov
  * @since 08.02.13
  */

@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.repository;
 
+import com.google.code.axonguice.AxonGuiceModule;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.code.axonguice.util.ReflectionsHelper;
@@ -28,9 +29,10 @@ import org.reflections.Reflections;
 import java.util.Collection;
 
 /**
- * Registers all event handling required components plus event handlers as EventBus subscribers.
+ * Registers all Aggregate Roots repositories and all related components.
  *
  * @author Alexey Krylov
+ * @see AxonGuiceModule#createRepositoryModule()
  * @since 06.02.13
  */
 public abstract class RepositoryModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {

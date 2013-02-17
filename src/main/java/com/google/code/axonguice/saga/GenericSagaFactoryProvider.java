@@ -26,9 +26,10 @@ import org.axonframework.saga.SagaFactory;
 import javax.inject.Inject;
 
 /**
- * GuiceSagaFactory - TODO: description
+ * Provides {@link GenericSagaFactory} with {@link GuiceResourceInjector} as {@link SagaFactory} implementation.
  *
  * @author Alexey Krylov
+ * @see SagaModule#bindSagaFactory()
  * @since 14.02.13
  */
 public class GenericSagaFactoryProvider implements Provider<SagaFactory> {

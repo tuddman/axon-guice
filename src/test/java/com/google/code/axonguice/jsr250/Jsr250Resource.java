@@ -21,8 +21,6 @@ package com.google.code.axonguice.jsr250;
 import javax.inject.Singleton;
 
 /**
- * Jsr250Resource - TODO: description
- *
  * @author Alexey Krylov
  * @since 08.02.13
  */

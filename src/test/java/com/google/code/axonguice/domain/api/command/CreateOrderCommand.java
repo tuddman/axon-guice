@@ -21,8 +21,6 @@ package com.google.code.axonguice.domain.api.command;
 import com.google.code.axonguice.domain.model.OrderId;
 
 /**
- * CreateToDoItemCommand - TODO: description
- *
  * @author Alexey Krylov
  * @since 05.02.13
  */

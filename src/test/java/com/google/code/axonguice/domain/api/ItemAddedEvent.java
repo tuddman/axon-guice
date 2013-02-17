@@ -21,8 +21,6 @@ package com.google.code.axonguice.domain.api;
 import com.google.code.axonguice.domain.model.ItemId;
 
 /**
- * ItemAddedEvent - TODO: description
- *
  * @author Alexey Krylov
  * @since 17.02.13
  */

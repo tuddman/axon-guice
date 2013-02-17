@@ -20,7 +20,7 @@ package com.google.code.axonguice.configuration;
 
 /**
  * AxonGuiceConfiguration - TODO: description
- * //todo
+ * //todo split into parts
  * @author Alexey Krylov (lexx)
  * @since 17.02.13
  */

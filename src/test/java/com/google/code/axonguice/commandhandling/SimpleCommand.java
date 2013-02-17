@@ -21,8 +21,6 @@ package com.google.code.axonguice.commandhandling;
 import java.util.UUID;
 
 /**
- * SimpleCommand - TODO: description
- *
  * @author Alexey Krylov
  * @since 07.02.13
  */

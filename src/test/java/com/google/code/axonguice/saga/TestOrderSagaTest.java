@@ -34,8 +34,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
- * OrderSagaTest - TODO: description
- *
  * @author Alexey Krylov
  * @since 14.02.13
  */

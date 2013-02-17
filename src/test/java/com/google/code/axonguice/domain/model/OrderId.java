@@ -23,8 +23,6 @@ import org.axonframework.domain.IdentifierFactory;
 import java.io.Serializable;
 
 /**
- * OrderId - TODO: description
- *
  * @author Alexey Krylov
  * @since 05.02.13
  */

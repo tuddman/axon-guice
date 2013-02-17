@@ -30,8 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * OrderCommandHandlerTest - TODO: description
- *
  * @author Alexey Krylov
  * @since 17.02.13
  */

@@ -27,8 +27,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
- * CommandBusTest - TODO: description
- *
  * @author Alexey Krylov
  * @since 06.02.13
  */

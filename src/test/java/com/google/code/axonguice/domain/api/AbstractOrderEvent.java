@@ -23,8 +23,6 @@ import com.google.code.axonguice.domain.model.OrderId;
 import java.io.Serializable;
 
 /**
- * AbstractOrderEvent - TODO: description
- *
  * @author Alexey Krylov
  * @since 17.02.13
  */

@@ -21,8 +21,6 @@ package com.google.code.axonguice.domain.api;
 import com.google.code.axonguice.domain.model.OrderId;
 
 /**
- * OrderDeletedEvent - TODO: description
- *
  * @author Alexey Krylov
  * @since 06.02.13
  */

@@ -19,14 +19,8 @@
 package com.google.code.axonguice.eventhandling;
 
 /**
- * SimpleEvent - TODO: description
- *
  * @author Alexey Krylov
  * @since 07.02.13
  */
 public class SimpleEvent {
-/*===========================================[ STATIC VARIABLES ]=============*/
-/*===========================================[ INSTANCE VARIABLES ]===========*/
-/*===========================================[ CONSTRUCTORS ]=================*/
-/*===========================================[ CLASS METHODS ]================*/
 }

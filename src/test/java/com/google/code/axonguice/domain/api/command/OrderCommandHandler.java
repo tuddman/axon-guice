@@ -27,8 +27,6 @@ import org.axonframework.repository.Repository;
 import javax.inject.Inject;
 
 /**
- * OrderCommandHandler - TODO: description
- *
  * @author Alexey Krylov
  * @since 05.02.13
  */

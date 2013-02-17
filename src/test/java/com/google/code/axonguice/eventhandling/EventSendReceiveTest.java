@@ -27,8 +27,6 @@ import org.junit.Test;
 import javax.inject.Inject;
 
 /**
- * EventSendReceiveTest - TODO: description
- *
  * @author Alexey Krylov
  * @since 07.02.13
  */

@@ -31,9 +31,10 @@ import javax.inject.Inject;
 import java.util.Collection;
 
 /**
- * SagaManagerProvider - TODO: description
+ * Provides {@link AnnotatedSagaManager} as {@link SagaManager} implementation.
  *
  * @author Alexey Krylov
+ * @see SagaModule#bindSagaManager()
  * @since 14.02.13
  */
 public class AnnotatedSagaManagerProvider implements Provider<SagaManager> {
@@ -44,16 +45,16 @@ public class AnnotatedSagaManagerProvider implements Provider<SagaManager> {
     protected SagaRepository sagaRepository;
     protected EventBus eventBus;
     protected SagaFactory sagaFactory;
-    protected Class<? extends AbstractAnnotatedSaga>[] sagaTypes;
+    protected Class<? extends AbstractAnnotatedSaga>[] sagaClasses;
 
 	/*===========================================[ CONSTRUCTORS ]=================*/
 
-    public AnnotatedSagaManagerProvider(Collection<Class<? extends AbstractAnnotatedSaga>> sagaTypes) {
-        this.sagaTypes = sagaTypes.toArray(new Class[sagaTypes.size()]);
+    public AnnotatedSagaManagerProvider(Collection<Class<? extends AbstractAnnotatedSaga>> sagaClasses) {
+        this.sagaClasses = sagaClasses.toArray(new Class[sagaClasses.size()]);
     }
 
     @Inject
-    protected void init(Injector injector, SagaRepository sagaRepository, EventBus eventBus, SagaFactory sagaFactory) {
+    void init(Injector injector, SagaRepository sagaRepository, EventBus eventBus, SagaFactory sagaFactory) {
         this.injector = injector;
         this.sagaRepository = sagaRepository;
         this.eventBus = eventBus;
@@ -64,7 +65,7 @@ public class AnnotatedSagaManagerProvider implements Provider<SagaManager> {
 
     @Override
     public SagaManager get() {
-        AnnotatedSagaManager annotatedSagaManager = new AnnotatedSagaManager(sagaRepository, sagaFactory, eventBus, sagaTypes);
+        AnnotatedSagaManager annotatedSagaManager = new AnnotatedSagaManager(sagaRepository, sagaFactory, eventBus, sagaClasses);
         // support for SagaManager @PostConstruct
         injector.injectMembers(annotatedSagaManager);
         return annotatedSagaManager;

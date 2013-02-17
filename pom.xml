@@ -15,7 +15,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <name>Axon-Guice Integration Module</name>
-    <description>Integration module between AxonFramework and Google Guice</description>
+    <description>Integration module between Axon framework and Google Guice</description>
 
     <url>http://code.google.com/p/axon-guice</url>
 

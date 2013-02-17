@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.eventhandling;
 
+import com.google.code.axonguice.AxonGuiceModule;
 import com.google.code.axonguice.eventhandling.annotation.EventHandlerComponent;
 import com.google.code.axonguice.eventhandling.scheduling.SimpleEventSchedulerProvider;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
@@ -35,6 +36,7 @@ import java.util.Collection;
  * Registers all event handling required components plus event handlers as EventBus subscribers.
  *
  * @author Alexey Krylov
+ * @see AxonGuiceModule#createEventHandlingModule()
  * @since 06.02.13
  */
 public class EventHandlingModule extends AbstractClassesGroupingModule<Object> {

@@ -27,13 +27,11 @@ import com.google.code.axonguice.domain.model.Order;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
 import com.google.code.axonguice.eventhandling.SimpleEventHandler;
 import com.google.code.axonguice.repository.RepositoryModule;
+import com.google.code.axonguice.repository.eventsourcing.EventSourcingRepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
 import com.google.code.axonguice.saga.TestOrderSaga;
 
 /**
- * AxonGuiceTestModule - TODO: description
- * //TODO axon configuration descriptor
- *
  * @author Alexey Krylov
  * @since 07.02.13
  */
@@ -42,13 +40,13 @@ public class AxonGuiceTestModule extends AxonGuiceModule {
     /*===========================================[ CLASS METHODS ]================*/
 
     @Override
-    protected RepositoryModule createRepositoryModule() {
-        return new RepositoryModule(Order.class);
+    protected DomainModule createDomainModule() {
+        return new DomainModule(Order.class);
     }
 
     @Override
-    protected AggregateRootCommandHandlingModule createAggregateRootCommandHandlingModule() {
-        return new AggregateRootCommandHandlingModule(Order.class);
+    protected RepositoryModule createRepositoryModule() {
+        return new EventSourcingRepositoryModule(Order.class);
     }
 
     @Override
@@ -57,8 +55,8 @@ public class AxonGuiceTestModule extends AxonGuiceModule {
     }
 
     @Override
-    protected DomainModule createDomainModule() {
-        return new DomainModule(Order.class);
+    protected AggregateRootCommandHandlingModule createAggregateRootCommandHandlingModule() {
+        return new AggregateRootCommandHandlingModule(Order.class);
     }
 
     @Override

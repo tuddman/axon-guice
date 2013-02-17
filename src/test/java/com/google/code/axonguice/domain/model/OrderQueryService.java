@@ -22,8 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * OrderQueryService - TODO: description
- *
  * @author Alexey Krylov
  * @since 08.02.13
  */
