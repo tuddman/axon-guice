@@ -85,7 +85,6 @@
         <version.maven-gpg-plugin>1.4</version.maven-gpg-plugin>
     </properties>
 
-
     <scm>
         <connection>scm:svn:https://axon-guice.googlecode.com/svn/trunk/</connection>
         <developerConnection>scm:svn:https://axon-guice.googlecode.com/svn/trunk/</developerConnection>
@@ -106,12 +105,14 @@
             <groupId>org.axonframework</groupId>
             <artifactId>axon-core</artifactId>
             <version>${version.axon}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-test</artifactId>
             <version>${version.axon}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- JSR-250 support -->
