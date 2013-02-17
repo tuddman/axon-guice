@@ -18,21 +18,22 @@
 
 package com.google.code.axonguice.eventhandling.scheduling;
 
+import com.google.code.axonguice.eventhandling.EventHandlingModule;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventhandling.scheduling.EventScheduler;
 import org.axonframework.eventhandling.scheduling.java.SimpleEventScheduler;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
-import javax.validation.constraints.NotNull;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * SimpleEventSchedulerProvider - TODO: description
+ * Provides default {@link EventScheduler} implementation.
  *
  * @author Alexey Krylov
+ * @see EventHandlingModule#bindEventScheduler()
  * @since 07.02.13
  */
 public class SimpleEventSchedulerProvider implements Provider<EventScheduler> {

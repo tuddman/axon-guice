@@ -16,12 +16,14 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.common.annotation;
+package com.google.code.axonguice.common;
 
 import com.google.inject.Injector;
+import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.common.annotation.FixedValueParameterResolver;
 import org.axonframework.common.annotation.ParameterResolver;
 import org.axonframework.common.annotation.ParameterResolverFactory;
+import org.axonframework.eventhandling.annotation.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +31,11 @@ import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 
 /**
- * GuiceParameterResolverFactory - TODO: description
+ * Guice-based parameter resolver factory. It allows to inject resources into {@link EventHandler}/{@link
+ * CommandHandler} annotated methods.
  *
  * @author Alexey Krylov
+ * @see ParameterResolverFactoryModule
  * @since 17.02.13
  */
 public class GuiceParameterResolverFactory extends ParameterResolverFactory {

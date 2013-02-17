@@ -19,9 +19,11 @@
 package com.google.code.axonguice.grouping;
 
 /**
- * CommandHandlersGroupPatterns - TODO: description
+ * Basic patterns for {@link ClassesSearchGroupBuilder#withInclusionPattern(String)}/{@link
+ * ClassesSearchGroupBuilder#withExclusionPattern(String)}.
  *
  * @author Alexey Krylov
+ * @see ClassesSearchGroup
  * @since 07.02.13
  */
 public interface ClassesSearchGroupPatterns {

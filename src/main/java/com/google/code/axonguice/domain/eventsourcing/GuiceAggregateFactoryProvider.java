@@ -16,46 +16,42 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.eventsourcing;
+package com.google.code.axonguice.domain.eventsourcing;
 
+import com.google.code.axonguice.domain.DomainModule;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import org.axonframework.eventsourcing.EventSourcedAggregateRoot;
-import org.axonframework.eventsourcing.GenericAggregateFactory;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 
 /**
- * GuiceAggregateFactory - TODO: description
- * //TODO injection into Aggregates support
+ * Provider of {@link GuiceGenericAggregateFactory} - this factory support injection into aggregates.
  *
  * @author Alexey Krylov
+ * @see DomainModule#bindAggregateFactory(Class)
  * @since 08.02.13
  */
-public class GuiceGenericAggregateFactory extends GenericAggregateFactory {
+public class GuiceAggregateFactoryProvider implements Provider<GuiceGenericAggregateFactory> {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    private Injector injector;
+    @Inject
+    protected Injector injector;
+    protected Class<? extends EventSourcedAggregateRoot> aggregateRootClass;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public GuiceGenericAggregateFactory(Class<? extends EventSourcedAggregateRoot> aggregateRootClass) {
-        super(aggregateRootClass);
-
+    public GuiceAggregateFactoryProvider(Class<? extends EventSourcedAggregateRoot> aggregateRootClass) {
+        this.aggregateRootClass = aggregateRootClass;
     }
 
     /*===========================================[ CLASS METHODS ]================*/
 
     @Override
-    protected EventSourcedAggregateRoot postProcessInstance(EventSourcedAggregateRoot aggregate) {
-        injector.injectMembers(aggregate);
-        return aggregate;
-    }
-
-    /*===========================================[ GETTER/SETTER ]================*/
-
-    @Resource
-    public void setInjector(Injector injector) {
-        this.injector = injector;
+    public GuiceGenericAggregateFactory get() {
+        GuiceGenericAggregateFactory aggregateFactory = new GuiceGenericAggregateFactory(aggregateRootClass);
+        injector.injectMembers(aggregateFactory);
+        return aggregateFactory;
     }
 }

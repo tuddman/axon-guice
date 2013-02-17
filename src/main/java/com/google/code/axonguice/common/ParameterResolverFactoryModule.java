@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.common.annotation;
+package com.google.code.axonguice.common;
 
 import com.google.inject.AbstractModule;
 import org.axonframework.common.annotation.ParameterResolverFactory;
 
 /**
- * ParameterResolverModule - TODO: description
+ * Registers {@link ParameterResolverFactory} implementation into Guice context.
  *
  * @author Alexey Krylov
  * @since 17.02.13
  */
-public class ParameterResolverModule extends AbstractModule {
+public class ParameterResolverFactoryModule extends AbstractModule {
 
 	/*===========================================[ INTERFACE METHODS ]============*/
 

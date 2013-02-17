@@ -21,42 +21,32 @@ package com.google.code.axonguice.repository;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.code.axonguice.util.ReflectionsHelper;
-import com.google.inject.Key;
-import com.google.inject.Provider;
-import com.google.inject.Scopes;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
-import com.google.inject.util.Types;
 import org.axonframework.domain.AggregateRoot;
 import org.axonframework.eventsourcing.EventSourcedAggregateRoot;
-import org.axonframework.eventsourcing.SnapshotterTrigger;
-import org.axonframework.eventstore.EventStore;
-import org.axonframework.eventstore.SnapshotEventStore;
-import org.axonframework.repository.Repository;
 import org.reflections.Reflections;
 
 import java.util.Collection;
 
 /**
- * RepositoryModule - TODO: description
+ * Registers all event handling required components plus event handlers as EventBus subscribers.
  *
  * @author Alexey Krylov
  * @since 06.02.13
  */
-public class RepositoryModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {
+public abstract class RepositoryModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
     @SafeVarargs
-    public RepositoryModule(Class<? extends EventSourcedAggregateRoot>... classes) {
+    protected RepositoryModule(Class<? extends EventSourcedAggregateRoot>... classes) {
         super(classes);
     }
 
-    public RepositoryModule(String... aggregatesRepositoriesScanPackages) {
+    protected RepositoryModule(String... aggregatesRepositoriesScanPackages) {
         super(aggregatesRepositoriesScanPackages);
     }
 
-    public RepositoryModule(Collection<ClassesSearchGroup> aggregatesRepositoriesSearchGroups) {
+    protected RepositoryModule(Collection<ClassesSearchGroup> aggregatesRepositoriesSearchGroups) {
         super(aggregatesRepositoriesSearchGroups);
     }
 
@@ -64,18 +54,7 @@ public class RepositoryModule extends AbstractClassesGroupingModule<EventSourced
 
     @Override
     protected void configure() {
-        bindEventStore();
-        bindSnaphotEventStore();
         bindRepositories();
-    }
-
-    protected void bindEventStore() {
-        // upcasting is here
-        bind(EventStore.class).toProvider(SimpleEventStoreProvider.class).in(Scopes.SINGLETON);
-    }
-
-    protected void bindSnaphotEventStore() {
-        bind(SnapshotEventStore.class).toProvider(SimpleEventStoreProvider.class).in(Scopes.SINGLETON);
     }
 
     protected void bindRepositories() {
@@ -96,22 +75,9 @@ public class RepositoryModule extends AbstractClassesGroupingModule<EventSourced
     protected void bindRepositories(Iterable<Class<? extends EventSourcedAggregateRoot>> aggregateRoots) {
         for (Class<? extends EventSourcedAggregateRoot> aggregateRootClass : aggregateRoots) {
             logger.info(String.format("\tFound: [%s]", aggregateRootClass.getName()));
-            bindSnapshotterTrigger(aggregateRootClass);
             bindRepository(aggregateRootClass);
         }
     }
 
-    protected void bindSnapshotterTrigger(Class<? extends AggregateRoot> aggregateRootClass) {
-        Provider snapshotterTriggerProvider = new SimpleEventCountSnapshotterTriggerProvider(aggregateRootClass);
-        requestInjection(snapshotterTriggerProvider);
-        bind(Key.get(SnapshotterTrigger.class, Names.named(aggregateRootClass.getName()))).toProvider(snapshotterTriggerProvider).in(Scopes.SINGLETON);
-        logger.info(String.format("\t\tSnapshotterTrigger set to: [%s]", snapshotterTriggerProvider.getClass().getName()));
-    }
-
-    protected void bindRepository(Class<? extends AggregateRoot> aggregateRootClass) {
-        Provider repositoryProvider = new EventSourcingRepositoryProvider(aggregateRootClass);
-        requestInjection(repositoryProvider);
-        bind(Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, aggregateRootClass)))).toProvider(repositoryProvider).in(Scopes.SINGLETON);
-        logger.info(String.format("\t\tRepository set to: [%s]", repositoryProvider.getClass().getName()));
-    }
+    protected abstract void bindRepository(Class<? extends AggregateRoot> aggregateRootClass);
 }

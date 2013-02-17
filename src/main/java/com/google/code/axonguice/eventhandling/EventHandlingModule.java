@@ -32,7 +32,7 @@ import org.reflections.Reflections;
 import java.util.Collection;
 
 /**
- * Event Processing elements bind module.
+ * Registers all event handling required components plus event handlers as EventBus subscribers.
  *
  * @author Alexey Krylov
  * @since 06.02.13

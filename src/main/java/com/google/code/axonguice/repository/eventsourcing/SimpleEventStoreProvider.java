@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.repository;
+package com.google.code.axonguice.repository.eventsourcing;
 
 import com.google.inject.Provider;
 import org.axonframework.eventstore.SnapshotEventStore;

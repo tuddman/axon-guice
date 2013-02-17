@@ -27,9 +27,11 @@ import org.axonframework.eventhandling.annotation.AnnotationEventListenerAdapter
 import javax.inject.Inject;
 
 /**
- * EventHandlerProvider - TODO: description
+ * Registers specified handler class as EventHandler subscriber.
  *
  * @author Alexey Krylov
+ * @see AnnotationEventListenerAdapter
+ * @see EventHandlingModule#bindEventHandler(Class)
  * @since 07.02.13
  */
 public class AnnotationEventHandlerProvider implements Provider {

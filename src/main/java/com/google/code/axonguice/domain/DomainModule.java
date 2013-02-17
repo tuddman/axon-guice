@@ -18,7 +18,7 @@
 
 package com.google.code.axonguice.domain;
 
-import com.google.code.axonguice.eventsourcing.GuiceAggregateFactoryProvider;
+import com.google.code.axonguice.domain.eventsourcing.GuiceAggregateFactoryProvider;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.code.axonguice.util.ReflectionsHelper;
@@ -34,9 +34,12 @@ import org.reflections.Reflections;
 import java.util.Collection;
 
 /**
- * EventBusModule - TODO: description
+ * Binds aggregate factories for all provided/found Aggregate Roots. Aggregate factory required to allows injection
+ * into aggregates.
  *
  * @author Alexey Krylov
+ * @see AggregateFactory
+ * @see GuiceAggregateFactoryProvider
  * @since 06.02.13
  */
 public class DomainModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {

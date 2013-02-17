@@ -26,7 +26,10 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
+ * Provides {@link CommandGateway} default implementation.
+ *
  * @author Alexey Krylov
+ * @see CommandHandlingModule#bindCommandGateway()
  * @since 06.02.13
  */
 public class DefaultCommandGatewayProvider implements Provider<CommandGateway> {

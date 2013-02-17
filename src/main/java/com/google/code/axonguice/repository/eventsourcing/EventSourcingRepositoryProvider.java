@@ -16,12 +16,23 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.repository;
+package com.google.code.axonguice.repository.eventsourcing;
 
+import com.google.code.axonguice.repository.RepositoryProvider;
+import com.google.inject.*;
+import com.google.inject.name.Names;
+import com.google.inject.util.Types;
 import org.axonframework.domain.AggregateRoot;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventsourcing.AggregateFactory;
 import org.axonframework.eventsourcing.EventSourcingRepository;
 import org.axonframework.eventsourcing.SnapshotterTrigger;
+import org.axonframework.eventstore.EventStore;
 import org.axonframework.repository.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
 
 /**
  * EventSourcingRepositoryProvider - TODO: description
@@ -31,10 +42,38 @@ import org.axonframework.repository.Repository;
  */
 public class EventSourcingRepositoryProvider extends RepositoryProvider {
 
+	/*===========================================[ STATIC VARIABLES ]=============*/
+
+    private static final Logger logger = LoggerFactory.getLogger(EventSourcingRepositoryProvider.class);
+
+    /*===========================================[ INSTANCE VARIABLES ]===========*/
+
+    protected EventBus eventBus;
+    protected EventStore eventStore;
+    protected Provider<SnapshotterTrigger> snapshotterTriggerProvider;
+    protected Provider<AggregateFactory> aggregateFactoryProvider;
+
     /*===========================================[ CONSTRUCTORS ]=================*/
 
     public EventSourcingRepositoryProvider(Class<? extends AggregateRoot> aggregateRootClass) {
         super(aggregateRootClass);
+    }
+
+    @Inject
+    void init(EventBus eventBus,
+              EventStore eventStore,
+              Injector injector) {
+        this.eventBus = eventBus;
+        this.eventStore = eventStore;
+        // SnapshotterTrigger is not mandatory
+        try {
+            snapshotterTriggerProvider = injector.getProvider(Key.get(SnapshotterTrigger.class, Names.named(aggregateRootClassName)));
+        } catch (ConfigurationException e) {
+            String message = String.format("No SnapshotterTrigger found for: [%s]", aggregateRootClassName);
+            logger.info(message);
+            logger.debug(e.getMessage(), e);
+        }
+        aggregateFactoryProvider = (Provider<AggregateFactory>) injector.getProvider(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateFactory.class, aggregateRootClass))));
     }
 
     /*===========================================[ INTERFACE METHODS ]============*/

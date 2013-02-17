@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.commandhandling;
 
+import com.google.code.axonguice.AxonGuiceModule;
 import com.google.code.axonguice.commandhandling.annotation.CommandHandlerComponent;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesSearchGroup;
@@ -33,9 +34,10 @@ import org.reflections.Reflections;
 import java.util.Collection;
 
 /**
- * Command Handling elements bind module.
+ * Registers all command handling required components plus command handlers as CommandBus subscribers.
  *
  * @author Alexey Krylov
+ * @see AxonGuiceModule#createCommandHandlingModule()
  * @since 06.02.13
  */
 public class CommandHandlingModule extends AbstractClassesGroupingModule<Object> {
@@ -65,7 +67,7 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule<Object>
     }
 
     protected void bindCommandHandler(Class<?> handlerClass) {
-        Provider commandHandlerProvider = new CommandHandlerProvider(handlerClass);
+        Provider commandHandlerProvider = new AnnotationCommandHandlerProvider(handlerClass);
         requestInjection(commandHandlerProvider);
         bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
     }

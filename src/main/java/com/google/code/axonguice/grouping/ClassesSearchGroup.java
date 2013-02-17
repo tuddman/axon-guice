@@ -28,8 +28,10 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 
 /**
- * CommandHandlersGroup - TODO: description
- * todo allow concrete specification of classes set
+ * Represents set of Classes search criterias.
+ * Should be created via {@link ClassesSearchGroupBuilder}.
+ * Used tighly in {@link AbstractClassesGroupingModule}.
+ *
  * @author Alexey Krylov
  * @since 07.02.13
  */

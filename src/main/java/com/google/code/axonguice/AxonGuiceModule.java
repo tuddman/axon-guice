@@ -20,16 +20,28 @@ package com.google.code.axonguice;
 
 import com.google.code.axonguice.commandhandling.AggregateRootCommandHandlingModule;
 import com.google.code.axonguice.commandhandling.CommandHandlingModule;
-import com.google.code.axonguice.common.annotation.ParameterResolverModule;
+import com.google.code.axonguice.common.ParameterResolverFactoryModule;
 import com.google.code.axonguice.domain.DomainModule;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
 import com.google.code.axonguice.jsr250.Jsr250Module;
 import com.google.code.axonguice.repository.RepositoryModule;
+import com.google.code.axonguice.repository.eventsourcing.EventSourcingRepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
 import com.google.inject.AbstractModule;
 
 import java.util.Arrays;
 
+/**
+ * Axon-Guice main integration module - it binds all Axon components into Guice context.
+ * Module is highly customizable - all methods can be overridden in subclasses.
+ * <p/>
+ * This module also brings JSR-250 support which is required for some of Axon parts.
+ * You can always turn off this provided implementation by overriding {#isJsr250SupportEnabled} method, but anyway some
+ * JSR-250 implementation is must-have for appropriate Axon existence.
+ *
+ * @author Alexey Krylov
+ * @since 06.02
+ */
 public class AxonGuiceModule extends AbstractModule {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
@@ -53,7 +65,7 @@ public class AxonGuiceModule extends AbstractModule {
             install(createJsr250Module());
         }
 
-        install(createParameterResolverModule());
+        install(createParameterResolverFactoryModule());
         install(createDomainModule());
         install(createRepositoryModule());
         install(createCommandHandlingModule());
@@ -75,8 +87,8 @@ public class AxonGuiceModule extends AbstractModule {
         return new Jsr250Module();
     }
 
-    protected ParameterResolverModule createParameterResolverModule() {
-        return new ParameterResolverModule();
+    protected ParameterResolverFactoryModule createParameterResolverFactoryModule() {
+        return new ParameterResolverFactoryModule();
     }
 
     protected DomainModule createDomainModule() {
@@ -84,7 +96,7 @@ public class AxonGuiceModule extends AbstractModule {
     }
 
     protected RepositoryModule createRepositoryModule() {
-        return new RepositoryModule(packages);
+        return new EventSourcingRepositoryModule(packages);
     }
 
     protected CommandHandlingModule createCommandHandlingModule() {

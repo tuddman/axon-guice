@@ -28,7 +28,23 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * ClassesGroupBuilder - TODO: description
+ * Builds instance of {@link ClassesSearchGroup}.
+ * Examples:
+ * <pre>
+ *     ClassesSearchGroupBuilder.forPackage("com.mycorp").
+ *             withExclusionPattern(".*" + UserData.class.getSimpleName() + ".*").
+ *             attachedTo("persistence-unit1").
+ *             build();
+ *
+ *   ClassesSearchGroupBuilder.forPackage("com.mycorp").
+ *         withInclusionFilterPredicate(new Predicate&lt;Class&gt;() {
+ *             {@literal @}Override
+ *             public boolean apply(@Nullable Class input) {
+ *                 return UserData.class.isAssignableFrom(input);
+ *             }
+ *         }).
+ *         build();
+ * </pre>
  *
  * @author Alexey Krylov
  * @since 15.02.13

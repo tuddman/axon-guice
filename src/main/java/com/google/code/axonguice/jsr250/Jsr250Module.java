@@ -22,7 +22,7 @@ import com.google.inject.AbstractModule;
 import com.mycila.inject.jsr250.Jsr250;
 
 /**
- * Jsr250Module - TODO: description
+ * JSR-250 support module. Default implementation is {@link Jsr250}.
  *
  * @author Alexey Krylov
  * @since 07.02.13

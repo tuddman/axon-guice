@@ -19,12 +19,17 @@
 package com.google.code.axonguice.grouping;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.sun.istack.internal.Nullable;
 
 /**
- * CommandHandlersGroupFilterPredicates - TODO: description
+ * Basic predicates for {@link ClassesSearchGroupBuilder#withInclusionFilterPredicate(Predicate)}/{@link
+ * ClassesSearchGroupBuilder#withExclusionFilterPredicate(Predicate)}.
+ * Predicates can be grouped, see {@link Predicates}.
  *
  * @author Alexey Krylov
+ * @see Predicates
+ * @see ClassesSearchGroup
  * @since 07.02.13
  */
 public interface ClassesSearchGroupFilterPredicates {

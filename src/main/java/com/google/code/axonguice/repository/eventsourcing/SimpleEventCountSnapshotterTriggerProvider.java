@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.repository;
+package com.google.code.axonguice.repository.eventsourcing;
 
 import org.axonframework.domain.AggregateRoot;
 import org.axonframework.eventsourcing.AggregateFactory;

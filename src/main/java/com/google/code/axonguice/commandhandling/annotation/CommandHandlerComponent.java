@@ -18,15 +18,22 @@
 
 package com.google.code.axonguice.commandhandling.annotation;
 
+import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerAdapter;
+import org.axonframework.commandhandling.annotation.CommandHandler;
 
 import java.lang.annotation.*;
+import java.util.Collection;
 
 /**
- * Specifies that the class is an Event Handler.
- * @see AnnotationCommandHandlerAdapter
+ * Specifies that the class is an containter of {@link CommandHandler}
+ * annotated methods. This annotation is mandatory for handlers auto-discovery option -
+ * when you use {@link CommandHandlingModule#CommandHandlingModule(String...)} or {@link
+ * CommandHandlingModule#CommandHandlingModule(Collection)}.
  *
  * @author Alexey Krylov
+ * @see CommandHandlingModule
+ * @see AnnotationCommandHandlerAdapter
  * @since 07.02.13
  */
 @Documented

@@ -16,41 +16,46 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.eventsourcing;
+package com.google.code.axonguice.domain.eventsourcing;
 
 import com.google.inject.Injector;
-import com.google.inject.Provider;
+import org.axonframework.eventsourcing.AggregateFactory;
 import org.axonframework.eventsourcing.EventSourcedAggregateRoot;
+import org.axonframework.eventsourcing.GenericAggregateFactory;
 
 import javax.inject.Inject;
 
 /**
- * GuiceAggregateFactory - TODO: description
- * //TODO injection into Aggregates support
+ * Provides {@link AggregateFactory} with injection support.
  *
  * @author Alexey Krylov
+ * @see GuiceAggregateFactoryProvider
  * @since 08.02.13
  */
-public class GuiceAggregateFactoryProvider implements Provider<GuiceGenericAggregateFactory> {
+public class GuiceGenericAggregateFactory extends GenericAggregateFactory {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
-    @Inject
-    protected Injector injector;
-    protected Class<? extends EventSourcedAggregateRoot> aggregateRootClass;
+    private Injector injector;
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public GuiceAggregateFactoryProvider(Class<? extends EventSourcedAggregateRoot> aggregateRootClass) {
-        this.aggregateRootClass = aggregateRootClass;
+    public GuiceGenericAggregateFactory(Class<? extends EventSourcedAggregateRoot> aggregateRootClass) {
+        super(aggregateRootClass);
     }
 
     /*===========================================[ CLASS METHODS ]================*/
 
     @Override
-    public GuiceGenericAggregateFactory get() {
-        GuiceGenericAggregateFactory aggregateFactory = new GuiceGenericAggregateFactory(aggregateRootClass);
-        injector.injectMembers(aggregateFactory);
-        return aggregateFactory;
+    protected EventSourcedAggregateRoot postProcessInstance(EventSourcedAggregateRoot aggregate) {
+        injector.injectMembers(aggregate);
+        return aggregate;
+    }
+
+    /*===========================================[ GETTER/SETTER ]================*/
+
+    @Inject
+    public void setInjector(Injector injector) {
+        this.injector = injector;
     }
 }

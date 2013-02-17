@@ -28,12 +28,14 @@ import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerAdap
 import javax.inject.Inject;
 
 /**
- * CommandHandlerProvider - TODO: description
+ * Registers specified handler class as CommandBus subscriber.
  *
  * @author Alexey Krylov
+ * @see CommandHandlingModule#bindCommandHandler(Class)
+ * @see AnnotationCommandHandlerAdapter
  * @since 07.02.13
  */
-public class CommandHandlerProvider implements Provider {
+public class AnnotationCommandHandlerProvider implements Provider {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 
@@ -43,7 +45,7 @@ public class CommandHandlerProvider implements Provider {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
-    public CommandHandlerProvider(Class<?> handlerClass) {
+    public AnnotationCommandHandlerProvider(Class<?> handlerClass) {
         this.handlerClass = handlerClass;
     }
 

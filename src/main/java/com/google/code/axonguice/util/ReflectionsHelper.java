@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * ReflectionsHelper - TODO: description
+ * Integration module reflections helper utility.
  *
  * @author Alexey Krylov
  * @since 08.02.13
@@ -35,11 +35,19 @@ public class ReflectionsHelper {
     /*===========================================[ CONSTRUCTORS ]=================*/
 
     private ReflectionsHelper() {
-
     }
 
     /*===========================================[ CLASS METHODS ]================*/
 
+    /**
+     * Finds all subclasses of specified Aggregate Root class with specified {@link Reflections} instance.
+     *
+     * @param reflections preconfigured Reflections instance
+     * @param rootClass   root class of required Aggregate Roots
+     * @param <T>         returning collection parametrization parameter
+     *
+     * @return subclasses of specified Aggregate Root class or empty collection
+     */
     public static <T extends AggregateRoot> Collection<Class<? extends T>> findAggregateRoots(Reflections reflections, Class<T> rootClass) {
         Collection<Class<? extends T>> result = new ArrayList<>();
         Reflections axonReflections = new Reflections("org.axonframework");

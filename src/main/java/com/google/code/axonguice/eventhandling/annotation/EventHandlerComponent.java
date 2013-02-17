@@ -18,12 +18,22 @@
 
 package com.google.code.axonguice.eventhandling.annotation;
 
+import com.google.code.axonguice.eventhandling.EventHandlingModule;
+import org.axonframework.eventhandling.annotation.AnnotationEventListenerAdapter;
+import org.axonframework.eventhandling.annotation.EventHandler;
+
 import java.lang.annotation.*;
+import java.util.Collection;
 
 /**
- * Specifies that the class is an Event Handler.
+ * Specifies that the class is an containter of {@link EventHandler}
+ * annotated methods. This annotation is mandatory for handlers auto-discovery option -
+ * when you use {@link EventHandlingModule#EventHandlingModule(String...)} or
+ * {@link EventHandlingModule#EventHandlingModule(Collection)}.
  *
  * @author Alexey Krylov
+ * @see EventHandlingModule
+ * @see AnnotationEventListenerAdapter
  * @since 07.02.13
  */
 @Documented

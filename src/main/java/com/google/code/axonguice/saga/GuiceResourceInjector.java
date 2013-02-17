@@ -25,7 +25,7 @@ import org.axonframework.saga.Saga;
 import javax.inject.Inject;
 
 /**
- * GuiceResourceInjector - TODO: description
+ * Guice-based {@link ResourceInjector} implementation.
  *
  * @author Alexey Krylov
  * @since 14.02.13

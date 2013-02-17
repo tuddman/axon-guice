@@ -16,26 +16,21 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.commandhandling;
-
-import org.axonframework.unitofwork.DefaultUnitOfWorkFactory;
-import org.axonframework.unitofwork.UnitOfWorkFactory;
-
-import javax.inject.Provider;
+package com.google.code.axonguice.configuration;
 
 /**
- * Provides {@link UnitOfWorkFactory} default implementation.
- *
- * @author Alexey Krylov
- * @see CommandHandlingModule#bindUnitOfWorkFactory()
- * @since 06.02.13
+ * AxonGuiceConfigurationBuilder
+ * //TODO make alive
+ * @author Alexey Krylov (lexx)
+ * @since 17.02.13
  */
-public class DefaultUnitOfWorkFactoryProvider implements Provider<UnitOfWorkFactory> {
+public class AxonGuiceConfigurationBuilder {
+    /*===========================================[ STATIC VARIABLES ]=============*/
+/*===========================================[ INSTANCE VARIABLES ]===========*/
+/*===========================================[ CONSTRUCTORS ]=================*/
+/*===========================================[ CLASS METHODS ]================*/
 
-    /*===========================================[ INTERFACE METHODS ]============*/
-
-    @Override
-    public UnitOfWorkFactory get() {
-        return new DefaultUnitOfWorkFactory();
+    public AxonGuiceConfiguration build() {
+        return null;
     }
 }

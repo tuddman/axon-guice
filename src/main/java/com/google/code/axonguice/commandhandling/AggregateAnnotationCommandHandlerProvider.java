@@ -28,9 +28,11 @@ import org.axonframework.repository.Repository;
 import javax.inject.Inject;
 
 /**
- * CommandHandlerProvider - TODO: description
+ * Registers specified aggregate root class as CommandBus subscriber.
  *
  * @author Alexey Krylov
+ * @see AggregateRootCommandHandlingModule
+ * @see AggregateAnnotationCommandHandler
  * @since 07.02.13
  */
 public class AggregateAnnotationCommandHandlerProvider implements Provider {

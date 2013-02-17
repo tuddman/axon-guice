@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.commandhandling;
 
+import com.google.code.axonguice.AxonGuiceModule;
 import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.code.axonguice.util.ReflectionsHelper;
@@ -32,8 +33,9 @@ import org.reflections.Reflections;
 import java.util.Collection;
 
 /**
- * AggregateRootCommandHandlingModule - TODO: description
+ * Registers specified Aggregate Roots as CommandBus subscribers.
  *
+ * @see AxonGuiceModule#createAggregateRootCommandHandlingModule()
  * @author Alexey Krylov
  * @since 15.02.13
  */

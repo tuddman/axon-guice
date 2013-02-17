@@ -18,6 +18,7 @@
 
 package com.google.code.axonguice.commandhandling;
 
+import com.google.inject.Injector;
 import org.axonframework.unitofwork.UnitOfWork;
 import org.axonframework.unitofwork.UnitOfWorkFactory;
 
@@ -25,6 +26,23 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
+ * Provides <b>started</b> {@link UnitOfWork}. <b>Do not forget to close injected UnitOfWork!</b>
+ * If you need UoW periodically and dont want to retrieve it directly from {@link Injector} you can always inject an
+ * Provider of UnitOfWork and retrieve them via get method.
+ * <pre>
+ *     {@literal@}Inject
+ *     private Provider{@literal<}UnitOfWork{@literal>} uowProvider;
+ *
+ *     ....
+ *     UnitOfWork uow = uowProvider.get();
+ *     try {
+ *      ....
+ *     } finally {
+ *         uow.commit();
+ *     }
+ * </pre>
+ *
+ * @see CommandHandlingModule#bindUnitOfWork()
  * @author Alexey Krylov
  * @since 06.02.13
  */
