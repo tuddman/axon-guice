@@ -79,6 +79,7 @@ public class RepositoryModule extends AbstractClassesGroupingModule<EventSourced
     }
 
     protected void bindRepositories() {
+        logger.info("Binding EventSourced Aggregate Roots Repositories");
         if (classesGroup.isEmpty()) {
             for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
                 Collection<String> packagesToScan = classesSearchGroup.getPackages();

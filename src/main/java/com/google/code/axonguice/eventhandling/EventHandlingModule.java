@@ -67,6 +67,7 @@ public class EventHandlingModule extends AbstractClassesGroupingModule<Object> {
     }
 
     protected void bindEventHandlers() {
+        logger.info("Binding Event Handlers");
         if (classesGroup.isEmpty()) {
             for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
                 Collection<String> packagesToScan = classesSearchGroup.getPackages();

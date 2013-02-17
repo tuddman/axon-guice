@@ -20,6 +20,7 @@ package com.google.code.axonguice;
 
 import com.google.code.axonguice.commandhandling.AggregateRootCommandHandlingModule;
 import com.google.code.axonguice.commandhandling.CommandHandlingModule;
+import com.google.code.axonguice.common.annotation.ParameterResolverModule;
 import com.google.code.axonguice.domain.DomainModule;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
 import com.google.code.axonguice.jsr250.Jsr250Module;
@@ -52,6 +53,7 @@ public class AxonGuiceModule extends AbstractModule {
             install(createJsr250Module());
         }
 
+        install(createParameterResolverModule());
         install(createDomainModule());
         install(createRepositoryModule());
         install(createCommandHandlingModule());
@@ -73,6 +75,14 @@ public class AxonGuiceModule extends AbstractModule {
         return new Jsr250Module();
     }
 
+    protected ParameterResolverModule createParameterResolverModule() {
+        return new ParameterResolverModule();
+    }
+
+    protected DomainModule createDomainModule() {
+        return new DomainModule(packages);
+    }
+
     protected RepositoryModule createRepositoryModule() {
         return new RepositoryModule(packages);
     }
@@ -83,10 +93,6 @@ public class AxonGuiceModule extends AbstractModule {
 
     protected AggregateRootCommandHandlingModule createAggregateRootCommandHandlingModule() {
         return new AggregateRootCommandHandlingModule(packages);
-    }
-
-    protected DomainModule createDomainModule() {
-        return new DomainModule(packages);
     }
 
     protected EventHandlingModule createEventHandlingModule() {

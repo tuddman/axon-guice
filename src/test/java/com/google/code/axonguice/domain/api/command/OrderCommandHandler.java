@@ -20,6 +20,7 @@ package com.google.code.axonguice.domain.api.command;
 
 import com.google.code.axonguice.commandhandling.annotation.CommandHandlerComponent;
 import com.google.code.axonguice.domain.model.Order;
+import com.google.code.axonguice.domain.model.OrderQueryService;
 import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.repository.Repository;
 
@@ -66,9 +67,10 @@ public class OrderCommandHandler {
     }
 
     @CommandHandler
-    public void on(RemoveOrderItemCommand command) {
+    public boolean on(RemoveOrderItemCommand command, OrderQueryService orderQueryService) {
         Order order = orderRepository.load(command.getOrderId());
         order.removeOrderItem(command.getItemId());
+        return orderQueryService!=null;
     }
 
     @Inject

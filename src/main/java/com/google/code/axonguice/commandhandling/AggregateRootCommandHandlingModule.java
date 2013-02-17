@@ -62,6 +62,7 @@ public class AggregateRootCommandHandlingModule extends AbstractClassesGroupingM
     }
 
     protected void bindAggregateCommandHandlers() {
+        logger.info("Binding Aggregate Roots Command Handlers");
         if (classesGroup.isEmpty()) {
             for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
                 Collection<String> packagesToScan = classesSearchGroup.getPackages();

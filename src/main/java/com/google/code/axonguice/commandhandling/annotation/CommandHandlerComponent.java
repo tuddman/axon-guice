@@ -18,10 +18,13 @@
 
 package com.google.code.axonguice.commandhandling.annotation;
 
+import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerAdapter;
+
 import java.lang.annotation.*;
 
 /**
- * CommandHandler - TODO: description
+ * Specifies that the class is an Event Handler.
+ * @see AnnotationCommandHandlerAdapter
  *
  * @author Alexey Krylov
  * @since 07.02.13

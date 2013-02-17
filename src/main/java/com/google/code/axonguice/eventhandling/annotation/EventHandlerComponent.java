@@ -21,7 +21,7 @@ package com.google.code.axonguice.eventhandling.annotation;
 import java.lang.annotation.*;
 
 /**
- * EventHandlerComponent - TODO: description
+ * Specifies that the class is an Event Handler.
  *
  * @author Alexey Krylov
  * @since 07.02.13

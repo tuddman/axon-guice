@@ -57,6 +57,7 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule<Object>
 	/*===========================================[ CLASS METHODS ]================*/
 
     protected void bindCommandHandlers(Iterable<Class<?>> handlerClasses) {
+        logger.info("Binding Command Handlers");
         for (Class<?> handlerClass : handlerClasses) {
             logger.info(String.format("\tFound: [%s]", handlerClass.getName()));
             bindCommandHandler(handlerClass);

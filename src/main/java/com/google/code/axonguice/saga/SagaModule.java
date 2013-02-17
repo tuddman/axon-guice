@@ -77,6 +77,7 @@ public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedS
     }
 
     protected void bindSagaManager() {
+        logger.info("Binding Sagas");
         Collection<Class<? extends AbstractAnnotatedSaga>> sagaTypes = new ArrayList<>();
 
         if (classesGroup.isEmpty()) {
@@ -90,10 +91,6 @@ public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedS
                 // Extraction of all AbstractAnnotatedSaga subclasses
                 Collection<Class<? extends AbstractAnnotatedSaga>> validSagaClasses =
                         filterSearchResult(reflections.getSubTypesOf(AbstractAnnotatedSaga.class), classesSearchGroup);
-                for (Class<?> sagaClass : validSagaClasses) {
-                    logger.info(String.format("\tFound: [%s]", sagaClass.getName()));
-                }
-
                 sagaTypes.addAll(validSagaClasses);
             }
         } else {
@@ -101,6 +98,10 @@ public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedS
         }
 
         if (!sagaTypes.isEmpty()) {
+            for (Class<?> sagaClass : sagaTypes) {
+                logger.info(String.format("\tFound: [%s]", sagaClass.getName()));
+            }
+
             AnnotatedSagaManagerProvider annotatedSagaManagerProvider = new AnnotatedSagaManagerProvider(sagaTypes);
             requestInjection(annotatedSagaManagerProvider);
             bind(SagaManager.class).toProvider(annotatedSagaManagerProvider).in(Scopes.SINGLETON);

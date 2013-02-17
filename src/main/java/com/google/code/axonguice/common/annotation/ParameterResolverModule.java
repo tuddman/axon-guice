@@ -16,33 +16,29 @@
  * limitations under the License.
  */
 
-package com.google.code.axonguice.domain.api.command;
+package com.google.code.axonguice.common.annotation;
 
-import com.google.code.axonguice.domain.model.ItemId;
-import com.google.code.axonguice.domain.model.OrderId;
+import com.google.inject.AbstractModule;
+import org.axonframework.common.annotation.ParameterResolverFactory;
 
 /**
- * RemoveOrderItemCommand - TODO: description
+ * ParameterResolverModule - TODO: description
  *
  * @author Alexey Krylov
  * @since 17.02.13
  */
-public class RemoveOrderItemCommand extends AbstractOrderCommand {
+public class ParameterResolverModule extends AbstractModule {
 
-	/*===========================================[ INSTANCE VARIABLES ]===========*/
+	/*===========================================[ INTERFACE METHODS ]============*/
 
-    private ItemId itemId;
-
-	/*===========================================[ CONSTRUCTORS ]=================*/
-
-    public RemoveOrderItemCommand(OrderId orderId, ItemId itemId) {
-        super(orderId);
-        this.itemId = itemId;
+    @Override
+    protected void configure() {
+        ParameterResolverFactory parameterResolverFactory = createParameterResolverFactory();
+        requestInjection(parameterResolverFactory);
+        ParameterResolverFactory.registerFactory(parameterResolverFactory);
     }
 
-	/*===========================================[ GETTER/SETTER ]================*/
-
-    public ItemId getItemId() {
-        return itemId;
+    protected ParameterResolverFactory createParameterResolverFactory() {
+        return new GuiceParameterResolverFactory();
     }
 }

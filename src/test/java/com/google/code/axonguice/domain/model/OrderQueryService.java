@@ -18,6 +18,9 @@
 
 package com.google.code.axonguice.domain.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * OrderQueryService - TODO: description
  *
@@ -25,8 +28,23 @@ package com.google.code.axonguice.domain.model;
  * @since 08.02.13
  */
 public class OrderQueryService {
-/*===========================================[ STATIC VARIABLES ]=============*/
-/*===========================================[ INSTANCE VARIABLES ]===========*/
-/*===========================================[ CONSTRUCTORS ]=================*/
-/*===========================================[ CLASS METHODS ]================*/
+
+	/*===========================================[ INSTANCE VARIABLES ]===========*/
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderQueryService.class);
+
+    private boolean queryExecuted;
+
+	/*===========================================[ CLASS METHODS ]================*/
+
+    public void doQuery() {
+        queryExecuted = true;
+        logger.info("Query Executed");
+    }
+
+	/*===========================================[ GETTER/SETTER ]================*/
+
+    public boolean isQueryExecuted() {
+        return queryExecuted;
+    }
 }
