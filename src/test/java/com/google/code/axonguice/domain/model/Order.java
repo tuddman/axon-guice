@@ -19,15 +19,15 @@
 package com.google.code.axonguice.domain.model;
 
 import com.google.code.axonguice.domain.api.*;
-import com.google.code.axonguice.domain.api.command.RemoveOrderItemCommand;
-import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.eventhandling.annotation.EventHandler;
+import org.axonframework.eventsourcing.EventSourcedEntity;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
 import org.axonframework.eventsourcing.annotation.EventSourcedMember;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -134,6 +134,11 @@ public class Order extends AbstractAnnotatedAggregateRoot {
                 break;
             }
         }
+    }
+
+    @Override
+    public Collection<EventSourcedEntity> getChildEntities() {
+        return super.getChildEntities();
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.google.code.axonguice.domain.model.ItemId;
 import com.google.code.axonguice.domain.model.Order;
 import com.google.code.axonguice.domain.model.OrderId;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.eventsourcing.EventSourcedEntity;
 import org.axonframework.repository.Repository;
 import org.axonframework.unitofwork.UnitOfWork;
 import org.junit.Assert;
@@ -33,6 +34,7 @@ import org.junit.Test;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import java.util.Collection;
 
 
 /**
@@ -87,6 +89,9 @@ public class OrderItemTest extends AxonGuiceTestBase {
         commandGateway.send(new AddOrderItemCommand(orderId, itemId1, 10));
         commandGateway.send(new AddOrderItemCommand(orderId, itemId2, 20));
 
+        Order order = getOrderById(orderId);
+        Collection<EventSourcedEntity> childEntities = order.getChildEntities();
+        Assert.assertEquals("Order has invalid child entities count", 2, childEntities.size());
 
         Assert.assertEquals("Order has invalid items count", 2, getOrderById(orderId).getOrderItemsCount());
         commandGateway.send(new RemoveOrderItemCommand(orderId, itemId1));
