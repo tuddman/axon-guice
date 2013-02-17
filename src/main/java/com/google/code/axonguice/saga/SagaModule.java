@@ -48,12 +48,12 @@ public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedS
         super(classes);
     }
 
-    public SagaModule(String... sagasScanPackages) {
-        super(sagasScanPackages);
-    }
-
     public SagaModule(Collection<ClassesSearchGroup> sagasClassesSearchGroups) {
         super(sagasClassesSearchGroups);
+    }
+
+    public SagaModule(String... sagasScanPackages) {
+        super(sagasScanPackages);
     }
 
 	/*===========================================[ INTERFACE METHODS ]============*/

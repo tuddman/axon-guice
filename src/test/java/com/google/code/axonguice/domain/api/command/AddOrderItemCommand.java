@@ -25,7 +25,7 @@ import com.google.code.axonguice.domain.model.OrderId;
  * @author Alexey Krylov
  * @since 06.02.13
  */
-public class AddOrderItemCommand extends AbstractOrderCommand{
+public class AddOrderItemCommand extends AbstractOrderCommand {
 
     /*===========================================[ INSTANCE VARIABLES ]===========*/
 

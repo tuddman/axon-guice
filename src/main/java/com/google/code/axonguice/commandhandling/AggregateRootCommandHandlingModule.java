@@ -35,8 +35,8 @@ import java.util.Collection;
 /**
  * Registers specified Aggregate Roots as CommandBus subscribers.
  *
- * @see AxonGuiceModule#createAggregateRootCommandHandlingModule()
  * @author Alexey Krylov
+ * @see AxonGuiceModule#createAggregateRootCommandHandlingModule()
  * @since 15.02.13
  */
 public class AggregateRootCommandHandlingModule extends AbstractClassesGroupingModule<AggregateRoot> {

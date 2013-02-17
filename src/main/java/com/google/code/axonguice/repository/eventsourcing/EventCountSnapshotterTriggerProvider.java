@@ -31,7 +31,7 @@ import java.util.List;
  * Provides {@link EventCountSnapshotterTrigger} as {@link SnapshotterTrigger} implementation.
  *
  * @author Alexey Krylov
- * @see EventSourcingRepositoryModule#bindSnapshotterTrigger(Class)
+ * @see EventSourcedRepositoryModule#bindSnapshotterTrigger(Class)
  * @since 08.02.13
  */
 public class EventCountSnapshotterTriggerProvider extends SnapshotterTriggerProvider {

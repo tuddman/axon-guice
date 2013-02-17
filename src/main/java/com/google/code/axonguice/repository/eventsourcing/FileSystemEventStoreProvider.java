@@ -27,8 +27,9 @@ import java.io.File;
 
 /**
  * Provides {@link FileSystemEventStore} as an {@link SnapshotEventStore} implementation.
- * @see EventSourcingRepositoryModule#bindEventStore()
+ *
  * @author Alexey Krylov
+ * @see EventSourcedRepositoryModule#bindEventStore()
  * @since 07.02.13
  */
 public class FileSystemEventStoreProvider implements Provider<SnapshotEventStore> {

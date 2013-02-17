@@ -22,10 +22,11 @@ import com.google.code.axonguice.commandhandling.AggregateRootCommandHandlingMod
 import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import com.google.code.axonguice.common.ParameterResolverFactoryModule;
 import com.google.code.axonguice.domain.DomainModule;
+import com.google.code.axonguice.domain.eventsourcing.EventSourcedDomainModule;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
 import com.google.code.axonguice.jsr250.Jsr250Module;
 import com.google.code.axonguice.repository.RepositoryModule;
-import com.google.code.axonguice.repository.eventsourcing.EventSourcingRepositoryModule;
+import com.google.code.axonguice.repository.eventsourcing.EventSourcedRepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
 import com.google.inject.AbstractModule;
 
@@ -92,11 +93,11 @@ public class AxonGuiceModule extends AbstractModule {
     }
 
     protected DomainModule createDomainModule() {
-        return new DomainModule(packages);
+        return new EventSourcedDomainModule(packages);
     }
 
     protected RepositoryModule createRepositoryModule() {
-        return new EventSourcingRepositoryModule(packages);
+        return new EventSourcedRepositoryModule(packages);
     }
 
     protected CommandHandlingModule createCommandHandlingModule() {

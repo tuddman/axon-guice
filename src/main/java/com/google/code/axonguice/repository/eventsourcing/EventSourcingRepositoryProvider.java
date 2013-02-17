@@ -36,8 +36,9 @@ import javax.inject.Inject;
 
 /**
  * Provides {@link EventSourcingRepository} instance for specified Aggregate Root class.
- * @see EventSourcingRepositoryModule#bindRepository(Class)
+ *
  * @author Alexey Krylov
+ * @see EventSourcedRepositoryModule#bindRepository(Class)
  * @since 08.02.13
  */
 public class EventSourcingRepositoryProvider extends RepositoryProvider {

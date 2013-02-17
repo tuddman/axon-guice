@@ -42,8 +42,8 @@ import javax.inject.Provider;
  *     }
  * </pre>
  *
- * @see CommandHandlingModule#bindUnitOfWork()
  * @author Alexey Krylov
+ * @see CommandHandlingModule#bindUnitOfWork()
  * @since 06.02.13
  */
 public class UnitOfWorkProvider implements Provider<UnitOfWork> {

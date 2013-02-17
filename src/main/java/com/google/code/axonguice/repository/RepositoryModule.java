@@ -23,7 +23,6 @@ import com.google.code.axonguice.grouping.AbstractClassesGroupingModule;
 import com.google.code.axonguice.grouping.ClassesSearchGroup;
 import com.google.code.axonguice.util.ReflectionsHelper;
 import org.axonframework.domain.AggregateRoot;
-import org.axonframework.eventsourcing.EventSourcedAggregateRoot;
 import org.reflections.Reflections;
 
 import java.util.Collection;
@@ -35,12 +34,12 @@ import java.util.Collection;
  * @see AxonGuiceModule#createRepositoryModule()
  * @since 06.02.13
  */
-public abstract class RepositoryModule extends AbstractClassesGroupingModule<EventSourcedAggregateRoot> {
+public abstract class RepositoryModule<T extends AggregateRoot> extends AbstractClassesGroupingModule<T> {
 
     /*===========================================[ CONSTRUCTORS ]=================*/
 
     @SafeVarargs
-    protected RepositoryModule(Class<? extends EventSourcedAggregateRoot>... classes) {
+    protected RepositoryModule(Class<? extends T>... classes) {
         super(classes);
     }
 
@@ -62,24 +61,27 @@ public abstract class RepositoryModule extends AbstractClassesGroupingModule<Eve
     protected void bindRepositories() {
         logger.info("Binding EventSourced Aggregate Roots Repositories");
         if (classesGroup.isEmpty()) {
+            Class<T> firstTypeParameterClass = ReflectionsHelper.getFirstTypeParameterClass(getClass());
+
             for (ClassesSearchGroup classesSearchGroup : classesSearchGroups) {
                 Collection<String> packagesToScan = classesSearchGroup.getPackages();
                 logger.info(String.format("Searching %s for EventSourced Aggregate Roots to bind Repositories", packagesToScan));
 
                 Reflections reflections = createReflections(packagesToScan);
-                bindRepositories(filterSearchResult(ReflectionsHelper.findAggregateRoots(reflections, EventSourcedAggregateRoot.class), classesSearchGroup));
+                Collection<Class<? extends T>> aggregateRoots = ReflectionsHelper.findAggregateRoots(reflections, firstTypeParameterClass);
+                bindRepositories(filterSearchResult(aggregateRoots, classesSearchGroup));
             }
         } else {
             bindRepositories(classesGroup);
         }
     }
 
-    protected void bindRepositories(Iterable<Class<? extends EventSourcedAggregateRoot>> aggregateRoots) {
-        for (Class<? extends EventSourcedAggregateRoot> aggregateRootClass : aggregateRoots) {
+    protected void bindRepositories(Iterable<Class<? extends T>> aggregateRoots) {
+        for (Class<? extends T> aggregateRootClass : aggregateRoots) {
             logger.info(String.format("\tFound: [%s]", aggregateRootClass.getName()));
             bindRepository(aggregateRootClass);
         }
     }
 
-    protected abstract void bindRepository(Class<? extends AggregateRoot> aggregateRootClass);
+    protected abstract void bindRepository(Class<? extends T> aggregateRootClass);
 }

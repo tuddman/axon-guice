@@ -23,11 +23,12 @@ import com.google.code.axonguice.commandhandling.CommandHandlingModule;
 import com.google.code.axonguice.commandhandling.SimpleCommandHandler;
 import com.google.code.axonguice.domain.DomainModule;
 import com.google.code.axonguice.domain.api.command.OrderCommandHandler;
+import com.google.code.axonguice.domain.eventsourcing.EventSourcedDomainModule;
 import com.google.code.axonguice.domain.model.Order;
 import com.google.code.axonguice.eventhandling.EventHandlingModule;
 import com.google.code.axonguice.eventhandling.SimpleEventHandler;
 import com.google.code.axonguice.repository.RepositoryModule;
-import com.google.code.axonguice.repository.eventsourcing.EventSourcingRepositoryModule;
+import com.google.code.axonguice.repository.eventsourcing.EventSourcedRepositoryModule;
 import com.google.code.axonguice.saga.SagaModule;
 import com.google.code.axonguice.saga.TestOrderSaga;
 
@@ -41,12 +42,12 @@ public class AxonGuiceTestModule extends AxonGuiceModule {
 
     @Override
     protected DomainModule createDomainModule() {
-        return new DomainModule(Order.class);
+        return new EventSourcedDomainModule(Order.class);
     }
 
     @Override
     protected RepositoryModule createRepositoryModule() {
-        return new EventSourcingRepositoryModule(Order.class);
+        return new EventSourcedRepositoryModule(Order.class);
     }
 
     @Override

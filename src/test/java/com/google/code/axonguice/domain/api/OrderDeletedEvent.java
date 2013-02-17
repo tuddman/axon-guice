@@ -32,7 +32,7 @@ public class OrderDeletedEvent extends AbstractOrderEvent {
 
 	/*===========================================[ CONSTRUCTORS ]=================*/
 
-    public  OrderDeletedEvent(OrderId orderId) {
+    public OrderDeletedEvent(OrderId orderId) {
         super(orderId);
     }
 }

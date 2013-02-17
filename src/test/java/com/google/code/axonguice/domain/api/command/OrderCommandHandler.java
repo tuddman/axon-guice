@@ -68,7 +68,7 @@ public class OrderCommandHandler {
     public boolean on(RemoveOrderItemCommand command, OrderQueryService orderQueryService) {
         Order order = orderRepository.load(command.getOrderId());
         order.removeOrderItem(command.getItemId());
-        return orderQueryService!=null;
+        return orderQueryService != null;
     }
 
     @Inject

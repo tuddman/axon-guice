@@ -34,7 +34,7 @@ import javax.inject.Inject;
  * Convenient base class for all {@link SnapshotterTrigger} providers.
  *
  * @author Alexey Krylov
- * @see EventSourcingRepositoryModule#bindSnapshotterTrigger(Class)
+ * @see EventSourcedRepositoryModule#bindSnapshotterTrigger(Class)
  * @since 08.02.13
  */
 public abstract class SnapshotterTriggerProvider implements Provider<SnapshotterTrigger> {
