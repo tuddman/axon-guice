@@ -1,6 +1,7 @@
 Overview
 
-Axon-Guice is ....
+Axon-Guice is an integration module between Google Guice and Axon Framework.
+Axon Framework is a lightweight and powerful CQRS framework for Java. It has rich documentation and clean codebase. Integration module is built for 2.0 framework version.
 
 
 Project on google-code:
@@ -8,6 +9,9 @@ http://code.google.com/p/axon-guice/
 
 Project documentation:
 http://code.google.com/p/axon-guice/wiki/DevGuide
+
+Axon Framework documentation:
+http://www.axonframework.org/download/
 
 
 
