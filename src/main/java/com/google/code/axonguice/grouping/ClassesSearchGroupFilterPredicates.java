@@ -20,7 +20,8 @@ package com.google.code.axonguice.grouping;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.sun.istack.internal.Nullable;
+
+import javax.annotation.Nullable;
 
 /**
  * Basic predicates for {@link ClassesSearchGroupBuilder#withInclusionFilterPredicate(Predicate)}/{@link
