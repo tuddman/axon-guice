@@ -81,25 +81,19 @@
 
         <!-- Plugins -->
 
-        <version.maven-release-plugin>2.3.2</version.maven-release-plugin>
-        <version.maven-surefire-plugin>2.12.4</version.maven-surefire-plugin>
-        <version.maven-jar-plugin>2.4</version.maven-jar-plugin>
-        <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
-        <version.maven-javadoc-plugin>2.9</version.maven-javadoc-plugin>
-
-        <version.maven-compiler-plugin>2.5.1</version.maven-compiler-plugin>
         <version.maven-bundle-plugin>2.1.0</version.maven-bundle-plugin>
-        <version.maven-resources-plugin>2.6</version.maven-resources-plugin>
+        <version.maven-changelog-plugin>2.3</version.maven-changelog-plugin>
+        <version.maven-compiler-plugin>3.3</version.maven-compiler-plugin>
+        <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
+        <version.maven-jar-plugin>2.6</version.maven-jar-plugin>
+        <version.maven-javadoc-plugin>2.10.3</version.maven-javadoc-plugin>
         <version.maven-license-plugin>1.7.0</version.maven-license-plugin>
-        <version.maven-changelog-plugin>2.2</version.maven-changelog-plugin>
-        <version.maven-gpg-plugin>1.4</version.maven-gpg-plugin>
-    </properties>
+        <version.maven-release-plugin>2.5.2</version.maven-release-plugin>
+        <version.maven-resources-plugin>2.7</version.maven-resources-plugin>
+        <version.maven-source-plugin>2.4</version.maven-source-plugin>
+        <version.maven-surefire-plugin>2.18.1</version.maven-surefire-plugin>
 
-    <scm>
-        <connection>scm:svn:https://axon-guice.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://axon-guice.googlecode.com/svn/trunk/</developerConnection>
-        <url>https://axon-guice.googlecode.com/svn/trunk/</url>
-    </scm>
+    </properties>
 
     <dependencies>
 
@@ -224,8 +218,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.maven-compiler-plugin}</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encoding>${module.encoding}</encoding>
                 </configuration>
             </plugin>
@@ -327,7 +321,7 @@
                                 <include>pom.xml</include>
                             </includes>
                             <excludes>
-                                <exclude>**/.svn/**</exclude>
+                                <exclude>**/.git/**</exclude>
                                 <!-- ignore files produced during a build -->
                                 <exclude>**/target/**</exclude>
                             </excludes>
