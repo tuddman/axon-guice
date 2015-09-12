@@ -93,7 +93,14 @@
         <version.maven-source-plugin>2.4</version.maven-source-plugin>
         <version.maven-surefire-plugin>2.18.1</version.maven-surefire-plugin>
 
-    </properties>
+      </properties>
+        
+        <scm>
+            <connection>scm:git:git://github.com/tuddman/axon-guice.git</connection>
+            <developerConnection>scm:git:git://github.com/tuddman/axon-guice.git</developerConnection>
+            <url>https://github.com/tuddman/axon-guice</url>
+        </scm>
+
 
     <dependencies>
 
