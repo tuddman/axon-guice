@@ -53,7 +53,7 @@
         <!-- Integration Components -->
 
         <version.guice>4.0</version.guice>
-        <version.axon>2.4.2</version.axon>
+        <version.axon>2.4.4</version.axon>
 
         <!-- JSR-250 support -->
 
