@@ -94,9 +94,9 @@ public class EventHandlingModule extends AbstractClassesGroupingModule<Object> {
     }
 
     protected void bindEventHandler(Class<?> handlerClass) {
-        Provider commandHandlerProvider = new AnnotationEventHandlerProvider(handlerClass);
-        requestInjection(commandHandlerProvider);
-        bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
+        Provider eventHandlerProvider = new AnnotationEventHandlerProvider(handlerClass);
+        requestInjection(eventHandlerProvider);
+        bind(handlerClass).toProvider(eventHandlerProvider).asEagerSingleton();
     }
 
     protected void bindEventScheduler() {

@@ -69,7 +69,7 @@ public class CommandHandlingModule extends AbstractClassesGroupingModule<Object>
     protected void bindCommandHandler(Class<?> handlerClass) {
         Provider commandHandlerProvider = new AnnotationCommandHandlerProvider(handlerClass);
         requestInjection(commandHandlerProvider);
-        bind(handlerClass).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
+        bind(handlerClass).toProvider(commandHandlerProvider).asEagerSingleton();
     }
 
 	/*===========================================[ INTERFACE METHODS ]============*/
