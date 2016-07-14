@@ -106,7 +106,7 @@ public class SagaModule extends AbstractClassesGroupingModule<AbstractAnnotatedS
 
             AnnotatedSagaManagerProvider annotatedSagaManagerProvider = new AnnotatedSagaManagerProvider(sagaClasses);
             requestInjection(annotatedSagaManagerProvider);
-            bind(SagaManager.class).toProvider(annotatedSagaManagerProvider).in(Scopes.SINGLETON);
+            bind(SagaManager.class).toProvider(annotatedSagaManagerProvider).asEagerSingleton();
         } else {
             logger.info("No Sagas found");
         }

@@ -65,9 +65,10 @@ public class AnnotatedSagaManagerProvider implements Provider<SagaManager> {
 
     @Override
     public SagaManager get() {
-        AnnotatedSagaManager annotatedSagaManager = new AnnotatedSagaManager(sagaRepository, sagaFactory, eventBus, sagaClasses);
+        AnnotatedSagaManager annotatedSagaManager = new AnnotatedSagaManager(sagaRepository, sagaFactory, sagaClasses);
         // support for SagaManager @PostConstruct
         injector.injectMembers(annotatedSagaManager);
+        eventBus.subscribe(annotatedSagaManager);
         return annotatedSagaManager;
     }
 }
