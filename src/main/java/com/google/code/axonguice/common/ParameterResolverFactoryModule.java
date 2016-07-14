@@ -35,7 +35,7 @@ public class ParameterResolverFactoryModule extends AbstractModule {
     protected void configure() {
         ParameterResolverFactory parameterResolverFactory = createParameterResolverFactory();
         requestInjection(parameterResolverFactory);
-        ParameterResolverFactory.registerFactory(parameterResolverFactory);
+        bind(ParameterResolverFactory.class).toInstance(parameterResolverFactory);
     }
 
     protected ParameterResolverFactory createParameterResolverFactory() {

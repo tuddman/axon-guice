@@ -38,7 +38,7 @@ import java.lang.annotation.Annotation;
  * @see ParameterResolverFactoryModule
  * @since 17.02.13
  */
-public class GuiceParameterResolverFactory extends ParameterResolverFactory {
+public class GuiceParameterResolverFactory implements ParameterResolverFactory {
 
 	/*===========================================[ STATIC VARIABLES ]=============*/
 
@@ -52,7 +52,7 @@ public class GuiceParameterResolverFactory extends ParameterResolverFactory {
 	/*===========================================[ INTERFACE METHODS ]============*/
 
     @Override
-    protected ParameterResolver createInstance(Annotation[] memberAnnotations, Class<?> parameterType, Annotation[] parameterAnnotations) {
+    public ParameterResolver createInstance(Annotation[] memberAnnotations, Class<?> parameterType, Annotation[] parameterAnnotations) {
         try {
             return new FixedValueParameterResolver(injector.getInstance(parameterType));
         } catch (Exception e) {
@@ -61,8 +61,4 @@ public class GuiceParameterResolverFactory extends ParameterResolverFactory {
         }
     }
 
-    @Override
-    public boolean supportsPayloadResolution() {
-        return false;
-    }
 }

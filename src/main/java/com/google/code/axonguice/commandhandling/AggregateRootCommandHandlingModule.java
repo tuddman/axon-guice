@@ -89,6 +89,6 @@ public class AggregateRootCommandHandlingModule extends AbstractClassesGroupingM
     protected void bindAggregateCommandHandler(Class<? extends AggregateRoot> aggregateRootClass) {
         Provider commandHandlerProvider = new AggregateAnnotationCommandHandlerProvider(aggregateRootClass);
         requestInjection(commandHandlerProvider);
-        bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateAnnotationCommandHandlerProvider.class, aggregateRootClass)))).toProvider(commandHandlerProvider).in(Scopes.SINGLETON);
+        bind(Key.get(TypeLiteral.get(Types.newParameterizedType(AggregateAnnotationCommandHandlerProvider.class, aggregateRootClass)))).toProvider(commandHandlerProvider).asEagerSingleton();
     }
 }

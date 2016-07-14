@@ -83,8 +83,7 @@ public class EventSourcingRepositoryProvider extends RepositoryProvider {
 
     @Override
     public Repository get() {
-        EventSourcingRepository repository = new EventSourcingRepository(aggregateFactoryProvider.get());
-        repository.setEventStore(eventStore);
+        EventSourcingRepository repository = new EventSourcingRepository(aggregateFactoryProvider.get(), eventStore);
         repository.setEventBus(eventBus);
 
         if (snapshotterTriggerProvider != null) {
